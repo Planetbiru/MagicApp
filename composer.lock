@@ -4,11 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "12b58e904078ec371301ea81574e0ce3",
+    "content-hash": "5419e9119c395365c1a8c761412d77a7",
     "packages": [
         {
             "name": "planetbiru/magic-object",
-            "version": "dev-feature/1.8",
+            "version": "1.8.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Planetbiru/MagicObject.git",
@@ -41,7 +41,7 @@
             "description": "Magic object",
             "support": {
                 "issues": "https://github.com/Planetbiru/MagicObject/issues",
-                "source": "https://github.com/Planetbiru/MagicObject/tree/feature/1.8"
+                "source": "https://github.com/Planetbiru/MagicObject/tree/1.8.9"
             },
             "time": "2024-06-17T04:56:46+00:00"
         },
@@ -199,9 +199,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "planetbiru/magic-object": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
