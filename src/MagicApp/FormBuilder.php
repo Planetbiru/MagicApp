@@ -25,7 +25,7 @@ class FormBuilder
             $label = $row->get($valueKey);
             if(isset($currentValue) && $currentValue == $value)
             {
-                $selected = ' seledted';
+                $selected = ' selected';
             }
             else
             {
