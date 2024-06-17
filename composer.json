@@ -1,0 +1,18 @@
+{
+    "name": "planetbiru/magic-app",
+    "description": "Magic App",
+    "license": "GPL-3.0-only",
+    "autoload": {
+        "psr-0": {
+            "MagicApp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Kamshory"
+        }
+    ],
+    "require": {
+        "planetbiru/magic-object": "dev-feature/1.8"
+    }
+}
