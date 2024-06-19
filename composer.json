@@ -18,7 +18,7 @@
     "repositories": [
         {
             "type": "git",
-            "url": "https://github.com/Planetbiru/MagicApp",
+            "url": "https://github.com/Planetbiru/MagicApp.git",
             "options": {
                 "http": {
                     "timeout": 60
