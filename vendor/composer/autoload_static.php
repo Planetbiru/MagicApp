@@ -19,6 +19,7 @@ class ComposerStaticInit4afbbf67eb7a108b057143a824115b52
         'M' => 
         array (
             'MagicObject\\' => 12,
+            'MagicApp\\' => 9,
         ),
     );
 
@@ -35,15 +36,9 @@ class ComposerStaticInit4afbbf67eb7a108b057143a824115b52
         array (
             0 => __DIR__ . '/..' . '/planetbiru/magic-object/src',
         ),
-    );
-
-    public static $prefixesPsr0 = array (
-        'M' => 
+        'MagicApp\\' => 
         array (
-            'MagicApp\\' => 
-            array (
-                0 => __DIR__ . '/../..' . '/src',
-            ),
+            0 => __DIR__ . '/../..' . '/src',
         ),
     );
 
@@ -56,7 +51,6 @@ class ComposerStaticInit4afbbf67eb7a108b057143a824115b52
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit4afbbf67eb7a108b057143a824115b52::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit4afbbf67eb7a108b057143a824115b52::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit4afbbf67eb7a108b057143a824115b52::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit4afbbf67eb7a108b057143a824115b52::$classMap;
 
         }, null, ClassLoader::class);

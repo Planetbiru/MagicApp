@@ -3,7 +3,7 @@
     "description": "Magic App",
     "license": "GPL-3.0-only",
     "autoload": {
-        "psr-0": {
+        "psr-4": {
             "MagicApp\\": "src/"
         }
     },
@@ -14,5 +14,16 @@
     ],
     "require": {
         "planetbiru/magic-object": "^1.8"
-    }
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/Planetbiru/MagicApp",
+            "options": {
+                "http": {
+                    "timeout": 60
+                }
+            }
+        }
+    ]
 }
