@@ -12,9 +12,6 @@
             "name": "Kamshory"
         }
     ],
-    "require": {
-        "planetbiru/magic-object": "^1.8"
-    },
     "repositories": [
         {
             "type": "git",
@@ -25,5 +22,8 @@
                 }
             }
         }
-    ]
+    ],
+    "require": {
+        "planetbiru/magic-object": "1.8.8"
+    }
 }
