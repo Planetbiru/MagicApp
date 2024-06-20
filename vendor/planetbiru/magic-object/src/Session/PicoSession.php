@@ -288,25 +288,4 @@ class PicoSession
         ini_set("session.save_path ", $path);
         return $this;
     }
-
-    /**
-     * Get session ID
-     *
-     * @return string
-     */
-    public function getSessionId()
-    {
-        return @session_id();
-    }
-
-    /**
-     * Get session ID
-     *
-     * @return self
-     */
-    public function setSessionId($id)
-    {
-        @session_id($id);
-        return $this;
-    }
 }
