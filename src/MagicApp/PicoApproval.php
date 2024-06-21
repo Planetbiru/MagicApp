@@ -106,7 +106,7 @@ class PicoApproval
      */
     public function approve($columToBeCopied, $entityApv, $entityTrash, $currentUser, $currentTime, $currentIp, $approvalCallback = null)
     {
-        $this->validateApproval();
+        $this->validateApproval($entityApv, $currentUser);
         $waitingFor = $this->entity->get($this->entityInfo->getWaitingFor());
         if($waitingFor == WaitingFor::CREATE)
         {    
@@ -196,9 +196,10 @@ class PicoApproval
         {
             call_user_func($approvalCallback->getBeforeReject(), $this->entity, null, null);
         }
-        $this->validateApproval();
+        
         $waitingFor = $this->entity->get($this->entityInfo->getWaitingFor());
         $entityApv->currentDatabase($this->entity->currentDatabase());
+        $this->validateApproval($entityApv, $currentUser);
         if($waitingFor == WaitingFor::CREATE)
         {
             $entityApv->set($this->entityApvInfo->getApprovalStatus(), self::APPROVAL_REJECT)->update();
@@ -221,11 +222,11 @@ class PicoApproval
      *
      * @return boolean
      */
-    private function validateApproval()
+    private function validateApproval($entityApv, $currentUser)
     {
         if($this->callbackValidation != null && is_callable($this->callbackValidation))
         {
-            return call_user_func($this->callbackValidation, $this->entity, null, null);
+            return call_user_func($this->callbackValidation, $this->entity, $entityApv, $currentUser);
         }
         return true;
     }
