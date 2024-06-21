@@ -7,7 +7,18 @@ use MagicObject\SecretObject;
 
 class CurrentAction
 {
+    /**
+     * Current user set by constructor
+     *
+     * @var string
+     */
     private $user = "";
+
+    /**
+     * Current IP
+     *
+     * @var string
+     */
     private $ip = "";
 
     /**
@@ -39,7 +50,20 @@ class CurrentAction
     }
 
     /**
-     * Get the value of user
+     * Get the value of time
+     * @return string
+     */ 
+    public function getTime()
+    {
+        return date('Y-m-d H:i:s');
+    }
+
+
+
+    /**
+     * Get current user set by constructor
+     *
+     * @return  string
      */ 
     public function getUser()
     {
@@ -47,15 +71,9 @@ class CurrentAction
     }
 
     /**
-     * Get the value of time
-     */ 
-    public function getTime()
-    {
-        return date('Y-m-d H:i:s');
-    }
-
-    /**
-     * Get the value of ip
+     * Get current IP
+     *
+     * @return  string
      */ 
     public function getIp()
     {
