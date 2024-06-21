@@ -3,7 +3,7 @@
     "description": "Magic app",
     "license": "GPL-3.0-only",
     "autoload": {
-        "psr-4": {
+        "psr-0": {
             "MagicObject\\": "src/"
         }
     },
