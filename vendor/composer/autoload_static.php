@@ -19,7 +19,6 @@ class ComposerStaticInit98d566506d9bd29ba23d2ee9efda62ae
         'M' => 
         array (
             'MagicObject\\' => 12,
-            'MagicApp\\' => 9,
         ),
     );
 
@@ -34,11 +33,8 @@ class ComposerStaticInit98d566506d9bd29ba23d2ee9efda62ae
         ),
         'MagicObject\\' => 
         array (
-            0 => __DIR__ . '/..' . '/planetbiru/magic-object/src',
-        ),
-        'MagicApp\\' => 
-        array (
             0 => __DIR__ . '/../..' . '/src',
+            1 => __DIR__ . '/..' . '/planetbiru/magic-object/src',
         ),
     );
 
