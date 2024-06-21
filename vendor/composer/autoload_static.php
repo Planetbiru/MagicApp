@@ -40,7 +40,7 @@ class ComposerStaticInit98d566506d9bd29ba23d2ee9efda62ae
     public static $prefixesPsr0 = array (
         'M' => 
         array (
-            'MagicObject\\' => 
+            'MagicApp\\' => 
             array (
                 0 => __DIR__ . '/../..' . '/src',
             ),

@@ -4,7 +4,7 @@
     "license": "GPL-3.0-only",
     "autoload": {
         "psr-0": {
-            "MagicObject\\": "src/"
+            "MagicApp\\": "src/"
         }
     },
     "authors": [

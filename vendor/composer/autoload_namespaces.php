@@ -6,5 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'MagicObject\\' => array($baseDir . '/src'),
+    'MagicApp\\' => array($baseDir . '/src'),
 );
