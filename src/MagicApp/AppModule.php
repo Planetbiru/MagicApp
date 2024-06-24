@@ -3,9 +3,18 @@
 namespace MagicApp;
 
 use MagicObject\Request\InputServer;
+use MagicObject\SecretObject;
+use MagicObject\Util\PicoStringUtil;
 
 class AppModule
 {
+    /**
+     * App Config
+     *
+     * @var SecretObject
+     */
+    private $appConfig;
+    
     /**
      * Module name
      *
@@ -20,15 +29,16 @@ class AppModule
      */
     private $phpSelf = "";
     
-    public function __construct($moduleName)
+    public function __construct($appConfig, $moduleName)
     {
+        $this->appConfig = $appConfig;
         $this->moduleName = $moduleName;
         $inputServer = new InputServer();
         $this->phpSelf = $inputServer->getPhpSelf();
     }    
     
     /**
-     * get redirect URL
+     * Get redirect URL
      *
      * @param string $userAction
      * @param string $parameterName
@@ -40,10 +50,17 @@ class AppModule
     {
         $urls = array();
         $params = array();
-        $urls[] = $this->phpSelf;
+        $phpSelf = $this->phpSelf;
+        
+        if($this->appConfig->getModule() != null && $this->appConfig->getModule()->getHideExtension() && PicoStringUtil::endsWith($phpSelf, ".php"))
+        {
+            $phpSelf = substr($phpSelf, 0, strlen($phpSelf) - 4);
+        }
+        
+        $urls[] = $phpSelf;
         if($userAction != null)
         {
-            $params[] = "user_action=".urlencode($userAction);
+            $params[] = UserAction::USER_ACTION."=".urlencode($userAction);
         }
         if($parameterName != null)
         {
