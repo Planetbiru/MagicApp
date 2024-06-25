@@ -1,5 +1,7 @@
 <?php
 
+namespace MagicApp;
+
 use MagicApp\AppModule;
 use MagicObject\Database\PicoDatabase;
 use MagicObject\SecretObject;
