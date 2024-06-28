@@ -67,4 +67,16 @@ class BasicMenu
         }
         return null;
     }
+    
+    /**
+     * Load and render menu
+     *
+     * @param callable $callbackFunction
+     * @return string
+     */
+    public function loadAndRender($callbackFunction)
+    {
+        $data = $this->load();
+        return $this->render($data, $callbackFunction);
+    }
 }
