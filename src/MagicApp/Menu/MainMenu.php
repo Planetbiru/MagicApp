@@ -4,7 +4,7 @@ namespace MagicApp;
 
 use MagicObject\MagicObject;
 
-class AppMenu
+class MainMenu
 {
     /**
      * Menu
