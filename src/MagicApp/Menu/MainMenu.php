@@ -1,10 +1,10 @@
 <?php
 
-namespace MagicApp;
+namespace MagicApp\Menu;
 
 use MagicObject\MagicObject;
 
-class MainMenu
+class MainMenu extends BasicMenu
 {
     /**
      * Menu
