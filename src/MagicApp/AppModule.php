@@ -45,7 +45,22 @@ class AppModule
 
     public function redirectToItselfWithRequireApproval()
     {
-        header("Location: ".$_SERVER['REQUEST_URI']);
+        $uri = $_SERVER['REQUEST_URI'];
+        
+        if(stripos($uri, "?") !== false)
+        {
+            $arr = explode("?", $uri, 2);
+            parse_str($arr[1], $params);
+            $module = $arr[0];
+        }
+        else
+        {
+            $params = array();
+            $module = $uri;
+        }
+        $params[] = "show_require_approval_only=true";
+        $uri = $module."?".implode("&", $params);
+        header("Location: ".$uri);
         exit();
     }
     
