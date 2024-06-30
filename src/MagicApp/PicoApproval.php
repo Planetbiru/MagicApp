@@ -82,9 +82,9 @@ class PicoApproval
      * @param string $currentUser
      * @param string $currentTime
      * @param string $currentIp
-     * @param callable $callbackValidation
-     * @param callable $callbackAfterApprove
-     * @param callable $callbackAfterReject
+     * @param callable|null $callbackValidation
+     * @param callable|null $callbackAfterApprove
+     * @param callable|null $callbackAfterReject
      */
     public function __construct($entity, $entityInfo, $entityApvInfo, $callbackValidation = null, $useTrash = false, $entityTrash = null)
     {
@@ -99,9 +99,12 @@ class PicoApproval
      * Approve
      *
      * @param string[] $columToBeCopied
-     * @param MagicObject $entityApv
-     * @param MagicObject $entityTrash
-     * @param SetterGetter $approvalCallback
+     * @param MagicObject|null $entityApv
+     * @param MagicObject|null $entityTrash
+     * @param string $currentUser
+     * @param string $currentTime
+     * @param string $currentIp
+     * @param SetterGetter|null $approvalCallback
      * @return self
      */
     public function approve($columToBeCopied, $entityApv, $entityTrash, $currentUser, $currentTime, $currentIp, $approvalCallback = null)
@@ -161,6 +164,16 @@ class PicoApproval
         return $this;
     }
     
+    /**
+     * Approve delete
+     *
+     * @param MagicObject $entityTrash
+     * @param string $currentUser
+     * @param string $currentTime
+     * @param string $currentIp
+     * @param SetterGetter|null $approvalCallback
+     * @return self
+     */
     public function approveDelete($entityTrash, $currentUser, $currentTime, $currentIp, $approvalCallback = null)
     {
         if($approvalCallback != null && $approvalCallback->getBeforeDelete() != null && is_callable($approvalCallback->getBeforeDelete()))
@@ -182,12 +195,17 @@ class PicoApproval
         {
             call_user_func($approvalCallback->getAfterDelete(), $this->entity, null, null);
         }
+        return $this;
     }
     
     /**
      * Reject
      *
      * @param MagicObject $entityApv
+     * @param string $currentUser
+     * @param string $currentTime
+     * @param string $currentIp
+     * @param SetterGetter $approvalCallback
      * @return self
      */
     public function reject($entityApv, $currentUser = null, $currentTime = null, $currentIp = null, $approvalCallback = null)
@@ -236,7 +254,7 @@ class PicoApproval
      *
      * @return boolean
      */
-    private function callbackAfterApprove()
+    public function callbackAfterApprove()
     {
         if($this->callbackAfterApprove != null && is_callable($this->callbackAfterApprove))
         {
@@ -250,7 +268,7 @@ class PicoApproval
      *
      * @return boolean
      */
-    private function callbackAfterReject()
+    public function callbackAfterReject()
     {
         if($this->callbackAfterReject != null && is_callable($this->callbackAfterReject))
         {
