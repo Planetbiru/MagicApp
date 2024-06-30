@@ -35,7 +35,26 @@ class AppModule
         $this->moduleName = $moduleName;
         $inputServer = new InputServer();
         $this->phpSelf = $inputServer->getPhpSelf();
-    }    
+    }
+
+    public function redirectToItSelf()
+    {
+        header("Location: ".$_SERVER['REQUEST_URI']);
+        exit();
+    }
+
+    public function redirectToItSelfWithRequireApproval()
+    {
+        header("Location: ".$_SERVER['REQUEST_URI']);
+        exit();
+    }
+    
+    public function redirectTo($userAction = null, $parameterName = null, $parameterValue = null)
+    {
+        $url = $this->getRedirectUrl($userAction, $parameterName, $parameterValue);
+        header("Location: ".$url);
+        exit();
+    }
     
     /**
      * Get redirect URL
