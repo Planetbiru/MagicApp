@@ -37,13 +37,13 @@ class AppModule
         $this->phpSelf = $inputServer->getPhpSelf();
     }
 
-    public function redirectToItSelf()
+    public function redirectToItself()
     {
         header("Location: ".$_SERVER['REQUEST_URI']);
         exit();
     }
 
-    public function redirectToItSelfWithRequireApproval()
+    public function redirectToItselfWithRequireApproval()
     {
         header("Location: ".$_SERVER['REQUEST_URI']);
         exit();
