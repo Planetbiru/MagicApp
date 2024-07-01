@@ -1264,6 +1264,7 @@ class MagicObject extends stdClass // NOSONAR
      */
     public function countAll($specification = null)
     {
+        $result = false;
         try
         {
             if($this->_database != null && $this->_database->isConnected())
@@ -1271,22 +1272,23 @@ class MagicObject extends stdClass // NOSONAR
                 $persist = new PicoDatabasePersistence($this->_database, $this);
                 if($specification != null && $specification instanceof PicoSpecification)
                 {
-                    return $persist->countAll($specification);
+                    $result = $persist->countAll($specification);
                 }
                 else
                 {
-                    return $persist->countAll(null);
+                    $result = $persist->countAll(null);
                 }
             }
             else
             {
-                return false;
+                $result = false;
             }
         }
         catch(Exception $e)
         {
-            return false;
+            $result = false;
         }
+        return $result;
     }
     
     /**
@@ -1458,6 +1460,35 @@ class MagicObject extends stdClass // NOSONAR
         {
             $persist = new PicoDatabasePersistence($this->_database, $this);
             return $persist->deleteBy($method, $params);
+        }
+        else
+        {
+            throw new NoDatabaseConnectionException(self::MESSAGE_NO_DATABASE_CONNECTION);
+        }
+    }
+    
+    /**
+     * Find one with primary key value
+     *
+     * @param mixed $primaryKeyVal
+     * @param array $subqueryInfo
+     * @return self
+     */
+    public function findOneWithPrimaryKeyValue($primaryKeyVal, $subqueryInfo = null)
+    {
+        if($this->_database != null && $this->_database->isConnected())
+        {
+            $persist = new PicoDatabasePersistence($this->_database, $this);
+            $result = $persist->findOneWithPrimaryKeyValue($primaryKeyVal, $subqueryInfo);
+            if($this->_notNullAndNotEmpty($result))
+            {
+                $this->loadData($result);
+                return $this;
+            }
+            else
+            {
+                throw new NoRecordFoundException(self::MESSAGE_NO_RECORD_FOUND);
+            }
         }
         else
         {

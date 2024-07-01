@@ -54,6 +54,7 @@ class PicoDatabasePersistence // NOSONAR
     const ORDER_ASC = "asc";
     const ORDER_DESC = "desc";
 
+    const MESSAGE_NO_PRIMARY_KEY_DEFINED = "No primaru key defined";
     const MESSAGE_NO_RECORD_FOUND = "No record found";
     const MESSAGE_INVALID_FILTER = "Invalid filter";
     const SQL_DATETIME_FORMAT = "Y-m-d H:i:s";
@@ -2202,6 +2203,61 @@ class PicoDatabasePersistence // NOSONAR
     }
     
     /**
+     * Find one with primary key value
+     *
+     * @param mixed $primaryKeyVal
+     * @param array $subqueryInfo
+     * @return array
+     */
+    public function findOneWithPrimaryKeyValue($primaryKeyVal, $subqueryInfo)
+    {
+        $info = $this->getTableInfo();
+        $tableName = $info->getTableName();
+        $selected = $this->getAllColumns($info);
+        $data = null;
+        $info = $this->getTableInfo();
+        $selected = $this->joinString($selected, $this->subquery($info, $subqueryInfo), ", ");
+        $primaryKey = null;
+        try
+        {
+            $primaryKeys = array_values($info->getPrimaryKeys());
+            if(is_array($primaryKeys) && isset($primaryKeys[0][self::KEY_NAME]))
+            {
+                // it will be faster than asterisk
+                $primaryKey = $primaryKeys[0][self::KEY_NAME];
+            }
+            if($primaryKey == null)
+            {
+                throw new NoPrimaryKeyDefinedException(self::MESSAGE_NO_PRIMARY_KEY_DEFINED);
+            }
+            
+            $sqlQuery = new PicoDatabaseQueryBuilder($this->database);
+            $sqlQuery
+                ->select($selected)
+                ->from($tableName)
+                ->where("$primaryKey = ? ", $primaryKeyVal)
+                ->limit(1)
+                ->offset(0);
+            $stmt = $this->database->executeQuery($sqlQuery);
+            if($this->matchRow($stmt))
+            {
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                $data = $this->fixDataType($row, $info); 
+                $data = $this->applySubqueryResult($data, $row, $info, $subqueryInfo);
+            }
+            else
+            {
+                throw new EmptyResultException(self::MESSAGE_NO_RECORD_FOUND);
+            }
+        }
+        catch(Exception $e)
+        {
+            throw new EmptyResultException($e->getMessage());
+        }
+        return $data;
+    }
+    
+    /**
      * Get all record from database wihout filter with subquery
      *
      * @param string $selected
@@ -2313,17 +2369,22 @@ class PicoDatabasePersistence // NOSONAR
      */
     public function applySubqueryResult($data, $row, $info, $subqueryInfo)
     {
+        
         if(isset($subqueryInfo) && is_array($subqueryInfo))
         {      
             foreach($subqueryInfo as $key=>$info)
             {
                 if(isset($row[$key]))
-                { 
+                {
                     $obj = new MagicObject();
                     $obj->set($info['primaryKey'], $row[$info['columnName']]);
                     $value = $row[$info['objectName']];
                     $obj->set($info['propertyName'], $value);
                     $data[$info['objectName']] = $obj;
+                }
+                else
+                {
+                    $data[$info['objectName']] = new MagicObject();
                 }
             }
         }
