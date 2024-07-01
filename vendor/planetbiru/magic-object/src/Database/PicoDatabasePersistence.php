@@ -2216,7 +2216,7 @@ class PicoDatabasePersistence // NOSONAR
         $selected = $this->getAllColumns($info);
         $data = null;
         $info = $this->getTableInfo();
-        $selected = $this->joinString($selected, $this->subquery($info, $subqueryInfo), ", ");
+        $selected = $this->joinString($selected, $this->subquery($info, $subqueryInfo), ", \r\n");
         $primaryKey = null;
         try
         {
@@ -2272,7 +2272,7 @@ class PicoDatabasePersistence // NOSONAR
         $data = null;
         $result = array();
         $info = $this->getTableInfo();
-        $selected = $this->joinString($selected, $this->subquery($info, $subqueryInfo), ", ");
+        $selected = $this->joinString($selected, $this->subquery($info, $subqueryInfo), ", \r\n");
         $sqlQuery = $this->findSpecificQuery($selected, $specification, $pageable, $sortable, $info);
     
         try
@@ -2320,7 +2320,7 @@ class PicoDatabasePersistence // NOSONAR
                 $joinTableName = $info['tableName'];
                 $columnName = $info['columnName'];                
                 $primaryKey = $info['primaryKey'];
-                $objectName = $info['objectName'];
+                $objectNameSub = $info['objectName']."_sub";
                 $propertyName = $info['propertyName'];
                 $joinName = $info['tableName']."_".$idx;
                 $selection = $info['tableName']."_".$idx.".".$propertyName; 
@@ -2331,7 +2331,7 @@ class PicoDatabasePersistence // NOSONAR
                     ->where("$joinName.$primaryKey = $tableName.$columnName")
                     ->limit(1)
                     ->offset(0);
-                $subquery[] = "(".$queryBuilder.") as $objectName";
+                $subquery[] = "(".$queryBuilder.") as $objectNameSub";
                 $idx++;
             }
         }
@@ -2369,19 +2369,18 @@ class PicoDatabasePersistence // NOSONAR
      */
     public function applySubqueryResult($data, $row, $info, $subqueryInfo)
     {
-        
         if(isset($subqueryInfo) && is_array($subqueryInfo))
         {      
             foreach($subqueryInfo as $info)
             {
                 $objectName = $info['objectName'];
-                if(isset($row[$objectName]))
+                $objectNameSub = $info['objectName']."_sub";
+                if(isset($row[$objectNameSub]))
                 {
-                    $obj = new MagicObject();
-                    $obj->set($info['primaryKey'], $row[$info['columnName']]);
-                    $value = $row[$info['objectName']];
-                    $obj->set($info['propertyName'], $value);
-                    $data[$objectName] = $obj;
+                    $data[$objectName] = (new MagicObject())
+                        ->set($info['primaryKey'], $row[$info['columnName']])
+                        ->set($info['propertyName'], $row[$objectNameSub])
+                    ;
                 }
                 else
                 {
