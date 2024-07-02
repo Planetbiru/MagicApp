@@ -75,4 +75,15 @@ class FormBuilder
     {
         return $param1 == $param2 ? ' checked="checked"' : '';
     }
+    
+    /**
+     * Add class compare data
+     *
+     * @param boolean $div
+     * @return string
+     */
+    public static function classCompareData($div)
+    {
+        return $div ? 'compare-data data-different':'compare-data';
+    }
 }
