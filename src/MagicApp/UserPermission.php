@@ -7,7 +7,8 @@ use MagicApp\AppModule;
 use MagicObject\Database\PicoDatabase;
 use MagicObject\SecretObject;
 
-class UserPermission{
+class UserPermission
+{
     
     /**
      * Application config
@@ -99,14 +100,14 @@ class UserPermission{
      * @param SecretObject $appConfig
      * @param MagicObject $entity
      * @param AppModule $currentModule
-     * @param string $userLevel
+     * @param AppUser $currentUser
      */
-    public function __construct($appConfig, $entity, $currentModule, $userLevel)
+    public function __construct($appConfig, $entity, $currentModule, $currentUser)
     {
         $this->appConfig = $appConfig;
         $this->entity = $entity;
         $this->currentModule = $currentModule;
-        $this->userLevel = $userLevel;
+        $this->userLevel = $currentUser->getUserLevelId();
     }
     
     /**
