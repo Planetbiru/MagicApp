@@ -712,15 +712,28 @@ try
 			'propertyName'=>'name'
 		)
 	);
+	
+	$r = $album->findAll(null, null, null, true, $arr, MagicObject::FIND_OPTION_NO_FETCH_DATA);
+	/*
+	while(($data = $r->fetch()) !== false)
+	{
+		echo ($data);
+	}
+	*/
+	echo $r;
+	
+
 	/*
 	$r = $album->findAll(null, null, null, true, $arr);
+	
 	foreach($r->getResult() as $row)
 	{
 		echo $row."\r\n";
 	}
 	*/
-	$album->findOneWithPrimaryKeyValue('0648d495ade4515811f2', $arr);
-	echo $album;
+	
+	//$album->findOneWithPrimaryKeyValue('0648d495ade4515811f2', $arr);
+	//echo $album;
 }
 catch(Exception $e)
 {
