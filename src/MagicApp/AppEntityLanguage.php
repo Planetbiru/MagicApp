@@ -14,6 +14,7 @@ class AppEntityLanguage extends PicoEntityLanguage
      * @var SecretObject
      */
     private $appConfig;
+    
     /**
      * Constructor
      *

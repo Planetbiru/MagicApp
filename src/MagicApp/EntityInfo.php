@@ -7,6 +7,20 @@ use MagicObject\SecretObject;
 class EntityInfo extends SecretObject
 {
     /**
+     * Name
+     *
+     * @var string
+     */
+    protected $name;
+    
+    /**
+     * Sort order
+     *
+     * @var [type]
+     */
+    protected $sortOrder;
+    
+    /**
      * Active key
      *
      * @var string

@@ -58,8 +58,6 @@ class CurrentAction
         return date('Y-m-d H:i:s');
     }
 
-
-
     /**
      * Get current user set by constructor
      *

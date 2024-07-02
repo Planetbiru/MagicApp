@@ -8,6 +8,8 @@ use MagicObject\Util\PicoStringUtil;
 
 class AppModule
 {
+    const HEADER_LOCATION = "Location: ";
+    
     /**
      * App Config
      *
@@ -29,6 +31,12 @@ class AppModule
      */
     private $phpSelf = "";
     
+    /**
+     * Constructor
+     *
+     * @param SecretObject $appConfig
+     * @param string $moduleName
+     */
     public function __construct($appConfig, $moduleName)
     {
         $this->appConfig = $appConfig;
@@ -37,12 +45,22 @@ class AppModule
         $this->phpSelf = $inputServer->getPhpSelf();
     }
 
+    /**
+     * Redirect to itself
+     *
+     * @return void
+     */
     public function redirectToItself()
     {
-        header("Location: ".$_SERVER['REQUEST_URI']);
+        header(self::HEADER_LOCATION.$_SERVER['REQUEST_URI']);
         exit();
     }
 
+    /**
+     * Redirect to itself with show require approval only
+     *
+     * @return void
+     */
     public function redirectToItselfWithRequireApproval()
     {
         $uri = $_SERVER['REQUEST_URI'];
@@ -60,14 +78,22 @@ class AppModule
         }
         $params[] = "show_require_approval_only=true";
         $uri = $module."?".implode("&", $params);
-        header("Location: ".$uri);
+        header(self::HEADER_LOCATION.$uri);
         exit();
     }
     
+    /**
+     * Redirect to
+     *
+     * @param string $userAction
+     * @param string $parameterName
+     * @param string $parameterValue
+     * @return void
+     */
     public function redirectTo($userAction = null, $parameterName = null, $parameterValue = null)
     {
         $url = $this->getRedirectUrl($userAction, $parameterName, $parameterValue);
-        header("Location: ".$url);
+        header(self::HEADER_LOCATION.$url);
         exit();
     }
     

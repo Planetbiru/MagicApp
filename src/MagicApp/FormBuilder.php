@@ -2,6 +2,9 @@
 
 namespace MagicApp;
 
+use MagicObject\Database\PicoSortable;
+use MagicObject\Database\PicoSpecification;
+
 class FormBuilder
 {
     /**
@@ -14,6 +17,18 @@ class FormBuilder
         return new self();
     }
 
+    /**
+     * Create select option
+     *
+     * @param MagicObject $entity
+     * @param PicoSpecification $specification
+     * @param PicoSortable $sortable
+     * @param string $primaryKey
+     * @param mixed $valueKey
+     * @param mixed $currentValue
+     * @param array $additionalOutput
+     * @return string
+     */
     public function createSelectOption($entity, $specification, $sortable, $primaryKey, $valueKey, $currentValue = null, $additionalOutput = null)
     {
         $htmlArray = array();
