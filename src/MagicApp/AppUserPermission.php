@@ -4,10 +4,10 @@ namespace MagicApp;
 
 use Exception;
 use MagicApp\AppModule;
-use MagicObject\Database\PicoDatabase;
+use MagicObject\MagicObject;
 use MagicObject\SecretObject;
 
-class UserPermission
+class AppUserPermission
 {
     
     /**

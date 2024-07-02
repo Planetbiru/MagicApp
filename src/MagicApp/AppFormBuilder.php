@@ -7,7 +7,7 @@ use MagicObject\Database\PicoSpecification;
 use MagicObject\MagicObject;
 use MagicObject\Util\PicoStringUtil;
 
-class FormBuilder
+class AppFormBuilder
 {
     /**
      * Get instance of the class
