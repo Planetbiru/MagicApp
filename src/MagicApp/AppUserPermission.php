@@ -100,7 +100,7 @@ class AppUserPermission
      * @param SecretObject $appConfig
      * @param MagicObject $entity
      * @param AppModule $currentModule
-     * @param AppUser $currentUser
+     * @param MagicObject $currentUser
      */
     public function __construct($appConfig, $entity, $currentModule, $currentUser)
     {
