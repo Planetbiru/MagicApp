@@ -2,6 +2,7 @@
 
 namespace MagicApp;
 
+use Exception;
 use MagicApp\AppModule;
 use MagicObject\Database\PicoDatabase;
 use MagicObject\SecretObject;
@@ -16,11 +17,11 @@ class UserPermission{
     private $appConfig;
     
     /**
-     * Database
+     * Entity
      *
-     * @var PicoDatabase
+     * @var MagicObject
      */
-    private $database;
+    private $entity;
     
     /**
      * Module
@@ -86,21 +87,54 @@ class UserPermission{
     private $initialized = false;
     
     /**
+     * User level
+     *
+     * @var string
+     */
+    private $userLevel;
+    
+    /**
      * Constructor
      *
      * @param SecretObject $appConfig
-     * @param PicoDatabase $database
+     * @param MagicObject $entity
      * @param AppModule $currentModule
+     * @param string $userLevel
      */
-    public function __construct($appConfig, $database, $currentModule)
+    public function __construct($appConfig, $entity, $currentModule, $userLevel)
     {
         $this->appConfig = $appConfig;
-        $this->database = $database;
+        $this->entity = $entity;
         $this->currentModule = $currentModule;
+        $this->userLevel = $userLevel;
     }
     
+    /**
+     * Load permission
+     *
+     * @return void
+     */
     public function loadPermission()
     {
+        try
+        {
+            $this->entity->findOneByModuleIdAndUserLevelId($this->currentModule, $this->userLevel);       
+            
+            $this->allowedList =  $this->entity->getAllowedList();
+            $this->allowedDetail =  $this->entity->getAllowedDetail();
+            $this->allowedCreate =  $this->entity->getAllowedCreate();
+            $this->allowedUpdate =  $this->entity->getAllowedUpdate();
+            $this->allowedDelete =  $this->entity->getAllowedDelete();
+            $this->allowedApprove =  $this->entity->getAllowedApprove();
+            $this->allowedSortOrder =  $this->entity->getAllowedSortOrder();
+            
+            $this->initialized = true;
+        }
+        catch(Exception $e)
+        {
+            // do nothing
+        }
+        
         $this->allowedList =  true;
         $this->allowedDetail =  true;
         $this->allowedCreate =  true;
@@ -110,9 +144,8 @@ class UserPermission{
         $this->allowedSortOrder =  true;
         
         $this->initialized = true;
+        
     }
-    
-    
     
     /**
      * Check if user has permission to approve
@@ -125,7 +158,7 @@ class UserPermission{
         {
             $this->loadPermission();
         }
-        
+    
         return $this->allowedApprove;
     }
 
@@ -217,5 +250,15 @@ class UserPermission{
         }
         
         return $this->allowedSortOrder;
+    }
+
+    /**
+     * Get user level
+     *
+     * @return  string
+     */ 
+    public function getUserLevel()
+    {
+        return $this->userLevel;
     }
 }
