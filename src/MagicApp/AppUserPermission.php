@@ -92,7 +92,7 @@ class AppUserPermission
      *
      * @var string
      */
-    private $userLevel;
+    private $userLevelId;
     
     /**
      * Constructor
@@ -107,7 +107,7 @@ class AppUserPermission
         $this->appConfig = $appConfig;
         $this->entity = $entity;
         $this->currentModule = $currentModule;
-        $this->userLevel = $currentUser->getUserLevelId();
+        $this->userLevelId = $currentUser->getUserLevelId();
     }
     
     /**
@@ -119,7 +119,7 @@ class AppUserPermission
     {
         try
         {
-            $this->entity->findOneByModuleIdAndUserLevelId($this->currentModule, $this->userLevel);       
+            $this->entity->findOneByModuleIdAndUserLevelIdAndActive($this->currentModule->getModuleId(), $this->userLevelId, true);       
             
             $this->allowedList =  $this->entity->getAllowedList();
             $this->allowedDetail =  $this->entity->getAllowedDetail();
@@ -258,8 +258,8 @@ class AppUserPermission
      *
      * @return  string
      */ 
-    public function getUserLevel()
+    public function getUserLevelId()
     {
-        return $this->userLevel;
+        return $this->userLevelId;
     }
 }

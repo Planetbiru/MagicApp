@@ -18,6 +18,13 @@ class AppModule
     private $appConfig;
     
     /**
+     * Module ID
+     *
+     * @var string
+     */
+    private $moduleId = "";
+
+    /**
      * Module name
      *
      * @var string
@@ -35,11 +42,13 @@ class AppModule
      * Constructor
      *
      * @param SecretObject $appConfig
+     * @param string $moduleId
      * @param string $moduleName
      */
-    public function __construct($appConfig, $moduleName)
+    public function __construct($appConfig, $moduleId, $moduleName)
     {
         $this->appConfig = $appConfig;
+        $this->moduleId = $moduleId;
         $this->moduleName = $moduleName;
         $inputServer = new InputServer();
         $this->phpSelf = $inputServer->getPhpSelf();
@@ -142,5 +151,25 @@ class AppModule
             $urls[] = implode("&", $params);
         }
         return implode("?", $urls);
+    }
+
+    /**
+     * Get module ID
+     *
+     * @return  string
+     */ 
+    public function getModuleId()
+    {
+        return $this->moduleId;
+    }
+
+    /**
+     * Get module name
+     *
+     * @return  string
+     */ 
+    public function getModuleName()
+    {
+        return $this->moduleName;
     }
 }
