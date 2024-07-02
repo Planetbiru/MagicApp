@@ -85,7 +85,7 @@ class AppModule
     /**
      * Redirect to
      *
-     * @param string $userAction
+     * @param string $userAction Current action
      * @param string $parameterName
      * @param string $parameterValue
      * @return void
