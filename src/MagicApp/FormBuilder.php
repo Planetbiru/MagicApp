@@ -4,6 +4,8 @@ namespace MagicApp;
 
 use MagicObject\Database\PicoSortable;
 use MagicObject\Database\PicoSpecification;
+use MagicObject\MagicObject;
+use MagicObject\Util\PicoStringUtil;
 
 class FormBuilder
 {
@@ -26,15 +28,14 @@ class FormBuilder
      * @param string $primaryKey
      * @param mixed $valueKey
      * @param mixed $currentValue
-     * @param array $additionalOutput
+     * @param string[] $additionalOutput
      * @return string
      */
     public function createSelectOption($entity, $specification, $sortable, $primaryKey, $valueKey, $currentValue = null, $additionalOutput = null)
     {
         $htmlArray = array();
-        $data = $entity->findAll($specification, null, $sortable, true);
-        $result = $data->getResult();
-        foreach($result as $row)
+        $pageData = $entity->findAll($specification, null, $sortable, true, null, MagicObject::FIND_OPTION_NO_FETCH_DATA);
+        while($row = $pageData->fetch())
         {
             $value = $row->get($primaryKey);
             $label = $row->get($valueKey);
@@ -46,10 +47,33 @@ class FormBuilder
             {
                 $selected = '';
             }
-            $htmlArray[] = '<option value="'.$value.'"'.$selected.'>'.$label.'</option>';
+            $attr = $this->createAttributes($additionalOutput, $row);
+            $htmlArray[] = '<option value="'.$value.'"'.$attr.$selected.'>'.$label.'</option>';
         }
 
         return implode("\r\n", $htmlArray);
+    }
+    
+    /**
+     * Create attributes
+     *
+     * @param string[] $additionalOutput
+     * @param MagicObject $row
+     * @return string
+     */
+    private function createAttributes($additionalOutput, $row)
+    {
+        $attrs = array();
+        if(isset($additionalOutput) && is_array($additionalOutput) && isset($row))
+        {
+            foreach($additionalOutput as $attr)
+            {
+                $val = $row->get($attr);
+                $attrs[] = 'data-'.str_replace('_', '-', PicoStringUtil::snakeize($attr)).'="'.htmlspecialchars($val).'"';
+            }
+            return ' '.implode(' ', $attrs);
+        }
+        return '';
     }
     
     /**
