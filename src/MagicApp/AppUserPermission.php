@@ -5,6 +5,7 @@ namespace MagicApp;
 use Exception;
 use MagicApp\AppModule;
 use MagicObject\MagicObject;
+use MagicObject\Request\PicoRequestBase;
 use MagicObject\SecretObject;
 
 class AppUserPermission
@@ -93,6 +94,13 @@ class AppUserPermission
      * @var string
      */
     private $userLevelId;
+
+    /**
+     * Current user
+     *
+     * @var MagicObject
+     */
+    private $currentUser;
     
     /**
      * Constructor
@@ -107,6 +115,7 @@ class AppUserPermission
         $this->appConfig = $appConfig;
         $this->entity = $entity;
         $this->currentModule = $currentModule;
+        $this->currentUser = $currentUser;
         $this->userLevelId = $currentUser->getUserLevelId();
     }
     
@@ -146,6 +155,46 @@ class AppUserPermission
         
         $this->initialized = true;
         
+    }
+
+    /**
+     * Check user permission
+     *
+     * @param PicoRequestBase $inputGet
+     * @param PicoRequestBase $inputPost
+     * @param callable $callbackForbidden
+     * @return void
+     */
+    public function checkPermission($inputGet, $inputPost, $callbackForbidden)
+    {
+        if(isset($callbackForbidden) && is_callable($callbackForbidden))
+        {
+            $userAction = null;
+            if(isset($inputPost) && $inputPost->getUserAction() != null)
+            {
+                $userAction = $inputPost->getUserAction();
+            }
+            if($userAction == null && isset($inputGet) && $inputGet->getUserAction() != null)
+            {
+                $userAction = $inputGet->getUserAction();
+            }
+            if(isset($userAction) && !$this->isAllowedTo($userAction))
+            {
+                call_user_func($callbackForbidden, $this->appConfig, $this->entity, $this->currentModule, $this->currentUser, $userAction);
+            }
+        }
+    }
+
+    public function isAllowedTo($userAction)
+    {
+        if($userAction != null)
+        {
+            $forbidden = 
+            ($userAction == UserAction::CREATE && !$this->isAllowedCreate())
+
+            ;
+        }
+        return !$forbidden;
     }
     
     /**
