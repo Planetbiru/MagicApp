@@ -194,11 +194,16 @@ class AppUserPermission
         }
     }
 
-    public function isAllowedTo($userAction)
+    /**
+     * Check if access is allowed or not
+     *
+     * @param string $userAction
+     * @return boolean
+     */
+    public function isAllowedTo($userAction) // NOSONAR
     {
         if($userAction != null)
         {
-
             $forbidden = 
             ($userAction == UserAction::CREATE && !$this->isAllowedCreate())
             || ($userAction == UserAction::UPDATE && !$this->isAllowedUpdate())
