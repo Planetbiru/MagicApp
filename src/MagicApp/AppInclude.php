@@ -44,4 +44,23 @@ class AppInclude
             return $dir."/inc.app/footer.php";
         }
     }
+
+    /**
+     * Main header
+     *
+     * @param string $dir
+     * @param MagicObject|SecretObject $config
+     * @return string
+     */
+    public static function appForbiddenPage($dir, $config)
+    {
+        if($config != null)
+        {
+            return $dir."/".$config->getBaseIncludeDirectory()."/".$config->getInludeForbiddenFile();
+        }
+        else
+        {
+            return $dir."/inc.app/forbidden.php";
+        }
+    }
 }
