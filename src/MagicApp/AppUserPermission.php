@@ -101,6 +101,13 @@ class AppUserPermission
      * @var MagicObject
      */
     private $currentUser;
+
+    /**
+     * User action
+     * 
+     * @var string
+     */
+    private $userAction;
     
     /**
      * Constructor
@@ -180,7 +187,8 @@ class AppUserPermission
             }
             if(isset($userAction) && !$this->isAllowedTo($userAction))
             {
-                call_user_func($callbackForbidden, $this->appConfig, $this->entity, $this->currentModule, $this->currentUser, $userAction);
+                $this->userAction = $userAction;
+                call_user_func($callbackForbidden, $this->appConfig);
             }
         }
     }
@@ -310,5 +318,25 @@ class AppUserPermission
     public function getUserLevelId()
     {
         return $this->userLevelId;
+    }
+
+    /**
+     * Get user action
+     *
+     * @return  string
+     */ 
+    public function getUserAction()
+    {
+        return $this->userAction;
+    }
+
+    /**
+     * Get current user
+     *
+     * @return  MagicObject
+     */ 
+    public function getCurrentUser()
+    {
+        return $this->currentUser;
     }
 }
