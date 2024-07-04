@@ -9,44 +9,56 @@ class MainMenu extends BasicMenu
     /**
      * Menu
      *
-     * @var MagicObject[]
+     * @var array
      */
     private $menu = array();
-    
+
     /**
-     * Group ID
+     * Column name for menu group
      *
      * @var string
      */
-    private $goupId;
-    
+    private $columnName = "";
+
     /**
-     * Menu group ID
+     * Join column name for menu group
      *
      * @var string
      */
-    private $menuGroup;
+    private $joinColumnName = "";
     
     /**
      * Construct menu
      *
      * @param MagicObject[] $menu
-     * @param string $grupId
-     * @param string $menuGroup
+     * @param string $columnName
+     * @param string $joinColumnName
      */
-    public function __construct($menu, $grupId = null, $menuGroup = null)
+    public function __construct($menu, $columnName, $joinColumnName)
     {
-        $this->goupId = $grupId;
-        $this->menuGroup = $menuGroup;
+        $this->columnName = $columnName;
+        $this->joinColumnName = $joinColumnName;
         $this->menu = array();
         foreach($menu as $menuItem)
         {
-            $menuGroupId = $menuItem->get($grupId);
+            $menuGroupId = $menuItem->get($columnName);
             if(!isset($this->menu[$menuGroupId]))
             {
                 $this->menu[$menuGroupId] = array();
+                $this->menu[$menuGroupId]['menuGroup'] = $menuItem->get($joinColumnName);
+                $this->menu[$menuGroupId]['menuItem'] = array();
             }
-            $this->menu[$menuGroupId] = $menuItem;
+            $this->menu[$menuGroupId]['menuItem'][] = $menuItem;
         }
+    }
+
+    /**
+     * Get menu
+     *
+     * @return  array
+     */ 
+    public function getMenu()
+    {
+        return $this->menu;
     }
 }
