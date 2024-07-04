@@ -187,6 +187,7 @@ class AppUserPermission
             }
             if(isset($userAction) && !$this->isAllowedTo($userAction))
             {
+               
                 $this->userAction = $userAction;
                 call_user_func($callbackForbidden, $this->appConfig);
             }
@@ -197,9 +198,17 @@ class AppUserPermission
     {
         if($userAction != null)
         {
+
             $forbidden = 
             ($userAction == UserAction::CREATE && !$this->isAllowedCreate())
-
+            || ($userAction == UserAction::UPDATE && !$this->isAllowedUpdate())
+            || ($userAction == UserAction::ACTIVATE && !$this->isAllowedUpdate())
+            || ($userAction == UserAction::DELETE && !$this->isAllowedUpdate())
+            || ($userAction == UserAction::DETAIL && !$this->isAllowedDetail())
+            || ($userAction == UserAction::DELETE && !$this->isAllowedDelete())
+            || ($userAction == UserAction::SORT_ORDER && !$this->isAllowedSortOrder())
+            || ($userAction == UserAction::APPROVE && !$this->isAllowedApprove())
+            || ($userAction == UserAction::REJECT && !$this->isAllowedApprove())
             ;
         }
         return !$forbidden;
@@ -212,7 +221,7 @@ class AppUserPermission
      */
     public function isAllowedApprove()
     {
-        if($this->initialized)
+        if(!$this->initialized)
         {
             $this->loadPermission();
         }
@@ -227,7 +236,7 @@ class AppUserPermission
      */ 
     public function isAllowedList()
     {
-        if($this->initialized)
+        if(!$this->initialized)
         {
             $this->loadPermission();
         }
@@ -242,7 +251,7 @@ class AppUserPermission
      */ 
     public function isAllowedDetail()
     {
-        if($this->initialized)
+        if(!$this->initialized)
         {
             $this->loadPermission();
         }
@@ -257,7 +266,7 @@ class AppUserPermission
      */ 
     public function isAllowedCreate()
     {
-        if($this->initialized)
+        if(!$this->initialized)
         {
             $this->loadPermission();
         }
@@ -272,7 +281,7 @@ class AppUserPermission
      */ 
     public function isAllowedUpdate()
     {
-        if($this->initialized)
+        if(!$this->initialized)
         {
             $this->loadPermission();
         }
@@ -287,7 +296,7 @@ class AppUserPermission
      */ 
     public function isAllowedDelete()
     {
-        if($this->initialized)
+        if(!$this->initialized)
         {
             $this->loadPermission();
         }
@@ -302,7 +311,7 @@ class AppUserPermission
      */ 
     public function isAllowedSortOrder()
     {
-        if($this->initialized)
+        if(!$this->initialized)
         {
             $this->loadPermission();
         }
