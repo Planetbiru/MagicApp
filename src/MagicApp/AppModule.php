@@ -23,13 +23,20 @@ class AppModule
      * @var string
      */
     private $moduleId = "";
-
+    
     /**
      * Module name
      *
      * @var string
      */
     private $moduleName = "";
+    
+    /**
+     * Module title
+     *
+     * @var string
+     */
+    private $moduleTitle = "";
     
     /**
      * PHP self
@@ -42,14 +49,14 @@ class AppModule
      * Constructor
      *
      * @param SecretObject $appConfig
-     * @param string $moduleId
      * @param string $moduleName
      */
-    public function __construct($appConfig, $moduleId, $moduleName)
+    public function __construct($appConfig, $moduleId, $moduleName, $moduleTitle = null)
     {
         $this->appConfig = $appConfig;
         $this->moduleId = $moduleId;
         $this->moduleName = $moduleName;
+        $this->moduleTitle = $moduleTitle;
         $inputServer = new InputServer();
         $this->phpSelf = $inputServer->getPhpSelf();
     }
@@ -171,5 +178,15 @@ class AppModule
     public function getModuleName()
     {
         return $this->moduleName;
+    }
+
+    /**
+     * Get module title
+     *
+     * @return  string
+     */ 
+    public function getModuleTitle()
+    {
+        return $this->moduleTitle;
     }
 }
