@@ -13,6 +13,6 @@
         }
     ],
     "require": {
-        "planetbiru/magic-object": "1.11.2"
+        "planetbiru/magic-object": "1.11.4"
     }
 }
