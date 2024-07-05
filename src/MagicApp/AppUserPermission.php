@@ -80,6 +80,13 @@ class AppUserPermission
      * @var boolean
      */
     private $allowedSortOrder;
+
+    /**
+     * Allowed batch action
+     *
+     * @var boolean
+     */
+    private $allowedBatchAction;
     
     /**
      * Check if object has been initialize
@@ -159,6 +166,8 @@ class AppUserPermission
         $this->allowedDelete =  true;
         $this->allowedApprove =  true;
         $this->allowedSortOrder =  true;
+
+        $this->allowedBatchAction = $this->allowedUpdate || $this->allowedDelete;
         
         $this->initialized = true;
         
@@ -217,6 +226,16 @@ class AppUserPermission
             ;
         }
         return !$forbidden;
+    }
+
+    /**
+     * Check if user has permission to edit, activate, deactivate, and delete
+     *
+     * @return boolean
+     */
+    public function isAllowedBatchAction()
+    {
+        return $this->allowedBatchAction;
     }
     
     /**
