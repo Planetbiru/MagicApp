@@ -10,7 +10,6 @@ use MagicObject\SecretObject;
 
 class AppUserPermission
 {
-    
     /**
      * Application config
      *
@@ -170,7 +169,29 @@ class AppUserPermission
         $this->allowedBatchAction = $this->allowedUpdate || $this->allowedDelete;
         
         $this->initialized = true;
-        
+    }
+
+    /**
+     * Check user permission
+     *
+     * @param PicoRequestBase $inputGet
+     * @param PicoRequestBase $inputPost
+     * @param AppLanguage $appLanguage
+     * @param callable $callbackForbidden
+     * @return boolean
+     */
+    public function allowedAccess($inputGet, $inputPost)
+    {
+        $userAction = null;
+        if(isset($inputPost) && $inputPost->getUserAction() != null)
+        {
+            $userAction = $inputPost->getUserAction();
+        }
+        if($userAction == null && isset($inputGet) && $inputGet->getUserAction() != null)
+        {
+            $userAction = $inputGet->getUserAction();
+        }
+        return $userAction == null || $this->isAllowedTo($userAction);
     }
 
     /**
