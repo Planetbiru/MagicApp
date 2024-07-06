@@ -32,10 +32,35 @@ class AppFormSelect
     /**
      * Add text node format
      *
-     * @param string $format
+     * @param callable|string $format
      * @return self
      */
     public function textNodeFormat($format)
+    {
+        if(isset($format))
+        {
+            if(is_callable($format))
+            {
+                for($i = 0; $i < count($this->options); $i++)
+                {
+                    $this->options[$i]->setTextNode(call_user_func($format, $this->options[$i]->getData()));
+                }
+            }
+            else
+            {
+                $this->setTextNodeFormatFromString($format);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Add text node format
+     *
+     * @param string $format
+     * @return self
+     */
+    public function setTextNodeFormatFromString($format)
     {
         $seperator = ",";
         $params = array();

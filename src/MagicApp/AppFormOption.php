@@ -185,4 +185,38 @@ class AppFormOption
     {
         return $this->__tostring();
     }
+
+    /**
+     * Get text node
+     *
+     * @return  string
+     */ 
+    public function getTextNode()
+    {
+        return $this->textNode;
+    }
+
+    /**
+     * Set text node
+     *
+     * @param  string  $textNode  Text node
+     *
+     * @return  self
+     */ 
+    public function setTextNode($textNode)
+    {
+        $this->textNode = $textNode;
+
+        return $this;
+    }
+
+    /**
+     * Get data
+     *
+     * @return  MagicObject
+     */ 
+    public function getData()
+    {
+        return $this->data;
+    }
 }
