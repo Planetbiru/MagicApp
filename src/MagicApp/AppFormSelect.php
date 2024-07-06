@@ -65,22 +65,27 @@ class AppFormSelect
         $seperator = ",";
         $params = array();
         $args = preg_split('/'.$seperator.'(?=(?:[^\"])*(?![^\"]))/', $format, -1, PREG_SPLIT_DELIM_CAPTURE);
-        foreach ($args as $i=>$arg) {
-
-            if($i > 0)
+        foreach ($args as $i=>$arg) 
+        {
+            $arg = trim($arg);
+            if($i > 0 && !empty($arg))
             {
                 $params[] = $arg;
             }
         }
 
-
-
-
-
         preg_match_all('`"([^"]*)"`', $args[0], $results);
         $format2 = isset($results[1]) && isset($results[1][0]) && !empty($results[1][0]) ? $results[1][0] : $args[0];
 
         $numPlaceholders = preg_match_all('/%[sd]/', $format2, $matches);
+        while($numPlaceholders > count($params))
+        {
+            $params[] = '';
+        }
+        if($numPlaceholders < count($params))
+        {
+            array_pop($params);
+        }
 
         for($i = 0; $i < count($this->options); $i++)
         {
