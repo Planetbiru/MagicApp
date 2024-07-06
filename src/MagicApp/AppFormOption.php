@@ -2,6 +2,7 @@
 
 namespace MagicApp;
 
+use MagicObject\MagicObject;
 use MagicObject\Util\PicoStringUtil;
 
 class AppFormOption
@@ -28,6 +29,26 @@ class AppFormOption
      */
     private $selected;
 
+    /**
+     * Format
+     *
+     * @var string
+     */
+    private $format;
+
+    /**
+     * Params
+     *
+     * @var string[]
+     */
+    private $params;
+
+    /**
+     * Data
+     *
+     * @var MagicObject
+     */
+    private $data;
 
     /**
      * Attributes
@@ -36,12 +57,22 @@ class AppFormOption
      */
     private $attributes;
 
-    public function __construct($textNode, $value = null, $selected = false, $attributes = null)
+    /**
+     * Undocumented function
+     *
+     * @param string $textNode
+     * @param string $value
+     * @param boolean $selected
+     * @param string[] $attributes
+     * @param MagicObject $data
+     */
+    public function __construct($textNode, $value = null, $selected = false, $attributes = null, $data = null)
     {
         $this->textNode = $textNode;
         $this->value = $value;
         $this->selected = $selected;
         $this->attributes = $attributes;
+        $this->data = $data;
     }
 
     /**
@@ -63,11 +94,86 @@ class AppFormOption
         return '';
     }
 
+    /**
+     * Add format to text node
+     *
+     * @param string $format
+     * @param string[] $params
+     * @return self
+     */
+    public function textNodeFormat($format, $params)
+    {
+        $this->format = $format;
+        $this->params = $params;
+        return $this;
+    }
+
+    /**
+     * Get values from parameters
+     *
+     * @return string[]
+     */
+    public function getValues()
+    {
+        $values = array();
+        if(isset($this->params) && is_array($this->params))
+        {
+            foreach($this->params as $param)
+            {
+                $values[] = $this->getValue($param);
+            }
+        }
+        return $values;
+    }
+
+    /**
+     * Get value of parameter
+     *
+     * @param string $param
+     * @return string
+     */
+    public function getValue($param)
+    {
+        if($this->data == null)
+        {
+            return null;
+        }
+        $param = trim($param);
+        $value = null;
+        if(stripos($param, '.') !== false)
+        {
+            $arr = explode(".", $param, 2);
+            if($this->data->get($arr[0]) != null && $this->data->get($arr[0]) instanceof MagicObject)
+            {
+                $value = htmlspecialchars($this->data->get($arr[0])->get($arr[1]));
+            }
+        }
+        else
+        {
+            $value = htmlspecialchars($this->data->get($param));
+        }
+        return $value;
+    }
+
+    /**
+     * Get object as tring
+     *
+     * @return string
+     */
     public function __tostring()
     {
         $selected = $this->selected ? ' seledted' : '';
         $attrs = $this->createAttributes();
-        return '<option value="'.htmlspecialchars($this->value).'"'.$attrs.$selected.'>'.htmlspecialchars($this->textNode).'</option>';
+        if(isset($this->format) && isset($this->params))
+        {
+            $values = $this->getValues();
+            $textNode = vsprintf($this->format, $values);
+            return '<option value="'.htmlspecialchars($this->value).'"'.$attrs.$selected.'>'.$textNode.'</option>';
+        }
+        else
+        {
+            return '<option value="'.htmlspecialchars($this->value).'"'.$attrs.$selected.'>'.htmlspecialchars($this->textNode).'</option>';
+        }
     }
 
     /**

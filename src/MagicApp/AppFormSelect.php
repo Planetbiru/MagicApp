@@ -2,6 +2,8 @@
 
 namespace MagicApp;
 
+use MagicObject\MagicObject;
+
 class AppFormSelect
 {
     /**
@@ -18,14 +20,47 @@ class AppFormSelect
      * @param string $value
      * @param boolean $selected
      * @param string[] $attributes
+     * @param MagicObject $data
      * @return self
      */
-    public function add($textNode, $value = null, $selected = false, $attributes = null)
+    public function add($textNode, $value = null, $selected = false, $attributes = null, $data = null)
     {
-        $this->options[] = new AppFormOption($textNode, $value, $selected, $attributes);
+        $this->options[] = new AppFormOption($textNode, $value, $selected, $attributes, $data);
         return $this;
     }
 
+    /**
+     * Add text node format
+     *
+     * @param string $format
+     * @return self
+     */
+    public function textNodeFormat($format)
+    {
+        $seperator = ",";
+        $params = array();
+        $args = preg_split('/'.$seperator.'(?=(?:[^\"])*(?![^\"]))/', $format, -1, PREG_SPLIT_DELIM_CAPTURE);
+        foreach ($args as $i=>$arg) {
+
+            if($i > 0)
+            {
+                $params[] = $arg;
+            }
+        }
+        preg_match_all('`"([^"]*)"`', $args[0], $results);
+        $format2 = isset($results[1]) && isset($results[1][0]) && !empty($results[1][0]) ? $results[1][0] : $args[0];
+        for($i = 0; $i < count($this->options); $i++)
+        {
+            $this->options[$i]->textNodeFormat($format2, $params);
+        }
+        return $this;
+    }
+
+    /**
+     * Get object as tring
+     *
+     * @return string
+     */
     public function __tostring()
     {
         $opt = array();
