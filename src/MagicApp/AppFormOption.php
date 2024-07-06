@@ -162,7 +162,7 @@ class AppFormOption
      */
     public function __tostring()
     {
-        $selected = $this->selected ? ' seledted' : '';
+        $selected = $this->selected ? ' selected' : '';
         $attrs = $this->createAttributes();
         if(isset($this->format) && isset($this->params))
         {
