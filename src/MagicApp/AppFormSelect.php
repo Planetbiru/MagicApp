@@ -72,8 +72,16 @@ class AppFormSelect
                 $params[] = $arg;
             }
         }
+
+
+
+
+
         preg_match_all('`"([^"]*)"`', $args[0], $results);
         $format2 = isset($results[1]) && isset($results[1][0]) && !empty($results[1][0]) ? $results[1][0] : $args[0];
+
+        $numPlaceholders = preg_match_all('/%[sd]/', $format2, $matches);
+
         for($i = 0; $i < count($this->options); $i++)
         {
             $this->options[$i]->textNodeFormat($format2, $params);
