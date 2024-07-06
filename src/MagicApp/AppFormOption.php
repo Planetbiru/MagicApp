@@ -145,12 +145,12 @@ class AppFormOption
             $arr = explode(".", $param, 2);
             if($this->data->get($arr[0]) != null && $this->data->get($arr[0]) instanceof MagicObject)
             {
-                $value = htmlspecialchars($this->data->get($arr[0])->get($arr[1]));
+                $value = $this->data->get($arr[0])->get($arr[1]);
             }
         }
         else
         {
-            $value = htmlspecialchars($this->data->get($param));
+            $value = $this->data->get($param);
         }
         return $value;
     }
@@ -168,11 +168,11 @@ class AppFormOption
         {
             $values = $this->getValues();
             $textNode = vsprintf($this->format, $values);
-            return '<option value="'.htmlspecialchars($this->value).'"'.$attrs.$selected.'>'.$textNode.'</option>';
+            return '<option value="'.$this->value.'"'.$attrs.$selected.'>'.$textNode.'</option>';
         }
         else
         {
-            return '<option value="'.htmlspecialchars($this->value).'"'.$attrs.$selected.'>'.htmlspecialchars($this->textNode).'</option>';
+            return '<option value="'.$this->value.'"'.$attrs.$selected.'>'.$this->textNode.'</option>';
         }
     }
 
