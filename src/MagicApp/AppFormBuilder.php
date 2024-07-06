@@ -18,6 +18,7 @@ class AppFormBuilder
     {
         return new self();
     }
+    
 
     /**
      * Create select option
@@ -29,29 +30,21 @@ class AppFormBuilder
      * @param mixed $valueKey
      * @param mixed $currentValue
      * @param string[] $additionalOutput
-     * @return string
+     * @return AppFormSelect
      */
     public function createSelectOption($entity, $specification, $sortable, $primaryKey, $valueKey, $currentValue = null, $additionalOutput = null)
     {
-        $htmlArray = array();
+        $selectOption = new AppFormSelect();
         $pageData = $entity->findAll($specification, null, $sortable, true, null, MagicObject::FIND_OPTION_NO_FETCH_DATA);
         while($row = $pageData->fetch())
         {
             $value = $row->get($primaryKey);
             $label = $row->get($valueKey);
-            if(isset($currentValue) && $currentValue == $value)
-            {
-                $selected = ' selected';
-            }
-            else
-            {
-                $selected = '';
-            }
-            $attr = $this->createAttributes($additionalOutput, $row);
-            $htmlArray[] = '<option value="'.$value.'"'.$attr.$selected.'>'.$label.'</option>';
+            $selected = isset($currentValue) && $currentValue == $value;
+            $attrs = $this->createAttributes($additionalOutput, $row);
+            $selectOption->add($label, $value, $selected, $attrs);
         }
-
-        return implode("\r\n", $htmlArray);
+        return $selectOption;
     }
     
     /**
@@ -59,7 +52,7 @@ class AppFormBuilder
      *
      * @param string[] $additionalOutput
      * @param MagicObject $row
-     * @return string
+     * @return string[]
      */
     private function createAttributes($additionalOutput, $row)
     {
@@ -69,11 +62,10 @@ class AppFormBuilder
             foreach($additionalOutput as $attr)
             {
                 $val = $row->get($attr);
-                $attrs[] = 'data-'.str_replace('_', '-', PicoStringUtil::snakeize($attr)).'="'.htmlspecialchars($val).'"';
+                $attrs[$attr] = $val;
             }
-            return ' '.implode(' ', $attrs);
         }
-        return '';
+        return $attrs;
     }
     
     /**
