@@ -16,7 +16,7 @@ class EntityInfo extends SecretObject
     /**
      * Sort order
      *
-     * @var [type]
+     * @var string
      */
     protected $sortOrder;
     
