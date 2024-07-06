@@ -142,6 +142,7 @@ class AppFormOption
         $value = null;
         if(stripos($param, '.') !== false)
         {
+            $param = str_replace(' ', '', $param);
             $arr = explode(".", $param, 2);
             if($this->data->get($arr[0]) != null && $this->data->get($arr[0]) instanceof MagicObject)
             {
