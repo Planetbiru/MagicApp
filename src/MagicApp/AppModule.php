@@ -62,6 +62,16 @@ class AppModule
     }
 
     /**
+     * Get self
+     *
+     * @return string
+     */
+    public function getSelf()
+    {
+        return basename($_SERVER['PHP_SELF']);
+    }
+
+    /**
      * Redirect to itself
      *
      * @return void
