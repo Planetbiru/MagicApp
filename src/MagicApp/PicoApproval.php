@@ -316,8 +316,6 @@ class PicoApproval
         }
         return $this;
     }
-    
-    
 
     /**
      * Get current user

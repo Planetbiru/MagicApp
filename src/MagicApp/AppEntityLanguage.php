@@ -35,4 +35,24 @@ class AppEntityLanguage extends PicoEntityLanguage
         $this->appConfig = $appConfig;
         $this->currentLanguage = $currentLanguage;
     }
+
+    /**
+     * Get app config
+     *
+     * @return  SecretObject
+     */ 
+    public function getAppConfig()
+    {
+        return $this->appConfig;
+    }
+
+    /**
+     * Get current language
+     *
+     * @return  string
+     */ 
+    public function getCurrentLanguage()
+    {
+        return $this->currentLanguage;
+    }
 }
