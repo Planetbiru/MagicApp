@@ -30,12 +30,12 @@ class AppFormSelect
     }
 
     /**
-     * Add text node format
+     * Set text node format
      *
      * @param callable|string $format
      * @return self
      */
-    public function textNodeFormat($format)
+    public function setTextNodeFormat($format)
     {
         if(isset($format))
         {
