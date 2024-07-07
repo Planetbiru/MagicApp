@@ -3,11 +3,27 @@
 namespace MagicApp;
 
 use MagicObject\Language\PicoLanguage;
+use MagicObject\SecretObject;
+use MagicObject\Util\PicoIniUtil;
 use MagicObject\Util\PicoStringUtil;
 use stdClass;
 
 class AppLanguage extends PicoLanguage
 {
+    /**
+     * App Config
+     *
+     * @var SecretObject
+     */
+    private $appConfig;
+
+    /**
+     * Current language
+     *
+     * @var string
+     */
+    private $currentLanguage;
+
     /**
      * Callback
      *
@@ -18,15 +34,44 @@ class AppLanguage extends PicoLanguage
     /**
      * Constructor
      *
-     * @param stdClass|array $data
+     * @param SecretObject $appConfig
+     * @param string $currentLanguage
+     * @param callable $callback
      */
-    public function __construct($data = null, $callback = null)
+    public function __construct($appConfig = null, $currentLanguage = null, $callback = null)
     {
-        parent::__construct($data);
+        $this->appConfig = $appConfig;
+        $this->currentLanguage = $currentLanguage;
+        $this->loadData($this->loadLaguageData());
         if(isset($callback) && is_callable($callback))
         {
             $this->callback = $callback;
         }
+    }
+
+    /**
+     * Load data
+     *
+     * @return array
+     */
+    private function loadLaguageData()
+    {
+        $langFile = dirname(__DIR__)."/inc.lang/id/app.ini";
+
+        if(!file_exists(dirname($langFile)))
+        {
+            mkdir(dirname($langFile), 0755, true);
+        }
+        if(!file_exists($langFile))
+        {
+            file_put_contents($langFile, "");
+        }
+        $data = PicoIniUtil::parseIniFile($langFile);
+        if(!isset($data) || !is_array($data))
+        {
+            $data = array();
+        }
+        return $data;
     }
     
     /**

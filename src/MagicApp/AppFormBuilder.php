@@ -5,7 +5,6 @@ namespace MagicApp;
 use MagicObject\Database\PicoSortable;
 use MagicObject\Database\PicoSpecification;
 use MagicObject\MagicObject;
-use MagicObject\Util\PicoStringUtil;
 
 class AppFormBuilder
 {
@@ -18,7 +17,6 @@ class AppFormBuilder
     {
         return new self();
     }
-    
 
     /**
      * Create select option
