@@ -73,10 +73,8 @@ class AppFormSelect
                 $params[] = $arg;
             }
         }
-
         preg_match_all('`"([^"]*)"`', $args[0], $results);
         $format2 = isset($results[1]) && isset($results[1][0]) && !empty($results[1][0]) ? $results[1][0] : $args[0];
-
         $numPlaceholders = preg_match_all('/%[sd]/', $format2, $matches);
         while($numPlaceholders > count($params))
         {
@@ -86,10 +84,28 @@ class AppFormSelect
         {
             array_pop($params);
         }
+        if(!empty($params))
+        {
+            for($i = 0; $i < count($this->options); $i++)
+            {
+                $this->options[$i]->textNodeFormat($format2, $params);
+            }
+        }
+        return $this;
+    }
 
+    /**
+     * Set indent
+     *
+     * @param integer $indent
+     * @return self
+     */
+    public function setIndent($indent = 1)
+    {
+        $pad =  str_pad('', $indent, "\t", STR_PAD_LEFT);
         for($i = 0; $i < count($this->options); $i++)
         {
-            $this->options[$i]->textNodeFormat($format2, $params);
+            $this->options[$i]->setPad($pad);
         }
         return $this;
     }

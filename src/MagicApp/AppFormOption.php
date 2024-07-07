@@ -58,6 +58,13 @@ class AppFormOption
     private $attributes;
 
     /**
+     * Pad
+     *
+     * @var string
+     */
+    private $pad = "";
+
+    /**
      * Undocumented function
      *
      * @param string $textNode
@@ -157,6 +164,18 @@ class AppFormOption
     }
 
     /**
+     * Set pad
+     *
+     * @param string $pad
+     * @return self
+     */
+    public function setPad($pad = "\t")
+    {
+        $this->pad = $pad;
+        return $this;
+    }
+
+    /**
      * Get object as tring
      *
      * @return string
@@ -169,11 +188,11 @@ class AppFormOption
         {
             $values = $this->getValues();
             $textNode = vsprintf($this->format, $values);
-            return '<option value="'.$this->value.'"'.$attrs.$selected.'>'.$textNode.'</option>';
+            return $this->pad.'<option value="'.$this->value.'"'.$attrs.$selected.'>'.$textNode.'</option>';
         }
         else
         {
-            return '<option value="'.$this->value.'"'.$attrs.$selected.'>'.$this->textNode.'</option>';
+            return $this->pad.'<option value="'.$this->value.'"'.$attrs.$selected.'>'.$this->textNode.'</option>';
         }
     }
 
