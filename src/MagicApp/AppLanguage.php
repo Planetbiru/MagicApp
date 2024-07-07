@@ -6,7 +6,6 @@ use MagicObject\Language\PicoLanguage;
 use MagicObject\SecretObject;
 use MagicObject\Util\PicoIniUtil;
 use MagicObject\Util\PicoStringUtil;
-use stdClass;
 
 class AppLanguage extends PicoLanguage
 {
@@ -56,7 +55,7 @@ class AppLanguage extends PicoLanguage
      */
     private function loadLaguageData()
     {
-        $langFile = dirname(__DIR__)."/inc.lang/id/app.ini";
+        $langFile = $this->appConfig->getBaseDirectoryLanguage()."/".$this->currentLanguage."/app.ini";
 
         if(!file_exists(dirname($langFile)))
         {
