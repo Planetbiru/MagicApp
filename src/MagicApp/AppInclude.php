@@ -4,6 +4,7 @@ namespace MagicApp;
 
 use MagicObject\MagicObject;
 use MagicObject\SecretObject;
+use MagicObject\Util\PicoStringUtil;
 
 class AppInclude
 {
@@ -16,13 +17,14 @@ class AppInclude
      */
     public static function mainAppHeader($dir, $config)
     {
-        if($config != null)
+        $path = $config->getBaseIncludeDirectory()."/".$config->getInludeHeaderFile();
+        if($config != null && PicoStringUtil::endsWith($path, ".php") && file_exists($path))
         {
-            return $dir."/".$config->getBaseIncludeDirectory()."/".$config->getInludeHeaderFile();
+            return $path;
         }
         else
         {
-            return $dir."/inc.app/header.php";
+            return $dir . "/inc.app/header.php";
         }
     }
     
@@ -35,18 +37,19 @@ class AppInclude
      */
     public static function mainAppFooter($dir, $config)
     {
-        if($config != null)
+        $path = $config->getBaseIncludeDirectory()."/".$config->getInludeFooterFile();
+        if($config != null && PicoStringUtil::endsWith($path, ".php") && file_exists($path))
         {
-            return $dir."/".$config->getBaseIncludeDirectory()."/".$config->getInludeFooterFile();
+            return $path;
         }
         else
         {
-            return $dir."/inc.app/footer.php";
+            return $dir . "/inc.app/footer.php";
         }
     }
 
     /**
-     * Main header
+     * Forbidden
      *
      * @param string $dir
      * @param MagicObject|SecretObject $config
@@ -54,13 +57,34 @@ class AppInclude
      */
     public static function appForbiddenPage($dir, $config)
     {
-        if($config != null)
+        $path = $config->getBaseIncludeDirectory()."/".$config->getInludeForbiddenFile();
+        if($config != null && PicoStringUtil::endsWith($path, ".php") && file_exists($path))
         {
-            return $dir."/".$config->getBaseIncludeDirectory()."/".$config->getInludeForbiddenFile();
+            return $path;
         }
         else
         {
-            return $dir."/inc.app/forbidden.php";
+            return $dir . "/inc.app/403.php";
+        }
+    }
+
+    /**
+     * Page not found
+     *
+     * @param string $dir
+     * @param MagicObject|SecretObject $config
+     * @return string
+     */
+    public static function appNotFoundPage($dir, $config)
+    {
+        $path = $config->getBaseIncludeDirectory()."/".$config->getInludeNotFoundFile();
+        if($config != null && PicoStringUtil::endsWith($path, ".php") && file_exists($path))
+        {
+            return $path;
+        }
+        else
+        {
+            return $dir . "/inc.app/404.php";
         }
     }
 }
