@@ -41,14 +41,23 @@ class PicoDatabaseUtilMySql
             $query[] = "";
         }
         $createStatement = "";
+
+        $createStatement = "CREATE TABLE";
         if($createIfNotExists)
         {
-            $createStatement = "CREATE TABLE IF NOT EXISTS";
+            $createStatement .= " IF NOT EXISTS";
         }
-        else
+
+        $autoIncrement = $tableInfo->getAutoIncrementKeys();
+        $autoIncrementKeys = array();
+        if(is_array($autoIncrement) && !empty($autoIncrement))
         {
-            $createStatement = "CREATE TABLE";
+            foreach($autoIncrement as $col)
+            {
+                $autoIncrementKeys[] = $col["name"];
+            }
         }
+
         $query[] = "$createStatement `$picoTableName` (";
         
         foreach($tableInfo->getColumns() as $column)
@@ -70,6 +79,15 @@ class PicoDatabaseUtilMySql
             $query[] = ";";       
         }
         
+        foreach($tableInfo->getColumns() as $column)
+        {
+            if(isset($autoIncrementKeys) && is_array($autoIncrementKeys) && in_array($column['name'], $autoIncrementKeys))
+            {
+                $query[] = "";
+                $query[] = "ALTER TABLE `$picoTableName` \r\n\tMODIFY ".trim(self::createColumn($column), " \r\n\t ")." AUTO_INCREMENT";
+                $query[] = ";";
+            }
+        }
         
         return implode("\r\n", $query);
     }
