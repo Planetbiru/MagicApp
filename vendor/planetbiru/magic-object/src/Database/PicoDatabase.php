@@ -94,9 +94,11 @@ class PicoDatabase //NOSONAR
 
 	/**
 	 * Connect to database
+	 * 
+	 * @param boolean $withDatabase
 	 * @return boolean true if success and false if failed
 	 */
-	public function connect()
+	public function connect($withDatabase = true)
 	{
 		$databaseTimeZone = $this->databaseCredentials->getTimeZone();
 		if($databaseTimeZone != null && !empty($databaseTimeZone))
@@ -107,7 +109,7 @@ class PicoDatabase //NOSONAR
 		$connected = false;
 		try 
 		{
-			$connectionString = $this->constructConnectionString();
+			$connectionString = $this->constructConnectionString($withDatabase);
 			if(!$this->databaseCredentials->issetUsername())
 			{
 				throw new InvalidDatabaseConfiguration("Database username may not be empty. Please check your database configuration!");
@@ -119,7 +121,6 @@ class PicoDatabase //NOSONAR
 				$initialQueries .= "SET search_path TO ".$this->databaseCredentials->getDatabaseShema();
 			}
 
-			
 			$this->databaseType = $this->databaseCredentials->getDriver();
 			$this->databaseConnection = new PDO(
 				$connectionString,
@@ -137,7 +138,7 @@ class PicoDatabase //NOSONAR
 		} 
 		catch (Exception $e) 
 		{
-			throw new PDOException($e);
+			throw new PDOException($e->getMessage(), intval($e->getCode()));
 		}
 		return $connected;
 	}
@@ -148,31 +149,39 @@ class PicoDatabase //NOSONAR
 	 * @return string
 	 * @throws InvalidDatabaseConfiguration
 	 */
-	private function constructConnectionString()
+	private function constructConnectionString($withDatabase = true)
 	{
 		$emptyDriver = !$this->databaseCredentials->issetDriver();
 		$emptyHost = !$this->databaseCredentials->issetHost();
 		$emptyPort = !$this->databaseCredentials->issetPort();
 		$emptyName = !$this->databaseCredentials->issetDatabaseName();
+		$emptyValue = "";
+		$emptyValue .= $emptyDriver ? "{driver}" : "";
+		$emptyValue .= $emptyHost ? "{host}" : "";
+		$emptyValue .= $emptyPort ? "{port}" : "";		
+		$invalidParam1 = $emptyDriver || $emptyHost || $emptyPort;
 		
-		if(
-			$emptyDriver
-			||
-			$emptyHost
-			||
-			$emptyPort
-			||
-			$emptyName
-		)
+		if($withDatabase)
 		{
-			$emptyValue = "";
-			$emptyValue .= $emptyDriver ? "{driver}" : "";
-			$emptyValue .= $emptyHost ? "{host}" : "";
-			$emptyValue .= $emptyPort ? "{port}" : "";
-			$emptyValue .= $emptyName ? "{database_name}" : "";
-			throw new InvalidDatabaseConfiguration("Invalid database configuration. $emptyValue. Please check your database configuration!");
+			if(
+				$invalidParam1
+				||
+				$emptyName
+			)
+			{
+				$emptyValue .= $emptyName ? "{database_name}" : "";
+				throw new InvalidDatabaseConfiguration("Invalid database configuration. $emptyValue. Please check your database configuration!");
+			}
+			return $this->databaseCredentials->getDriver() . ':host=' . $this->databaseCredentials->getHost() . '; port=' . ((int) $this->databaseCredentials->getPort()) . '; dbname=' . $this->databaseCredentials->getDatabaseName();
 		}
-		return $this->databaseCredentials->getDriver() . ':host=' . $this->databaseCredentials->getHost() . '; port=' . ((int) $this->databaseCredentials->getPort()) . '; dbname=' . $this->databaseCredentials->getDatabaseName();
+		else
+		{
+			if($invalidParam1)
+			{
+				throw new InvalidDatabaseConfiguration("Invalid database configuration. $emptyValue. Please check your database configuration!");
+			}
+			return $this->databaseCredentials->getDriver() . ':host=' . $this->databaseCredentials->getHost() . '; port=' . ((int) $this->databaseCredentials->getPort());
+		}
 	}
 
 	/**
@@ -273,14 +282,7 @@ class PicoDatabase //NOSONAR
 		try 
 		{
 			$stmt->execute();
-			if ($stmt->rowCount() > 0) 
-			{
-				$result = $stmt->fetch($tentativeType);
-			} 
-			else 
-			{
-				$result = $defaultValue;
-			}
+			$result = $stmt->rowCount() > 0 ? $stmt->fetch($tentativeType) : $defaultValue;
 		} 
 		catch (PDOException $e) 
 		{
@@ -310,7 +312,7 @@ class PicoDatabase //NOSONAR
 		} 
 		catch (PDOException $e) 
 		{
-			throw new PDOException($e);
+			throw new PDOException($e->getMessage(), intval($e->getCode()));
 		}
 	}
 
@@ -334,14 +336,7 @@ class PicoDatabase //NOSONAR
 		try 
 		{
 			$stmt->execute();
-			if ($stmt->rowCount() > 0) 
-			{
-				$result = $stmt->fetchAll($tentativeType);
-			} 
-			else 
-			{
-				$result = $defaultValue;
-			}
+			$result = $stmt->rowCount() > 0 ? $stmt->fetchAll($tentativeType) : $defaultValue;
 		} 
 		catch (PDOException $e) 
 		{
@@ -391,7 +386,7 @@ class PicoDatabase //NOSONAR
 		} 
 		catch (PDOException $e) 
 		{
-			throw new PDOException($e);
+			throw new PDOException($e->getMessage(), intval($e->getCode()));
 		}
 		return $stmt;
 	}
