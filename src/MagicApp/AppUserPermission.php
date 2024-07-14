@@ -202,7 +202,7 @@ class AppUserPermission
         }
         if(!isset($userAction) || empty($userAction))
         {
-            return $this->isAllowedTo(UserAction::LIST);
+            return $this->isAllowedTo(UserAction::SHOW_ALL);
         }
         else
         {
@@ -251,7 +251,7 @@ class AppUserPermission
         if($userAction != null)
         {
             $forbidden = 
-            ($userAction == UserAction::LIST && !$this->isAllowedList())
+            ($userAction == UserAction::SHOW_ALL && !$this->isAllowedList())
             || ($userAction == UserAction::CREATE && !$this->isAllowedCreate())
             || ($userAction == UserAction::UPDATE && !$this->isAllowedUpdate())
             || ($userAction == UserAction::ACTIVATE && !$this->isAllowedUpdate())

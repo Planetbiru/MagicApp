@@ -4,7 +4,7 @@ namespace MagicApp;
 
 class UserAction
 {
-    const LIST              = "list";
+    const SHOW_ALL          = "list";
     const INSERT            = "insert";
     const CREATE            = "create";
     const UPDATE            = "update";
