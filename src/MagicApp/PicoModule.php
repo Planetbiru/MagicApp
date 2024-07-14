@@ -86,7 +86,6 @@ class PicoModule
         $inputServer = new InputServer();
         $this->phpSelf = $inputServer->getPhpSelf();
     }
-    
 
     /**
      * Get role
@@ -120,17 +119,12 @@ class PicoModule
             $this->allowedModules = array();
             foreach($appUserRoles as $role)
             {
-                //echo $role->getModuleId()." == " .$this->moduleId."<br>";
-                //echo $role->getModuleId().' '.$this->moduleId."<br>";
                 if($role->getModuleName() ==  $this->moduleId)
                 {
                     $this->userRole = $role;
                 }
 
                 if(
-                    $role->hasValueModule()
-                    && $role->getModule()->getModuleId() 
-                    &&
                     ($role->getAllowedList()
                 ||  $role->getAllowedDetail()
                 ||  $role->getAllowedCreate()
@@ -140,7 +134,7 @@ class PicoModule
                 ||  $role->getAllowedSortOrder())
                 )
                 {
-                    $this->allowedModules[] = $role->getModule()->getModuleId() ;
+                    $this->allowedModules[] = $role->getModuleId() ;
                 }
             }
         }
