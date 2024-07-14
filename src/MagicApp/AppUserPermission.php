@@ -3,7 +3,8 @@
 namespace MagicApp;
 
 use Exception;
-use MagicApp\AppModule;
+use MagicApp\PicoModule;
+use MagicObject\Database\PicoDatabase;
 use MagicObject\MagicObject;
 use MagicObject\Request\PicoRequestBase;
 use MagicObject\SecretObject;
@@ -27,7 +28,7 @@ class AppUserPermission
     /**
      * Module
      *
-     * @var AppModule
+     * @var PicoModule
      */
     private $currentModule;
     
@@ -119,8 +120,9 @@ class AppUserPermission
      * Constructor
      *
      * @param SecretObject $appConfig
-     * @param MagicObject $entity
-     * @param AppModule $currentModule
+     * @param PicoDatabase $database
+     * @param MagicObject $appUserRole
+     * @param PicoModule $currentModule
      * @param AppUser $currentUser
      */
     public function __construct($appConfig, $database, $appUserRole, $currentModule, $currentUser)
