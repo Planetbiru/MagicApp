@@ -71,7 +71,7 @@ class PicoModule
      * 
      * @param SecretObject $appConfig
      * @param PicoDatabase $database
-     * @param AppModule $appModule
+     * @param AppModule|mixed $appModule
      * @param string $moduleId
      * @param string $moduleName
      * @param string $moduleTitle
