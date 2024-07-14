@@ -68,11 +68,15 @@ class PicoModule
     
     /**
      * Constructor
-     *
+     * 
      * @param SecretObject $appConfig
+     * @param PicoDatabase $database
+     * @param AppModule $appModule
+     * @param string $moduleId
      * @param string $moduleName
+     * @param string $moduleTitle
      */
-    public function __construct($appConfig, $database, $moduleId, $moduleName, $moduleTitle = null)
+    public function __construct($appConfig, $database, $appModule, $moduleId, $moduleName, $moduleTitle = null)
     {
         $this->appConfig = $appConfig;
         $this->database = $database;
