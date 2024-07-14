@@ -121,14 +121,13 @@ class AppUserPermission
      * @param SecretObject $appConfig
      * @param MagicObject $entity
      * @param AppModule $currentModule
-     * @param MagicObject $currentUser
+     * @param AppUser $currentUser
      */
-    public function __construct($appConfig, $entity, $currentModule, $currentUser)
+    public function __construct($appConfig, $database, $appUserRole, $currentModule, $currentUser)
     {
         $this->appConfig = $appConfig;
-        $this->entity = $entity;
+        $this->entity = $appUserRole;
         $this->currentModule = $currentModule;
-        $this->currentUser = $currentUser;
         $this->userLevelId = $currentUser->getUserLevelId();
     }
     
@@ -139,32 +138,40 @@ class AppUserPermission
      */
     public function loadPermission()
     {
-        try
+        if($this->appConfig->getBypassRoles())
         {
-            $this->entity->findOneByModuleIdAndUserLevelIdAndActive($this->currentModule->getModuleId(), $this->userLevelId, true);       
-            
-            $this->allowedList =  $this->entity->getAllowedList();
-            $this->allowedDetail =  $this->entity->getAllowedDetail();
-            $this->allowedCreate =  $this->entity->getAllowedCreate();
-            $this->allowedUpdate =  $this->entity->getAllowedUpdate();
-            $this->allowedDelete =  $this->entity->getAllowedDelete();
-            $this->allowedApprove =  $this->entity->getAllowedApprove();
-            $this->allowedSortOrder =  $this->entity->getAllowedSortOrder();
-            
-            $this->initialized = true;
+            $this->allowedList =  true;
+            $this->allowedDetail =  true;
+            $this->allowedCreate =  true;
+            $this->allowedUpdate =  true;
+            $this->allowedDelete =  true;
+            $this->allowedApprove =  true;
+            $this->allowedSortOrder =  true;
         }
-        catch(Exception $e)
+        else
         {
-            // do nothing
+            try
+            {
+                if($this->entity != null)
+                {
+                    $this->entity->findOneByModuleNameAndUserLevelIdAndActive($this->currentModule->getModuleId(), $this->userLevelId, true);       
+                    
+                    $this->allowedList =  $this->entity->getAllowedList();
+                    $this->allowedDetail =  $this->entity->getAllowedDetail();
+                    $this->allowedCreate =  $this->entity->getAllowedCreate();
+                    $this->allowedUpdate =  $this->entity->getAllowedUpdate();
+                    $this->allowedDelete =  $this->entity->getAllowedDelete();
+                    $this->allowedApprove =  $this->entity->getAllowedApprove();
+                    $this->allowedSortOrder =  $this->entity->getAllowedSortOrder();
+                }
+                
+                $this->initialized = true;
+            }
+            catch(Exception $e)
+            {
+                // do nothing
+            }
         }
-        
-        $this->allowedList =  true;
-        $this->allowedDetail =  true;
-        $this->allowedCreate =  true;
-        $this->allowedUpdate =  true;
-        $this->allowedDelete =  true;
-        $this->allowedApprove =  true;
-        $this->allowedSortOrder =  true;
 
         $this->allowedBatchAction = $this->allowedUpdate || $this->allowedDelete;
         
@@ -191,7 +198,14 @@ class AppUserPermission
         {
             $userAction = $inputGet->getUserAction();
         }
-        return $userAction == null || $this->isAllowedTo($userAction);
+        if(!isset($userAction) || empty($userAction))
+        {
+            return $this->isAllowedTo(UserAction::LIST);
+        }
+        else
+        {
+            return $this->isAllowedTo($userAction);
+        }
     }
 
     /**
@@ -235,7 +249,8 @@ class AppUserPermission
         if($userAction != null)
         {
             $forbidden = 
-            ($userAction == UserAction::CREATE && !$this->isAllowedCreate())
+            ($userAction == UserAction::LIST && !$this->isAllowedList())
+            || ($userAction == UserAction::CREATE && !$this->isAllowedCreate())
             || ($userAction == UserAction::UPDATE && !$this->isAllowedUpdate())
             || ($userAction == UserAction::ACTIVATE && !$this->isAllowedUpdate())
             || ($userAction == UserAction::DELETE && !$this->isAllowedUpdate())
@@ -374,23 +389,4 @@ class AppUserPermission
         return $this->userLevelId;
     }
 
-    /**
-     * Get user action
-     *
-     * @return  string
-     */ 
-    public function getUserAction()
-    {
-        return $this->userAction;
-    }
-
-    /**
-     * Get current user
-     *
-     * @return  MagicObject
-     */ 
-    public function getCurrentUser()
-    {
-        return $this->currentUser;
-    }
 }

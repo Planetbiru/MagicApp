@@ -2,6 +2,8 @@
 
 namespace MagicApp;
 
+use MagicObject\MagicObject;
+
 class AppUser
 {
     /**
@@ -19,50 +21,32 @@ class AppUser
     protected $userLevelId;
 
     /**
-     * Get user ID
-     *
-     * @return  string
-     */ 
-    public function getUserId()
-    {
-        return $this->userId;
-    }
+     * Language ID
+     * @var string
+     */
+    protected $languageId;
 
     /**
-     * Set user ID
-     *
-     * @param  string  $userId  User ID
-     *
-     * @return  self
-     */ 
-    public function setUserId(string $userId)
+     * User
+     * @var MagicObject
+     */
+    private $user;
+    
+    public function __construct($user)
     {
-        $this->userId = $userId;
-
-        return $this;
+        $this->user = $user;
     }
 
-    /**
-     * Get user level ID
-     *
-     * @return  string
-     */ 
-    public function getUserLevelId()
+    public function __call($method, $args)
     {
-        return $this->userLevelId;
+        if(stripos($method, 'get') === 0)
+        {
+            return $this->user->get(lcfirst(substr($method, 3)));
+        }
     }
 
-    /**
-     * Set user level ID
-     *
-     * @param  string  $userLevelId  User level ID
-     *
-     * @return  self
-     */ 
-    public function setUserLevelId(string $userLevelId)
+    public function __tostring()
     {
-        $this->userLevelId = $userLevelId;
-
-        return $this;
+        return $this->user."";
     }
 }

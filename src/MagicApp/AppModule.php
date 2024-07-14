@@ -2,6 +2,8 @@
 
 namespace MagicApp;
 
+use MagicObject\Database\PicoDatabase;
+use MagicObject\MagicObject;
 use MagicObject\Request\InputServer;
 use MagicObject\SecretObject;
 use MagicObject\Util\PicoStringUtil;
@@ -44,6 +46,25 @@ class AppModule
      * @var string
      */
     private $phpSelf = "";
+
+    /**
+     * User role
+     *
+     * @var MagicObject
+     */
+    private $userRole;
+
+    /**
+     * Get allowed modules
+     * @var string[]
+     */
+    private $allowedModules = array();
+
+    /**
+     * Database
+     * @var  PicoDatabase
+     */
+    private $database;
     
     /**
      * Constructor
@@ -51,14 +72,75 @@ class AppModule
      * @param SecretObject $appConfig
      * @param string $moduleName
      */
-    public function __construct($appConfig, $moduleId, $moduleName, $moduleTitle = null)
+    public function __construct($appConfig, $database, $moduleId, $moduleName, $moduleTitle = null)
     {
         $this->appConfig = $appConfig;
+        $this->database = $database;
         $this->moduleId = $moduleId;
         $this->moduleName = $moduleName;
         $this->moduleTitle = $moduleTitle;
         $inputServer = new InputServer();
         $this->phpSelf = $inputServer->getPhpSelf();
+    }
+    
+
+    /**
+     * Get role
+     *
+     * @param MagicObject[] $appUserRoles
+     * @return MagicObject
+     */
+    public function getUserRole($appUserRoles)
+    {
+        if(!isset($this->userRole))
+        {
+            $this->parseRole($appUserRoles);
+        }
+        return $this->userRole;
+    }
+
+    public function getAllowedModules($appUserRoles)
+    {
+        if(empty($this->allowedModules))
+        {
+            $this->parseRole($appUserRoles);
+        }
+        return $this->allowedModules;
+    }
+
+    public function parseRole($appUserRoles)
+    {
+        if(isset($appUserRoles) && is_array($appUserRoles))
+        {
+
+            $this->allowedModules = array();
+            foreach($appUserRoles as $role)
+            {
+                //echo $role->getModuleId()." == " .$this->moduleId."<br>";
+                //echo $role->getModuleId().' '.$this->moduleId."<br>";
+                if($role->getModuleName() ==  $this->moduleId)
+                {
+                    $this->userRole = $role;
+                }
+
+                if(
+                    $role->hasValueModule()
+                    && $role->getModule()->getModuleId() 
+                    &&
+                    ($role->getAllowedList()
+                ||  $role->getAllowedDetail()
+                ||  $role->getAllowedCreate()
+                ||  $role->getAllowedUpdate()
+                ||  $role->getAllowedDelete()
+                ||  $role->getAllowedApprove()
+                ||  $role->getAllowedSortOrder())
+                )
+                {
+                    $this->allowedModules[] = $role->getModule()->getModuleId() ;
+                }
+            }
+        }
+        return $this;
     }
 
     /**
