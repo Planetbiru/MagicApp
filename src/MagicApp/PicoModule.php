@@ -133,13 +133,13 @@ class PicoModule
                 }
 
                 if(
-                    ($role->getAllowedList()
+                    $role->getAllowedList()
                 ||  $role->getAllowedDetail()
                 ||  $role->getAllowedCreate()
                 ||  $role->getAllowedUpdate()
                 ||  $role->getAllowedDelete()
                 ||  $role->getAllowedApprove()
-                ||  $role->getAllowedSortOrder())
+                ||  $role->getAllowedSortOrder()
                 )
                 {
                     $this->allowedModules[] = $role->getModuleId();
