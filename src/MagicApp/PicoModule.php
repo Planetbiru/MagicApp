@@ -67,6 +67,13 @@ class PicoModule
     private $database;
     
     /**
+     * App module
+     *
+     * @var AppModule|mixed
+     */
+    private $appModule;
+    
+    /**
      * Constructor
      * 
      * @param SecretObject $appConfig
@@ -83,6 +90,7 @@ class PicoModule
         $this->moduleId = $moduleId;
         $this->moduleName = $moduleName;
         $this->moduleTitle = $moduleTitle;
+        $this->appModule = $appModule;
         $inputServer = new InputServer();
         $this->phpSelf = $inputServer->getPhpSelf();
     }
@@ -134,7 +142,7 @@ class PicoModule
                 ||  $role->getAllowedSortOrder())
                 )
                 {
-                    $this->allowedModules[] = $role->getModuleId() ;
+                    $this->allowedModules[] = $role->getModuleId();
                 }
             }
         }
@@ -278,5 +286,25 @@ class PicoModule
     public function getModuleTitle()
     {
         return $this->moduleTitle;
+    }
+
+    /**
+     * Get database
+     *
+     * @return  PicoDatabase
+     */ 
+    public function getDatabase()
+    {
+        return $this->database;
+    }
+
+    /**
+     * Get app module
+     *
+     * @return  AppModule|mixed
+     */ 
+    public function getAppModule()
+    {
+        return $this->appModule;
     }
 }
