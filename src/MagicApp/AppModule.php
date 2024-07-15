@@ -116,8 +116,6 @@ class AppModule
             $this->allowedModules = array();
             foreach($appUserRoles as $role)
             {
-                //echo $role->getModuleId()." == " .$this->moduleId."<br>";
-                //echo $role->getModuleId().' '.$this->moduleId."<br>";
                 if($role->getModuleName() ==  $this->moduleId)
                 {
                     $this->userRole = $role;

@@ -129,7 +129,12 @@ class AppUserPermission
     {
         $this->appConfig = $appConfig;
         $this->entity = $appUserRole;
+        if($this->entity != null && ($this->entity->currentDatabase() == null || !$this->entity->currentDatabase()->isConnected()))
+        {
+            $this->entity->currentDatabase($database);
+        }
         $this->currentModule = $currentModule;
+        $this->currentUser = $currentUser;
         $this->userLevelId = $currentUser->getUserLevelId();
     }
     
@@ -391,4 +396,24 @@ class AppUserPermission
         return $this->userLevelId;
     }
 
+
+    /**
+     * Get current user
+     *
+     * @return  MagicObject
+     */ 
+    public function getCurrentUser()
+    {
+        return $this->currentUser;
+    }
+
+    /**
+     * Get user action
+     *
+     * @return  string
+     */ 
+    public function getUserAction()
+    {
+        return $this->userAction;
+    }
 }

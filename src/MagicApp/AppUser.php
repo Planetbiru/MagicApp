@@ -43,6 +43,10 @@ class AppUser
         {
             return $this->user->get(lcfirst(substr($method, 3)));
         }
+        if(stripos($method, 'set') === 0 && isset($args))
+        {
+            return $this->user->set(lcfirst(substr($method, 3)), isset($args[0]) ? $args[0] : null);
+        }
     }
 
     public function __tostring()
