@@ -20,11 +20,11 @@ class PicoModule
     private $appConfig;
     
     /**
-     * Module ID
+     * Target directory
      *
      * @var string
      */
-    private $moduleId = "";
+    private $targetDirectory = "";
     
     /**
      * Module name
@@ -79,15 +79,15 @@ class PicoModule
      * @param SecretObject $appConfig
      * @param PicoDatabase $database
      * @param AppModule|mixed $appModule
-     * @param string $moduleId
+     * @param string $targetDirectory
      * @param string $moduleName
      * @param string $moduleTitle
      */
-    public function __construct($appConfig, $database, $appModule, $moduleId, $moduleName, $moduleTitle = null)
+    public function __construct($appConfig, $database, $appModule, $targetDirectory, $moduleName, $moduleTitle = null)
     {
         $this->appConfig = $appConfig;
         $this->database = $database;
-        $this->moduleId = $moduleId;
+        $this->targetDirectory = $targetDirectory;
         $this->moduleName = $moduleName;
         $this->moduleTitle = $moduleTitle;
         $this->appModule = $appModule;
@@ -127,7 +127,7 @@ class PicoModule
             $this->allowedModules = array();
             foreach($appUserRoles as $role)
             {
-                if($role->getModuleName() ==  $this->moduleId)
+                if($role->getModuleName() ==  $this->appModule->getModuleName())
                 {
                     $this->userRole = $role;
                 }
@@ -259,16 +259,6 @@ class PicoModule
     }
 
     /**
-     * Get module ID
-     *
-     * @return  string
-     */ 
-    public function getModuleId()
-    {
-        return $this->moduleId;
-    }
-
-    /**
      * Get module name
      *
      * @return  string
@@ -306,5 +296,15 @@ class PicoModule
     public function getAppModule()
     {
         return $this->appModule;
+    }
+
+    /**
+     * Get target directory
+     *
+     * @return  string
+     */ 
+    public function getTargetDirectory()
+    {
+        return $this->targetDirectory;
     }
 }
