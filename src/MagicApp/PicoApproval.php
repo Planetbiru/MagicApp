@@ -226,7 +226,10 @@ class PicoApproval
         else if($waitingFor == WaitingFor::UPDATE || $waitingFor == WaitingFor::ACTIVATE || $waitingFor == WaitingFor::DEACTIVATE || $waitingFor == WaitingFor::DELETE)
         {
             $entityApv->set($this->entityApvInfo->getApprovalStatus(), self::APPROVAL_REJECT)->update();
-            $this->entity->set($this->entityInfo->getWaitingFor(), WaitingFor::NOTHING)->update();
+            $this->entity
+                ->set($this->entityInfo->getWaitingFor(), WaitingFor::NOTHING)
+                ->set($this->entityInfo->getApprovalId(), null)
+                ->update();
         }
         if($approvalCallback != null && $approvalCallback->getAfterReject() != null && is_callable($approvalCallback->getAfterReject()))
         {
@@ -308,6 +311,10 @@ class PicoApproval
                     $this->entity->update();
                 }
                 $entityApv->set($this->entityApvInfo->getApprovalStatus(), self::APPROVAL_REJECT)->update();
+                $this->entity
+                    ->set($this->entityInfo->getWaitingFor(), WaitingFor::NOTHING)
+                    ->set($this->entityInfo->getApprovalId(), null)
+                    ->update();
             }
             catch(Exception $e)
             {

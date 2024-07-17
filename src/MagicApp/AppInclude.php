@@ -48,7 +48,7 @@ class AppInclude
      */
     public function mainAppHeader($dir)
     {
-        $path = $this->app->getDocumentRoot()."/".$this->app->getBaseIncludeDirectory()."/".$this->app->getIncludeHeaderFile();
+        $path = $this->app->getBaseApplicationDirectory()."/".$this->app->getBaseIncludeDirectory()."/".$this->app->getIncludeHeaderFile();
         if(PicoStringUtil::endsWith($path, ".php") && file_exists($path))
         {
             return $path;
@@ -68,7 +68,7 @@ class AppInclude
      */
     public function mainAppFooter($dir)
     {
-        $path = $this->app->getDocumentRoot()."/".$this->app->getBaseIncludeDirectory()."/".$this->app->getIncludeFooterFile();
+        $path = $this->app->getBaseApplicationDirectory()."/".$this->app->getBaseIncludeDirectory()."/".$this->app->getIncludeFooterFile();
         if(PicoStringUtil::endsWith($path, ".php") && file_exists($path))
         {
             return $path;
@@ -88,7 +88,7 @@ class AppInclude
      */
     public function appForbiddenPage($dir)
     {
-        $path = $this->app->getDocumentRoot()."/".$this->app->getBaseIncludeDirectory()."/".$this->app->getForbiddenPage();
+        $path = $this->app->getBaseApplicationDirectory()."/".$this->app->getBaseIncludeDirectory()."/".$this->app->getForbiddenPage();
         if(PicoStringUtil::endsWith($path, ".php") && file_exists($path))
         {
             return $path;
