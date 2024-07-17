@@ -170,4 +170,9 @@ class AppInclude
 
         return $this;
     }
+
+    public function printException($e)
+    {
+        return $e->getMessage();
+    }
 }

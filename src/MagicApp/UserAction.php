@@ -18,4 +18,40 @@ class UserAction
     const USER_ACTION       = "user_action";
     const NEXT_ACTION       = "next_action";
     const SPECIAL_ACTION    = "special_action";
+
+    public static function isRequireApproval($waitingFor)
+    {
+        return (isset($waitingFor) && $waitingFor != WaitingFor::NOTHING);
+    }
+
+    public static function isRequireNextAction($inputGet)
+    {
+        return (isset($inputGet) && $inputGet->getNextAction() != null);
+    }
+
+    public static function getWaitingForMessage($appLanguage, $waitingFor)
+    {
+        $approvalMessage = "";
+        if($waitingFor == WaitingFor::CREATE)
+        {
+            $approvalMessage = $appLanguage->getMessageWaitingForCreate();
+        }
+        else if($waitingFor == WaitingFor::UPDATE)
+        {
+            $approvalMessage = $appLanguage->getMessageWaitingForUpdate();
+        }
+        else if($waitingFor == WaitingFor::ACTIVATE)
+        {
+            $approvalMessage = $appLanguage->getMessageWaitingForActivate();
+        }
+        else if($waitingFor == WaitingFor::DEACTIVATE)
+        {
+            $approvalMessage = $appLanguage->getMessageWaitingForDeactivate();
+        }
+        else if($waitingFor == WaitingFor::DELETE)
+        {
+            $approvalMessage = $appLanguage->getMessageWaitingForDelete();
+        }
+        return $approvalMessage;
+    }
 }
