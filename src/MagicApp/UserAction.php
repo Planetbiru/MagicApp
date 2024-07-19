@@ -13,6 +13,7 @@ class UserAction
     const DEACTIVATE        = "deactivate";
     const DETAIL            = "detail";
     const APPROVE           = "approve";
+    const APPROVAL          = "approval";
     const REJECT            = "reject";
     const SORT_ORDER        = "sort_order";  
     const USER_ACTION       = "user_action";
@@ -51,6 +52,32 @@ class UserAction
         else if($waitingFor == WaitingFor::DELETE)
         {
             $approvalMessage = $appLanguage->getMessageWaitingForDelete();
+        }
+        return $approvalMessage;
+    }
+
+    public static function getWaitingForText($appLanguage, $waitingFor)
+    {
+        $approvalMessage = "";
+        if($waitingFor == WaitingFor::CREATE)
+        {
+            $approvalMessage = $appLanguage->getShortWaitingForCreate();
+        }
+        else if($waitingFor == WaitingFor::UPDATE)
+        {
+            $approvalMessage = $appLanguage->getShortWaitingForUpdate();
+        }
+        else if($waitingFor == WaitingFor::ACTIVATE)
+        {
+            $approvalMessage = $appLanguage->getShortWaitingForActivate();
+        }
+        else if($waitingFor == WaitingFor::DEACTIVATE)
+        {
+            $approvalMessage = $appLanguage->getShortWaitingForDeactivate();
+        }
+        else if($waitingFor == WaitingFor::DELETE)
+        {
+            $approvalMessage = $appLanguage->getShortWaitingForDelete();
         }
         return $approvalMessage;
     }
