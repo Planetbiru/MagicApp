@@ -2,6 +2,7 @@
 
 namespace MagicApp\XLSX;
 
+use MagicApp\AppLanguage;
 use MagicObject\Database\PicoPageData;
 use MagicObject\MagicObject;
 use MagicObject\Util\PicoStringUtil;
@@ -13,6 +14,17 @@ class XLSXDocumentWriter
      * @var array
      */
     private $headerFormat = array();
+
+    /**
+     * App language
+     * @var AppLanguage
+     */
+    private $appLanguage;
+
+    public function __construct($appLanguage)
+    {
+        $this->appLanguage = $appLanguage;
+    }
     
     /**
      * Check if never fetch data
@@ -20,7 +32,7 @@ class XLSXDocumentWriter
      * @param PicoPageData $pageData
      * @return boolean
      */
-    public function noFetchData($pageData)
+    private function noFetchData($pageData)
     {
         return $pageData->getFindOption() & MagicObject::FIND_OPTION_NO_FETCH_DATA;
     }
@@ -104,7 +116,7 @@ class XLSXDocumentWriter
      * @param string[] $keys
      * @return XLSXWriter
      */
-    public function writeHeader($writer, $sheetName, $keys)
+    private function writeHeader($writer, $sheetName, $keys)
     {
         foreach($keys as $key)
         {
@@ -122,7 +134,7 @@ class XLSXDocumentWriter
      * @param MagicObject $row
      * @return XLSXWriter
      */
-    public function writeData($writer, $sheetName, $keys, $row)
+    private function writeData($writer, $sheetName, $keys, $row)
     {
         $data = array();
         foreach($keys as $key)
@@ -174,5 +186,29 @@ class XLSXDocumentWriter
             }
         }
         return $writer;
+    }
+
+    /**
+     * Get app language
+     *
+     * @return  AppLanguage
+     */ 
+    public function getAppLanguage()
+    {
+        return $this->appLanguage;
+    }
+
+    /**
+     * Set app language
+     *
+     * @param  AppLanguage  $appLanguage  App language
+     *
+     * @return  self
+     */ 
+    public function setAppLanguage(AppLanguage $appLanguage)
+    {
+        $this->appLanguage = $appLanguage;
+
+        return $this;
     }
 }
