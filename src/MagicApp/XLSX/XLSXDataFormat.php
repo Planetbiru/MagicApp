@@ -14,6 +14,12 @@ class XLSXDataFormat
      * @var array
      */
     private $columns = array();
+
+    /**
+     * Precision
+     * @var integer
+     */
+    private $precision;
     
     /**
      * Constructor
@@ -77,6 +83,6 @@ class XLSXDataFormat
      */
     public function toExcelType($type)
     {
-        return new XLSXDataType($type);
+        return new XLSXDataType($type, $this->precision);
     }
 }
