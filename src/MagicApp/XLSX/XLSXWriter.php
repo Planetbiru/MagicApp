@@ -514,7 +514,7 @@ class XLSXWriter //NOSONAR
 			$semi_colon_pos = strpos($cell_style_string, ";");
 			$number_format_idx = substr($cell_style_string, 0, $semi_colon_pos);
 			$style_json_string = substr($cell_style_string, $semi_colon_pos + 1);
-			$style = @json_decode($style_json_string, $as_assoc = true);
+			$style = @json_decode($style_json_string, true);
 
 			$style_indexes[$i] = array('num_fmt_idx' => $number_format_idx); //initialize entry
 			if (isset($style['border']) && is_string($style['border'])) //border is a comma delimited str

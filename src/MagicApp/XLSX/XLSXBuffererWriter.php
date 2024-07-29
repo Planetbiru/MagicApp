@@ -100,7 +100,7 @@ class XLSXBuffererWriter
 	/**
 	 * Returns the current position of the file read/write pointer
 	 *
-	 * @return void
+	 * @return integer
 	 */
 	public function ftell()
 	{
@@ -115,7 +115,7 @@ class XLSXBuffererWriter
 	 * Seeks on a file pointer
 	 *
 	 * @param integer $pos
-	 * @return void
+	 * @return integer
 	 */
 	public function fseek($pos)
 	{
