@@ -880,7 +880,14 @@ class XLSXWriter //NOSONAR
 		return strtr(htmlspecialchars($val, ENT_QUOTES | ENT_XML1), $badchars, $goodchars); //strtr appears to be faster than str_replace
 	}
 	//------------------------------------------------------------------
-	public static function array_first_key(array $arr)
+	
+	/**
+	 * Reset
+	 *
+	 * @param array $arr
+	 * @return array|object
+	 */
+	public static function array_first_key($arr)
 	{
 		reset($arr);
 		return key($arr);

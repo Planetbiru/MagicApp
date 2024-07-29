@@ -1,6 +1,6 @@
 <?php
 
-namespace XLSX;
+namespace MagicApp\XLSX;
 
 class XLSXBuffererWriter
 {
@@ -29,13 +29,13 @@ class XLSXBuffererWriter
 	 * Constructor
 	 *
 	 * @param string $filename File name
-	 * @param string $fdFopenFlags Open file flag
+	 * @param string $fd_fopen_flags Open file flag
 	 * @param boolean $checkUf8 Flag to check UF8
 	 */
-	public function __construct($filename, $fdFopenFlags = 'w', $checkUf8 = false)
+	public function __construct($filename, $fd_fopen_flags = 'w', $checkUf8 = false)
 	{
 		$this->checkUf8 = $checkUf8;
-		$this->fd = fopen($filename, $fdFopenFlags);
+		$this->fd = fopen($filename, $fd_fopen_flags);
 		if ($this->fd === false) {
 			XLSXWriter::log("Unable to open $filename for writing.");
 		}

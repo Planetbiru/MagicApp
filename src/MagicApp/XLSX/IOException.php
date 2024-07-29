@@ -1,5 +1,5 @@
 <?php
-namespace XLSX;
+namespace MagicApp\XLSX;
 
 use Exception;
 use Throwable;
