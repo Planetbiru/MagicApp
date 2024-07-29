@@ -26,8 +26,12 @@ class XLSXDataFormat
      *
      * @param MagicObject $entity
      */
-    public function __construct($entity)
+    public function __construct($entity, $precision = null)
     {
+        if(isset($precision))
+        {
+            $this->precision = $precision;
+        }
         $this->columns = array();
         try
         {
