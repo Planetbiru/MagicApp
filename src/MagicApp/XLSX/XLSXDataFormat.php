@@ -61,7 +61,7 @@ class XLSXDataFormat
      */
     public function __call($name, $arguments) // NOSONAR
     {
-        if(strpos($name, 0, 3) === 'get')
+        if(substr($name, 0, 3) === 'get')
         {
             $newPropertyName = PicoStringUtil::camelize(substr($name, 3));
             if(isset($this->columns[$newPropertyName]))
@@ -72,7 +72,7 @@ class XLSXDataFormat
             }
             return $this->toExcelType(XLSXDataType::TYPE_STRING);
         }
-        else if(strpos($name, 0, 2) === 'as')
+        else if(substr($name, 0, 2) === 'as')
         {
             return strtolower(substr($name, 2));
         }
