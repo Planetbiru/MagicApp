@@ -88,7 +88,7 @@ class AppInclude
      */
     public function appForbiddenPage($dir)
     {
-        $path = $this->app->getBaseApplicationDirectory()."/".$this->app->getBaseIncludeDirectory()."/".$this->app->getForbiddenPage();
+        $path = $this->app->getBaseApplicationDirectory()."/".$this->app->getBaseIncludeDirectory()."/".$this->app->getForbiddenPage()."/403.php";
         if(PicoStringUtil::endsWith($path, ".php") && file_exists($path))
         {
             return $path;
@@ -108,11 +108,7 @@ class AppInclude
      */
     public function appNotFoundPage($dir)
     {
-        if(!isset($config))
-        {
-            $config = $this->appConfig;
-        }
-        $path = $config->getBaseIncludeDirectory()."/".$config->getInludeNotFoundFile();
+        $path = $this->app->getBaseApplicationDirectory()."/".$this->app->getBaseIncludeDirectory()."/".$this->app->getForbiddenPage()."/404.php";
         if($config != null && PicoStringUtil::endsWith($path, ".php") && file_exists($path))
         {
             return $path;
