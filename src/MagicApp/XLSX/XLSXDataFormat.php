@@ -62,29 +62,9 @@ class XLSXDataFormat
             }
             return $this->toExcelType('string');
         }
-        else if($name == 'number')
+        else if(strpos($name, 0, 2) === 'as')
         {
-            return 'number';
-        }
-        else if($name == 'string')
-        {
-            return 'string';
-        }
-        else if($name == 'date')
-        {
-            return 'date';
-        }
-        else if($name == 'time')
-        {
-            return 'time';
-        }
-        else if($name == 'datetime')
-        {
-            return 'datetime';
-        }
-        else if($name == 'integer')
-        {
-            return 'integer';
+            return strtolower(substr($name, 2));
         }
         
     }
