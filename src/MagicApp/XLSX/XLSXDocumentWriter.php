@@ -171,7 +171,7 @@ class XLSXDocumentWriter
         {
             while($row = $pageData->fetch())
             {
-                $data = call_user_func($writerFunction, $idx, $row);             
+                $data = call_user_func($writerFunction, $idx, $row, $this->appLanguage);             
                 $writer->writeSheetRow($sheetName, $data);
                 $idx++;
             }
@@ -180,7 +180,7 @@ class XLSXDocumentWriter
         {
             foreach($pageData->getResult() as $row)
             {
-                $data = call_user_func($writerFunction, $idx, $row);             
+                $data = call_user_func($writerFunction, $idx, $row, $this->appLanguage);             
                 $writer->writeSheetRow($sheetName, $data);
                 $idx++;
             }
