@@ -34,6 +34,7 @@ class XLSXDataType
         "mediumtext" => self::TYPE_STRING,
         "longtext" => self::TYPE_STRING,
         "text" => self::TYPE_STRING,   
+        "string" => self::TYPE_STRING,   
         "enum" => self::TYPE_STRING,   
         "bool" => self::TYPE_STRING,
         "boolean" => self::TYPE_STRING,

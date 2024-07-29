@@ -8,6 +8,10 @@ use MagicObject\Util\PicoStringUtil;
 
 class XLSXDocumentWriter
 {
+    /**
+     * Header format
+     * @var array
+     */
     private $headerFormat = array();
     
     /**
@@ -33,7 +37,6 @@ class XLSXDocumentWriter
      */
     public function write($pageData, $fileName, $sheetName, $headerFormat, $writerFunction)
     {
-        
         $writer = new XLSXWriter();
         if(isset($headerFormat) && is_array($headerFormat) && is_callable($writerFunction))
         {
@@ -65,25 +68,68 @@ class XLSXDocumentWriter
     private function writeDataWithoutFormat($writer, $pageData, $sheetName)
     {
         $idx = 0;
-        while($row = $pageData->fetch())
+        if($this->noFetchData($pageData))
         {
-            $keys = array_keys($row->valueArray());
-            if($idx == 0)
+            while($row = $pageData->fetch())
             {
-                foreach($keys as $key)
+                $keys = array_keys($row->valueArray());
+                if($idx == 0)
                 {
-                    $this->headerFormat[PicoStringUtil::camelToTitle($key)] = "string";
+                    $writer = $this->writeHeader($writer, $sheetName, $keys);
                 }
-                $writer->writeSheetHeader($sheetName, $this->headerFormat);
+                $writer = $this->writeData($writer, $sheetName, $keys, $row);
+                $idx++;
             }
-            $data = array();
-            foreach($keys as $key)
-            {
-                $data[] = $row->get($key);
-            }            
-            $writer->writeSheetRow($sheetName, $data);
-            $idx++;
         }
+        else
+        {
+            foreach($pageData->getResult() as $row)
+            {
+                $keys = array_keys($row->valueArray());
+                if($idx == 0)
+                {
+                    $writer = $this->writeHeader($writer, $sheetName, $keys);
+                }
+                $writer = $this->writeData($writer, $sheetName, $keys, $row);
+                $idx++;
+            }
+        }
+        return $writer;
+    }
+
+    /**
+     * Write header format
+     * @param XLSXWriter $writer
+     * @param string $sheetName
+     * @param string[] $keys
+     * @return XLSXWriter
+     */
+    public function writeHeader($writer, $sheetName, $keys)
+    {
+        foreach($keys as $key)
+        {
+            $this->headerFormat[PicoStringUtil::camelToTitle($key)] = XLSXDataType::TYPE_STRING;
+        }
+        $writer->writeSheetHeader($sheetName, $this->headerFormat);
+        return $writer;
+    }
+
+    /**
+     * Write header format
+     * @param XLSXWriter $writer
+     * @param string $sheetName
+     * @param string[] $keys
+     * @param MagicObject $row
+     * @return XLSXWriter
+     */
+    public function writeData($writer, $sheetName, $keys, $row)
+    {
+        $data = array();
+        foreach($keys as $key)
+        {
+            $data[] = $row->get($key);
+        }            
+        $writer->writeSheetRow($sheetName, $data);
         return $writer;
     }
 
@@ -112,6 +158,15 @@ class XLSXDocumentWriter
         if($this->noFetchData($pageData))
         {
             while($row = $pageData->fetch())
+            {
+                $data = call_user_func($writerFunction, $idx, $row);             
+                $writer->writeSheetRow($sheetName, $data);
+                $idx++;
+            }
+        }
+        else
+        {
+            foreach($pageData->getResult() as $row)
             {
                 $data = call_user_func($writerFunction, $idx, $row);             
                 $writer->writeSheetRow($sheetName, $data);

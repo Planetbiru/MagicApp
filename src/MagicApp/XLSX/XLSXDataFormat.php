@@ -57,10 +57,10 @@ class XLSXDataFormat
             if(isset($this->columns[$newPropertyName]))
             {
                 $column = $this->columns[$newPropertyName];
-                $type = isset($column['type']) ? $column['type'] : 'string';
+                $type = isset($column['type']) ? $column['type'] : XLSXDataType::TYPE_STRING;
                 return $this->toExcelType($type);
             }
-            return $this->toExcelType('string');
+            return $this->toExcelType(XLSXDataType::TYPE_STRING);
         }
         else if(strpos($name, 0, 2) === 'as')
         {
@@ -73,7 +73,7 @@ class XLSXDataFormat
      * Convert to Excel type
      *
      * @param string $type
-     * @return ExcelDataType
+     * @return XLSXDataType
      */
     public function toExcelType($type)
     {
