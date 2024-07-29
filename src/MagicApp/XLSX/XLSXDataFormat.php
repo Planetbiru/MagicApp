@@ -6,7 +6,7 @@ use Exception;
 use MagicObject\MagicObject;
 use MagicObject\Util\PicoStringUtil;
 
-class ExcelDataFormat
+class XLSXDataFormat
 {
     /**
      * Columns
@@ -60,8 +60,33 @@ class ExcelDataFormat
                 $type = isset($column['type']) ? $column['type'] : 'string';
                 return $this->toExcelType($type);
             }
+            return $this->toExcelType('string');
+        }
+        else if($name == 'number')
+        {
+            return 'number';
+        }
+        else if($name == 'string')
+        {
             return 'string';
         }
+        else if($name == 'date')
+        {
+            return 'date';
+        }
+        else if($name == 'time')
+        {
+            return 'time';
+        }
+        else if($name == 'datetime')
+        {
+            return 'datetime';
+        }
+        else if($name == 'integer')
+        {
+            return 'integer';
+        }
+        
     }
     
     /**
@@ -72,6 +97,6 @@ class ExcelDataFormat
      */
     public function toExcelType($type)
     {
-        return new ExcelDataType($type);
+        return new XLSXDataType($type);
     }
 }
