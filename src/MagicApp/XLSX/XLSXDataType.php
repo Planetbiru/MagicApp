@@ -48,19 +48,19 @@ class XLSXDataType
      * Precission
      * @var integer
      */
-    private $precission;
+    private $precision;
     
     /**
      * Constructor
      *
      * @param string $columnType
      */
-    public function __construct($columnType, $precission = null)
+    public function __construct($columnType, $precision = null)
     {
         $this->columnType = $columnType;
-        if(isset($precission))
+        if(isset($precision))
         {
-            $this->precission = $precission;
+            $this->precision = $precision;
         }
     }
     
@@ -75,9 +75,9 @@ class XLSXDataType
         {
             if(stripos($this->columnType, $key) !== false)
             {
-                if(isset($this->precission) && $value == self::TYPE_DOUBLE)
+                if(isset($this->precision) && $value == self::TYPE_DOUBLE)
                 {
-                    return $this->getNumberFormat($this->precission);
+                    return $this->getNumberFormat($this->precision);
                 }
                 else
                 {
@@ -90,12 +90,12 @@ class XLSXDataType
 
     /**
      * Get number format
-     * @param mixed $precission
+     * @param mixed $precision
      * @return string
      */
-    public function getNumberFormat($precission)
+    public function getNumberFormat($precision)
     {
-        $prec = str_repeat('#', $precission);
+        $prec = str_repeat('#', $precision);
         return sprintf('#,%s0', $prec);
     }
     

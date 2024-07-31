@@ -14,14 +14,24 @@ class XLSXDataFormat
      * @var array
      */
     private $columns = array();
+
+    /**
+     * Precision
+     * @var integer
+     */
+    private $precision;
     
     /**
      * Constructor
      *
      * @param MagicObject $entity
      */
-    public function __construct($entity)
+    public function __construct($entity, $precision = null)
     {
+        if(isset($precision))
+        {
+            $this->precision = $precision;
+        }
         $this->columns = array();
         try
         {
@@ -51,7 +61,7 @@ class XLSXDataFormat
      */
     public function __call($name, $arguments) // NOSONAR
     {
-        if(strpos($name, 0, 3) === 'get')
+        if(substr($name, 0, 3) === 'get')
         {
             $newPropertyName = PicoStringUtil::camelize(substr($name, 3));
             if(isset($this->columns[$newPropertyName]))
@@ -62,7 +72,7 @@ class XLSXDataFormat
             }
             return $this->toExcelType(XLSXDataType::TYPE_STRING);
         }
-        else if(strpos($name, 0, 2) === 'as')
+        else if(substr($name, 0, 2) === 'as')
         {
             return strtolower(substr($name, 2));
         }
@@ -77,6 +87,6 @@ class XLSXDataFormat
      */
     public function toExcelType($type)
     {
-        return new XLSXDataType($type);
+        return new XLSXDataType($type, $this->precision);
     }
 }
