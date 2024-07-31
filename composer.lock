@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8a20d74384e7bf7a530448aca1c4ceb2",
+    "content-hash": "0075982f64103ebf45b102c17cc6bcef",
     "packages": [
         {
             "name": "planetbiru/magic-object",
-            "version": "1.16.1",
+            "version": "dev-feature/1.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Planetbiru/MagicObject.git",
-                "reference": "b69acf4a4d329f301f668bc12e08ed44b4844603"
+                "reference": "25d12b0a2f26bca9bfeb25b4bd2b8080b14d2103"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Planetbiru/MagicObject/zipball/b69acf4a4d329f301f668bc12e08ed44b4844603",
-                "reference": "b69acf4a4d329f301f668bc12e08ed44b4844603",
+                "url": "https://api.github.com/repos/Planetbiru/MagicObject/zipball/25d12b0a2f26bca9bfeb25b4bd2b8080b14d2103",
+                "reference": "25d12b0a2f26bca9bfeb25b4bd2b8080b14d2103",
                 "shasum": ""
             },
             "require": {
@@ -41,9 +41,9 @@
             "description": "Magic object",
             "support": {
                 "issues": "https://github.com/Planetbiru/MagicObject/issues",
-                "source": "https://github.com/Planetbiru/MagicObject/tree/1.16.1"
+                "source": "https://github.com/Planetbiru/MagicObject/tree/feature/1.17"
             },
-            "time": "2024-07-29T12:49:53+00:00"
+            "time": "2024-07-31T06:55:53+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -110,7 +110,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "planetbiru/magic-object": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
