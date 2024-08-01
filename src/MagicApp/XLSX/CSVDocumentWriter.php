@@ -15,14 +15,15 @@ class CSVDocumentWriter extends DocumentWriter
      *
      * @param PicoPageData $pageData Page data
      * @param string $fileName File name
+     * @param string $sheetName Sheet name
      * @param string[] $headerFormat Data format
      * @param callable $writerFunction Writer function
      * @return self
      */
-    public function write($pageData, $fileName, $headerFormat, $writerFunction)
+    public function write($pageData, $fileName, $sheetName, $headerFormat, $writerFunction)
     {
         $this->temporaryFile = tempnam(sys_get_temp_dir(), 'my-temp-file');
-        $this->filePointer = fopen($this->filePointer, 'w');
+        $this->filePointer = fopen($this->temporaryFile, 'w');
 
         if(isset($headerFormat) && is_array($headerFormat) && is_callable($writerFunction))
         {
@@ -123,14 +124,7 @@ class CSVDocumentWriter extends DocumentWriter
      */
     private function writeDataWithFormat($pageData, $headerFormat, $writerFunction)
     {
-        foreach($headerFormat as $key=>$value)
-        {
-            if($value instanceof XLSXDataType)
-            {
-                $headerFormat[$key] = $value->toString();
-            }
-        }
-        $this->headerFormat = $headerFormat;
+        fputcsv($this->filePointer, array_keys($headerFormat)); 
         
         $idx = 0;
         if($this->noFetchData($pageData))
