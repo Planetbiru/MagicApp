@@ -43,7 +43,7 @@ class DocumentWriter
     /**
      * Get app language
      *
-     * @return  AppLanguage
+     * @return AppLanguage
      */ 
     public function getAppLanguage()
     {
@@ -53,9 +53,9 @@ class DocumentWriter
     /**
      * Set app language
      *
-     * @param  AppLanguage  $appLanguage  App language
+     * @param AppLanguage  $appLanguage  App language
      *
-     * @return  self
+     * @return self
      */ 
     public function setAppLanguage($appLanguage)
     {

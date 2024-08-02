@@ -265,7 +265,7 @@ class PicoModule
     /**
      * Get module name
      *
-     * @return  string
+     * @return string
      */ 
     public function getModuleName()
     {
@@ -275,7 +275,7 @@ class PicoModule
     /**
      * Get module title
      *
-     * @return  string
+     * @return string
      */ 
     public function getModuleTitle()
     {
@@ -285,7 +285,7 @@ class PicoModule
     /**
      * Get database
      *
-     * @return  PicoDatabase
+     * @return PicoDatabase
      */ 
     public function getDatabase()
     {
@@ -295,7 +295,7 @@ class PicoModule
     /**
      * Get app module
      *
-     * @return  AppModule|mixed
+     * @return AppModule|mixed
      */ 
     public function getAppModule()
     {
@@ -305,7 +305,7 @@ class PicoModule
     /**
      * Get target directory
      *
-     * @return  string
+     * @return string
      */ 
     public function getTargetDirectory()
     {

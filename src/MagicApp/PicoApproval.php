@@ -337,7 +337,7 @@ class PicoApproval
     /**
      * Get current user
      *
-     * @return  string
+     * @return string
      */ 
     public function getCurrentUser()
     {
@@ -347,7 +347,7 @@ class PicoApproval
     /**
      * Get current time
      *
-     * @return  string
+     * @return string
      */ 
     public function getCurrentTime()
     {
@@ -357,7 +357,7 @@ class PicoApproval
     /**
      * Get current IP
      *
-     * @return  string
+     * @return string
      */ 
     public function getCurrentIp()
     {
