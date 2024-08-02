@@ -94,7 +94,6 @@ class PicoApproval
         $this->entityInfo = $entityInfo;
         $this->entityApvInfo = $entityApvInfo;
         $this->callbackValidation = $callbackValidation;
-
     }
     
     /**
@@ -215,8 +214,7 @@ class PicoApproval
         if($approvalCallback != null && $approvalCallback->getBeforeReject() != null && is_callable($approvalCallback->getBeforeReject()))
         {
             call_user_func($approvalCallback->getBeforeReject(), $this->entity, null, null);
-        }
-        
+        }   
         $waitingFor = $this->entity->get($this->entityInfo->getWaitingFor());
         $entityApv->currentDatabase($this->entity->currentDatabase());
         $this->validateApproval($entityApv, $currentUser);
@@ -310,14 +308,12 @@ class PicoApproval
                 {
                     if(in_array($field, $columToBeCopied))
                     {
-                        //$this->entity->set($field, $value);
                         $updater->set($field, $value);
                         $updated++;
                     }
                 }
                 if($updated > 0)
                 {
-                    //$this->entity->update();
                     $updater->update();
                 }
                 $entityApv->set($this->entityApvInfo->getApprovalStatus(), self::APPROVAL_REJECT)->update();
