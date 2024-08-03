@@ -419,7 +419,7 @@ class ClassLoader
     /**
      * Loads the given class or interface.
      *
-     * @param string    $class The name of the class
+     * @param  string    $class The name of the class
      * @return true|null True if loaded, null otherwise
      */
     public function loadClass($class)
@@ -486,8 +486,8 @@ class ClassLoader
     }
 
     /**
-     * @param string       $class
-     * @param string       $ext
+     * @param  string       $class
+     * @param  string       $ext
      * @return string|false
      */
     private function findFileWithExtension($class, $ext)
@@ -562,7 +562,7 @@ class ClassLoader
  *
  * Prevents access to $this/self from included files.
  *
- * @param string $file
+ * @param  string $file
  * @return void
  * @private
  */
