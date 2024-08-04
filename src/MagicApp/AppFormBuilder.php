@@ -2,6 +2,7 @@
 
 namespace MagicApp;
 
+use MagicObject\Database\PicoDatabaseQueryBuilder;
 use MagicObject\Database\PicoSortable;
 use MagicObject\Database\PicoSpecification;
 use MagicObject\MagicObject;
@@ -22,7 +23,7 @@ class AppFormBuilder
      * Create select option
      *
      * @param MagicObject $entity
-     * @param PicoSpecification $specification
+     * @param PicoSpecification|PicoDatabaseQueryBuilder $specification
      * @param PicoSortable $sortable
      * @param string $primaryKey
      * @param mixed $valueKey
@@ -33,14 +34,32 @@ class AppFormBuilder
     public function createSelectOption($entity, $specification, $sortable, $primaryKey, $valueKey, $currentValue = null, $additionalOutput = null)
     {
         $selectOption = new AppFormSelect();
-        $pageData = $entity->findAll($specification, null, $sortable, true, null, MagicObject::FIND_OPTION_NO_FETCH_DATA);
-        while($row = $pageData->fetch())
+
+        if($specification instanceof PicoSpecification)
         {
-            $value = $row->get($primaryKey);
-            $label = $row->get($valueKey);
-            $selected = isset($currentValue) && $currentValue == $value;
-            $attrs = $this->createAttributes($additionalOutput, $row);
-            $selectOption->add($label, $value, $selected, $attrs, $row);
+            $pageData = $entity->findAll($specification, null, $sortable, true, null, MagicObject::FIND_OPTION_NO_FETCH_DATA);
+            while($row = $pageData->fetch())
+            {
+                $value = $row->get($primaryKey);
+                $label = $row->get($valueKey);
+                $selected = isset($currentValue) && $currentValue == $value;
+                $attrs = $this->createAttributes($additionalOutput, $row);
+                $selectOption->add($label, $value, $selected, $attrs, $row);
+            }
+        }
+        if($specification instanceof PicoDatabaseQueryBuilder)
+        {
+            $database = $entity->currentDatabase();
+            $result = $database->fetchAll($specification);
+            foreach($result as $data)
+            {
+                $row = new MagicObject();
+                $value = $row->get($primaryKey);
+                $label = $row->get($valueKey);
+                $selected = isset($currentValue) && $currentValue == $value;
+                $attrs = $this->createAttributes($additionalOutput, $row);
+                $selectOption->add($label, $value, $selected, $attrs, $row);
+            }
         }
         return $selectOption;
     }
