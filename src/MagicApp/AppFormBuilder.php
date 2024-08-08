@@ -51,7 +51,7 @@ class AppFormBuilder
         {
             $database = $entity->currentDatabase();
             $result = $database->fetchAll($specification);
-            foreach($result as $data)
+            foreach($result as $row)
             {
                 $row = new MagicObject();
                 $value = $row->get($primaryKey);
