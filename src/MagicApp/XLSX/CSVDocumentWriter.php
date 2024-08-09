@@ -31,8 +31,14 @@ class CSVDocumentWriter extends DocumentWriter
         
         if($useTemporary)
         {
-            $this->temporaryFile = tempnam(sys_get_temp_dir(), 'my-temp-file');
+            $tempFile = tempnam(sys_get_temp_dir(), 'my-temp-file');
+            $this->temporaryFile = $tempFile;
             $this->filePointer = fopen($this->temporaryFile, 'w');
+            register_shutdown_function(function() use ($tempFile) {
+                if (file_exists($tempFile)) {
+                    unlink($tempFile);
+                }
+            });
         }
         if(isset($headerFormat) && is_array($headerFormat) && is_callable($writerFunction))
         {
@@ -155,7 +161,7 @@ class CSVDocumentWriter extends DocumentWriter
 
     /**
      * Write data
-     * @param array $data
+     * @param array $data Write line
      * @return self
      */
     private function writeRow($data)
@@ -166,7 +172,7 @@ class CSVDocumentWriter extends DocumentWriter
     
     /**
      * Custom self::fputcsv
-     * @param int $handle filehandle
+     * @param resource $handle filehandle
      * @param mixed[] $fields array of values to write
      * @param string $delimiter field delimiter
      * @param string $enclosure field enclosures
@@ -186,7 +192,8 @@ class CSVDocumentWriter extends DocumentWriter
         }
         else
         {
-            return fwrite($handle, implode($delimiter, $result) . $record_seperator);
+            fwrite($handle, implode($delimiter, $result) . $record_seperator);
         }
+        return $this;
     }
 }
