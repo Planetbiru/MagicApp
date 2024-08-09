@@ -18,12 +18,22 @@ class CSVDocumentWriter extends DocumentWriter
      * @param string $sheetName Sheet name
      * @param string[] $headerFormat Data format
      * @param callable $writerFunction Writer function
+     * @param boolean $useTemporary
      * @return self
      */
-    public function write($pageData, $fileName, $sheetName, $headerFormat, $writerFunction)
+    public function write($pageData, $fileName, $sheetName, $headerFormat, $writerFunction, $useTemporary = true)
     {
-        $this->temporaryFile = tempnam(sys_get_temp_dir(), 'my-temp-file');
-        $this->filePointer = fopen($this->temporaryFile, 'w');
+        header('Content-disposition: attachment; filename="'.$fileName.'"');
+        header("Content-Type: text/csv");
+        header('Content-Transfer-Encoding: binary');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');       
+        
+        if($useTemporary)
+        {
+            $this->temporaryFile = tempnam(sys_get_temp_dir(), 'my-temp-file');
+            $this->filePointer = fopen($this->temporaryFile, 'w');
+        }
         if(isset($headerFormat) && is_array($headerFormat) && is_callable($writerFunction))
         {
             $this->writeDataWithFormat($pageData, $headerFormat, $writerFunction);
@@ -32,13 +42,13 @@ class CSVDocumentWriter extends DocumentWriter
         {
             $this->writeDataWithoutFormat($pageData);
         }
-        header('Content-disposition: attachment; filename="'.$fileName.'"');
-        header("Content-Type: text/csv");
-        header('Content-Transfer-Encoding: binary');
-        header('Cache-Control: must-revalidate');
-        header('Pragma: public');       
-        readfile($this->temporaryFile);
-        unlink($this->temporaryFile);
+        
+        if($useTemporary)
+        {
+            header('Content-length: '.filesize($this->temporaryFile));
+            readfile($this->temporaryFile);
+            unlink($this->temporaryFile);
+        }
         return $this;
     }
 
@@ -91,7 +101,7 @@ class CSVDocumentWriter extends DocumentWriter
         {
             $upperKeys[] = PicoStringUtil::camelToTitle($key);
         }
-        fputcsv($this->filePointer, $upperKeys);
+        self::fputcsv($this->filePointer, $upperKeys);
         return $this;
     }
 
@@ -108,7 +118,7 @@ class CSVDocumentWriter extends DocumentWriter
         {
             $data[] = $row->get($key);
         }            
-        fputcsv($this->filePointer, $data);
+        self::fputcsv($this->filePointer, $data);
         return $this;
     }
 
@@ -121,7 +131,7 @@ class CSVDocumentWriter extends DocumentWriter
      */
     private function writeDataWithFormat($pageData, $headerFormat, $writerFunction)
     {
-        fputcsv($this->filePointer, array_keys($headerFormat));     
+        self::fputcsv($this->filePointer, array_keys($headerFormat));     
         $idx = 0;
         if($this->noFetchData($pageData))
         {
@@ -150,7 +160,33 @@ class CSVDocumentWriter extends DocumentWriter
      */
     private function writeRow($data)
     {
-        fputcsv($this->filePointer, $data);
+        self::fputcsv($this->filePointer, $data);
         return $this;
+    }
+    
+    /**
+     * Custom self::fputcsv
+     * @param int $handle filehandle
+     * @param mixed[] $fields array of values to write
+     * @param string $delimiter field delimiter
+     * @param string $enclosure field enclosures
+     * @param string $escape_char escape enclosure chars in fields
+     * @param string $record_seperator 
+     * @return self
+     */
+    private function fputcsv($handle, $fields, $delimiter = ",", $enclosure = '"', $escape_char = "\\", $record_seperator = "\r\n")
+    {
+        $result = [];
+        foreach ($fields as $field) {
+            $result[] = $enclosure . str_replace($enclosure, $escape_char . $enclosure, $field) . $enclosure;
+        }
+        if($handle == null)
+        {
+            echo implode($delimiter, $result) . $record_seperator;
+        }
+        else
+        {
+            return fwrite($handle, implode($delimiter, $result) . $record_seperator);
+        }
     }
 }
