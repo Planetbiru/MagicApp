@@ -1,0 +1,41 @@
+<?php return array(
+    'root' => array(
+        'pretty_version' => '1.0.0+no-version-set',
+        'version' => '1.0.0.0',
+        'type' => 'library',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'reference' => NULL,
+        'name' => 'planetbiru/magic-app',
+        'dev' => true,
+    ),
+    'versions' => array(
+        'planetbiru/magic-app' => array(
+            'pretty_version' => '1.0.0+no-version-set',
+            'version' => '1.0.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'reference' => NULL,
+            'dev_requirement' => false,
+        ),
+        'planetbiru/magic-object' => array(
+            'pretty_version' => '1.20.0',
+            'version' => '1.20.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../planetbiru/magic-object',
+            'aliases' => array(),
+            'reference' => 'c6e8130ec89c6bba1c5736817d7a494a34c0baa6',
+            'dev_requirement' => false,
+        ),
+        'symfony/yaml' => array(
+            'pretty_version' => 'v3.4.0',
+            'version' => '3.4.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/yaml',
+            'aliases' => array(),
+            'reference' => 'b3d0c9c11be3831b84825967dc6b52b5a7b84e04',
+            'dev_requirement' => false,
+        ),
+    ),
+);
