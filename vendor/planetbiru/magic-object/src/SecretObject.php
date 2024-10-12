@@ -194,22 +194,36 @@ class SecretObject extends stdClass //NOSONAR
     }
 
     /**
-     * Magic method called when invoking an undefined method.
+     * Magic method called when invoking undefined methods.
      *
-     * This method allows dynamic handling of properties and methods based on naming conventions.
+     * This method handles dynamic method calls for property management.
      *
-     * - Methods prefixed with "isset" check if the corresponding property is set.
-     * - Methods prefixed with "is" return a boolean indicating if the property equals 1.
-     * - Methods prefixed with "get" retrieve the value of the corresponding property.
-     * - Methods prefixed with "set" assign a value to the corresponding property if it's not readonly.
-     * - Methods prefixed with "unset" remove the corresponding property.
-     * - Methods prefixed with "push" append an element to an array property.
-     * - Methods prefixed with "pop" remove and return the last element of an array property.
+     * Supported methods:
      *
-     * @param string $method The name of the method being called.
-     * @param array $params An array of parameters passed to the method.
-     * @return self|boolean|mixed|null The result of the method call, which can be the instance itself, 
-     *                                 a boolean value, a mixed type, or null based on the method invoked.
+     * - `isset<PropertyName>`: Checks if the property is set.
+     *   - Example: `$obj->issetFoo()` returns true if property `foo` is set.
+     *
+     * - `is<PropertyName>`: Checks if the property is set and equals 1 (truthy).
+     *   - Example: `$obj->isFoo()` returns true if property `foo` is set and is equal to 1.
+     *
+     * - `get<PropertyName>`: Retrieves the value of the property.
+     *   - Example: `$value = $obj->getFoo()` gets the value of property `foo`.
+     *
+     * - `set<PropertyName>`: Sets the value of the property.
+     *   - Example: `$obj->setFoo($value)` sets the property `foo` to `$value`.
+     *
+     * - `unset<PropertyName>`: Unsets the property.
+     *   - Example: `$obj->unsetFoo()` removes the property `foo`.
+     *
+     * - `push<PropertyName>`: Pushes a value onto an array property.
+     *   - Example: `$obj->pushFoo($value)` adds `$value` to the array property `foo`.
+     *
+     * - `pop<PropertyName>`: Pops a value from an array property.
+     *   - Example: `$value = $obj->popFoo()` removes and returns the last value from the array property `foo`.
+     *
+     * @param string $method Method name.
+     * @param array $params Parameters for the method.
+     * @return mixed|null The result of the method call or null if not applicable.
      */
     public function __call($method, $params) // NOSONAR
     {
@@ -261,6 +275,9 @@ class SecretObject extends stdClass //NOSONAR
     /**
      * Set a value for the specified property.
      *
+     * This method sets the value of a property and applies encryption or decryption
+     * if necessary based on the defined property rules.
+     *
      * @param string $var The name of the property.
      * @param mixed $value The value to set.
      * @return self
@@ -282,6 +299,9 @@ class SecretObject extends stdClass //NOSONAR
     /**
      * Get the value of the specified property.
      *
+     * This method retrieves the value of a property and applies encryption or decryption
+     * if necessary based on the defined property rules.
+     *
      * @param string $var The name of the property.
      * @return mixed The value of the property.
      */
@@ -301,6 +321,8 @@ class SecretObject extends stdClass //NOSONAR
 
     /**
      * Get the raw value of the specified property.
+     *
+     * This method retrieves the raw value of a property without any encryption or decryption.
      *
      * @param string $var The name of the property.
      * @return mixed The raw value of the property, or null if not set.
@@ -986,10 +1008,12 @@ class SecretObject extends stdClass //NOSONAR
     }
 
     /**
-     * Modify null properties
+     * Modify null properties.
      *
-     * @param string $propertyName Property name
-     * @param mixed $propertyValue Property value
+     * This method keeps track of properties that have been set to null.
+     *
+     * @param string $propertyName The name of the property.
+     * @param mixed $propertyValue The value of the property.
      * @return void
      */
     private function modifyNullProperties($propertyName, $propertyValue)
@@ -1005,9 +1029,9 @@ class SecretObject extends stdClass //NOSONAR
     }
 
     /**
-     * Get encrypted value
+     * Get the encrypted value of the object.
      *
-     * @return array
+     * @return array An array representation of the encrypted values.
      */
     public function encryptedValue()
     {
@@ -1018,10 +1042,13 @@ class SecretObject extends stdClass //NOSONAR
     }
 
     /**
-     * Encrypt value recursively
+     * Encrypt values recursively.
      *
-     * @param array $array Value to be encrypted in array
-     * @return array
+     * This method encrypts each string value in the provided array. 
+     * Nested arrays are also processed.
+     *
+     * @param array $array The array of values to be encrypted.
+     * @return array The array with encrypted values.
      */
     private function encryptValueRecursive($array)
     {
@@ -1042,14 +1069,14 @@ class SecretObject extends stdClass //NOSONAR
     /**
      * Dumps a PHP value to a YAML string.
      *
-     * The dump method, when supplied with an array, will do its best
-     * to convert the array into friendly YAML.
+     * This method attempts to convert an array into a friendly YAML format.
      *
-     * @param int|null   $inline The level where you switch to inline YAML. If $inline set to NULL, MagicObject will use maximum value of array depth
-     * @param integer   $indent The amount of spaces to use for indentation of nested nodes
-     * @param integer   $flags  A bit field of DUMP_* constants to customize the dumped YAML string
+     * @param int|null $inline The level where to switch to inline YAML. If set to NULL, 
+     *                         MagicObject will use the maximum value of array depth.
+     * @param int $indent The number of spaces to use for indentation of nested nodes.
+     * @param int $flags A bit field of DUMP_* constants to customize the dumped YAML string.
      *
-     * @return string A YAML string representing the original PHP value
+     * @return string A YAML string representing the original PHP value.
      */
     public function dumpYaml($inline = null, $indent = 4, $flags = 0)
     {
@@ -1060,6 +1087,8 @@ class SecretObject extends stdClass //NOSONAR
 
     /**
      * Magic method to convert the object to a string.
+     *
+     * This method returns a JSON representation of the object.
      *
      * @return string A JSON representation of the object.
      */
