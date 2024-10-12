@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "planetbiru/magic-object",
-            "version": "1.23.0",
+            "version": "1.23.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Planetbiru/MagicObject.git",
-                "reference": "6f95c4bfa86f53cf7087482ed1480bb2ff4311d7"
+                "reference": "bb69984e6e3421c88748f6e1b05cfab1041cb2cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Planetbiru/MagicObject/zipball/6f95c4bfa86f53cf7087482ed1480bb2ff4311d7",
-                "reference": "6f95c4bfa86f53cf7087482ed1480bb2ff4311d7",
+                "url": "https://api.github.com/repos/Planetbiru/MagicObject/zipball/bb69984e6e3421c88748f6e1b05cfab1041cb2cd",
+                "reference": "bb69984e6e3421c88748f6e1b05cfab1041cb2cd",
                 "shasum": ""
             },
             "require": {
@@ -41,9 +41,9 @@
             "description": "Magic object",
             "support": {
                 "issues": "https://github.com/Planetbiru/MagicObject/issues",
-                "source": "https://github.com/Planetbiru/MagicObject/tree/1.23.0"
+                "source": "https://github.com/Planetbiru/MagicObject/tree/1.23.1"
             },
-            "time": "2024-10-11T18:09:05+00:00"
+            "time": "2024-10-12T06:58:28+00:00"
         },
         {
             "name": "symfony/yaml",
