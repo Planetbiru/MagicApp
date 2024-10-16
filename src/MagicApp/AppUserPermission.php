@@ -16,7 +16,7 @@ use MagicObject\SecretObject;
 class AppUserPermission
 {
     /**
-     * Application configuration.
+     * Application configuration
      *
      * @var SecretObject
      */
@@ -37,20 +37,60 @@ class AppUserPermission
     private $currentModule;
     
     /**
-     * Permissions flags.
+     * Allowed show list
      *
-     * @var array
+     * @var boolean
      */
-    private $permissions = [
-        'allowedList' => false,
-        'allowedDetail' => false,
-        'allowedCreate' => false,
-        'allowedUpdate' => false,
-        'allowedDelete' => false,
-        'allowedApprove' => false,
-        'allowedSortOrder' => false,
-        'allowedBatchAction' => false,
-    ];
+    private $allowedList;
+    
+    /**
+     * Allowed show detail
+     *
+     * @var boolean
+     */
+    private $allowedDetail;
+    
+    /**
+     * Allowed create
+     *
+     * @var boolean
+     */
+    private $allowedCreate;
+    
+    /**
+     * Allowed update
+     *
+     * @var boolean
+     */
+    private $allowedUpdate;
+    
+    /**
+     * Allowed delete
+     *
+     * @var boolean
+     */
+    private $allowedDelete;
+    
+    /**
+     * Allowed approve/reject
+     *
+     * @var boolean
+     */
+    private $allowedApprove;
+    
+    /**
+     * Allowed short order
+     *
+     * @var boolean
+     */
+    private $allowedSortOrder;
+
+    /**
+     * Allowed batch action
+     *
+     * @var boolean
+     */
+    private $allowedBatchAction;
     
     /**
      * Indicates if permissions have been initialized.
@@ -60,26 +100,26 @@ class AppUserPermission
     private $initialized = false;
     
     /**
-     * User level ID.
+     * User level
      *
      * @var string
      */
     private $userLevelId;
 
     /**
-     * Current user object.
+     * Current user
      *
      * @var MagicObject
      */
     private $currentUser;
 
     /**
-     * User action to be checked.
-     *
-     * @var string|null
+     * User action
+     * 
+     * @var string
      */
     private $userAction;
-
+    
     /**
      * Constructor
      *
@@ -87,75 +127,113 @@ class AppUserPermission
      * @param PicoDatabase $database
      * @param MagicObject $appUserRole
      * @param PicoModule $currentModule
-     * @param MagicObject $currentUser
+     * @param AppUser $currentUser
      */
     public function __construct($appConfig, $database, $appUserRole, $currentModule, $currentUser)
     {
         $this->appConfig = $appConfig;
         $this->entity = $appUserRole;
-
-        if ($this->entity !== null && ($this->entity->currentDatabase() === null || !$this->entity->currentDatabase()->isConnected())) {
+        if($this->entity != null && ($this->entity->currentDatabase() == null || !$this->entity->currentDatabase()->isConnected()))
+        {
             $this->entity->currentDatabase($database);
         }
-
         $this->currentModule = $currentModule;
         $this->currentUser = $currentUser;
         $this->userLevelId = $currentUser->getUserLevelId();
     }
-
+    
     /**
-     * Load permissions based on the user role.
+     * Load permission
      *
      * @return void
      */
     public function loadPermission()
     {
-        if ($this->appConfig->getRole()->getBypassRole()) {
-            $this->permissions = array_fill_keys(array_keys($this->permissions), true);
-        } else {
-            try {
-                if ($this->entity !== null) {
-                    $this->entity->findOneByModuleNameAndUserLevelIdAndActive($this->currentModule->getModuleName(), $this->userLevelId, true);
-                    foreach ($this->permissions as $key => &$value) {
-                        $value = $this->entity->{"get" . ucfirst(substr($key, 7))}();
-                    }
+        if($this->appConfig->getRole()->getBypassRole())
+        {
+            $this->allowedList =  true;
+            $this->allowedDetail =  true;
+            $this->allowedCreate =  true;
+            $this->allowedUpdate =  true;
+            $this->allowedDelete =  true;
+            $this->allowedApprove =  true;
+            $this->allowedSortOrder =  true;
+        }
+        else
+        {
+            try
+            {
+                if($this->entity != null)
+                {
+                    $this->entity->findOneByModuleNameAndUserLevelIdAndActive($this->currentModule->getModuleName(), $this->userLevelId, true);       
+                    $this->allowedList =  $this->entity->getAllowedList();
+                    $this->allowedDetail =  $this->entity->getAllowedDetail();
+                    $this->allowedCreate =  $this->entity->getAllowedCreate();
+                    $this->allowedUpdate =  $this->entity->getAllowedUpdate();
+                    $this->allowedDelete =  $this->entity->getAllowedDelete();
+                    $this->allowedApprove =  $this->entity->getAllowedApprove();
+                    $this->allowedSortOrder =  $this->entity->getAllowedSortOrder();
                 }
+                
                 $this->initialized = true;
-            } catch (Exception $e) {
-                // Handle exceptions as necessary
+            }
+            catch(Exception $e)
+            {
+                // do nothing
             }
         }
 
-        $this->permissions['allowedBatchAction'] = $this->permissions['allowedUpdate'] || $this->permissions['allowedDelete'];
+        $this->allowedBatchAction = $this->allowedUpdate || $this->allowedDelete;
+        
         $this->initialized = true;
     }
 
     /**
-     * Check if the user has access based on the action.
+     * Check user permission
      *
      * @param PicoRequestBase $inputGet
      * @param PicoRequestBase $inputPost
+     * @param AppLanguage $appLanguage
+     * @param callable $callbackForbidden
      * @return boolean
      */
     public function allowedAccess($inputGet, $inputPost)
     {
-        $userAction = $inputPost->getUserAction() ?? $inputGet->getUserAction();
+        $userAction = null;
+        if(isset($inputPost) && $inputPost->getUserAction() != null)
+        {
+            $userAction = $inputPost->getUserAction();
+        }
+        if($userAction == null && isset($inputGet) && $inputGet->getUserAction() != null)
+        {
+            $userAction = $inputGet->getUserAction();
+        }
 
-        if (!$this->currentModule->getAppModule()->issetModuleId()) {
-            try {
+
+        if(!$this->currentModule->getAppModule()->issetModuleId())
+        {
+            try
+            {
                 $this->currentModule->getAppModule()->findOneByModuleCode($this->currentModule->getModuleName());
-            } catch (Exception $e) {
-                // Handle exceptions as necessary
+            }
+            catch(Exception $e)
+            {
+                // do nothing
             }
         }
 
-        return isset($userAction) && !empty($userAction)
-            ? $this->isAllowedTo($userAction)
-            : $this->isAllowedTo(UserAction::SHOW_ALL);
+        if(!isset($userAction) || empty($userAction))
+        {
+            return $this->isAllowedTo(UserAction::SHOW_ALL);
+        }
+        else
+        {
+            return $this->isAllowedTo($userAction);
+        }
     }
 
     /**
-     * Check permissions and invoke a callback if access is denied.
+     * Check user permission
      *
      * @param PicoRequestBase $inputGet
      * @param PicoRequestBase $inputPost
@@ -164,9 +242,20 @@ class AppUserPermission
      */
     public function checkPermission($inputGet, $inputPost, $callbackForbidden)
     {
-        if (isset($callbackForbidden) && is_callable($callbackForbidden)) {
-            $userAction = $inputPost->getUserAction() ?? $inputGet->getUserAction();
-            if (isset($userAction) && !$this->isAllowedTo($userAction)) {
+        if(isset($callbackForbidden) && is_callable($callbackForbidden))
+        {
+            $userAction = null;
+            if(isset($inputPost) && $inputPost->getUserAction() != null)
+            {
+                $userAction = $inputPost->getUserAction();
+            }
+            if($userAction == null && isset($inputGet) && $inputGet->getUserAction() != null)
+            {
+                $userAction = $inputGet->getUserAction();
+            }
+            if(isset($userAction) && !$this->isAllowedTo($userAction))
+            {
+               
                 $this->userAction = $userAction;
                 call_user_func($callbackForbidden, $this->appConfig);
             }
@@ -174,173 +263,202 @@ class AppUserPermission
     }
 
     /**
-     * Determine if the user is allowed to perform a specific action.
+     * Check if access is allowed or not
      *
      * @param string $userAction
      * @return boolean
      */
-    public function isAllowedTo($userAction)
+    public function isAllowedTo($userAction) // NOSONAR
     {
-        if ($this->currentModule->getAppModule()->getSpecialAccess() && $this->getCurrentUser()->getUserLevel()->getSpecialAccess()) {
-            $this->permissions = array_fill_keys(array_keys($this->permissions), true);
+        if($this->currentModule->getAppModule()->getSpecialAccess() && $this->getCurrentUser()->getUserLevel()->getSpecialAccess())
+        {
+            $this->allowedList =  true;
+            $this->allowedDetail =  true;
+            $this->allowedCreate =  true;
+            $this->allowedUpdate =  true;
+            $this->allowedDelete =  true;
+            $this->allowedApprove =  true;
+            $this->allowedSortOrder =  true;
             return true;
         }
-
-        $forbidden = false;
-
-        if ($userAction !== null) {
-            $forbidden =
-                ($userAction == UserAction::SHOW_ALL && !$this->isAllowedList()) ||
-                ($userAction == UserAction::CREATE && !$this->isAllowedCreate()) ||
-                ($userAction == UserAction::UPDATE && !$this->isAllowedUpdate()) ||
-                ($userAction == UserAction::ACTIVATE && !$this->isAllowedUpdate()) ||
-                ($userAction == UserAction::DELETE && !$this->isAllowedDelete()) ||
-                ($userAction == UserAction::DETAIL && !$this->isAllowedDetail()) ||
-                ($userAction == UserAction::SORT_ORDER && !$this->isAllowedSortOrder()) ||
-                ($userAction == UserAction::APPROVE && !$this->isAllowedApprove()) ||
-                ($userAction == UserAction::REJECT && !$this->isAllowedApprove());
+        else
+        {
+            if($userAction != null)
+            {
+                $forbidden = 
+                (
+                ($userAction == UserAction::SHOW_ALL && !$this->isAllowedList())
+                || ($userAction == UserAction::CREATE && !$this->isAllowedCreate())
+                || ($userAction == UserAction::UPDATE && !$this->isAllowedUpdate())
+                || ($userAction == UserAction::ACTIVATE && !$this->isAllowedUpdate())
+                || ($userAction == UserAction::DELETE && !$this->isAllowedDelete())
+                || ($userAction == UserAction::DETAIL && !$this->isAllowedDetail())
+                || ($userAction == UserAction::DELETE && !$this->isAllowedDelete())
+                || ($userAction == UserAction::SORT_ORDER && !$this->isAllowedSortOrder())
+                || ($userAction == UserAction::APPROVE && !$this->isAllowedApprove())
+                || ($userAction == UserAction::REJECT && !$this->isAllowedApprove())
+                )
+                ;  
+            }
+            return !$forbidden;
         }
-
-        return !$forbidden;
     }
 
     /**
-     * Check if the user has permission for batch actions.
+     * Check if user has permission to edit, activate, deactivate, and delete
      *
      * @return boolean
      */
     public function isAllowedBatchAction()
     {
-        return $this->permissions['allowedBatchAction'];
+        return $this->allowedBatchAction;
     }
-
+    
     /**
-     * Check if the user has permission to approve actions.
+     * Check if user has permission to approve
      *
      * @return boolean
      */
     public function isAllowedApprove()
     {
-        $this->initializeIfNeeded();
-        return $this->permissions['allowedApprove'];
+        if(!$this->initialized)
+        {
+            $this->loadPermission();
+        }
+    
+        return $this->allowedApprove;
     }
 
     /**
-     * Check if the user has permission to view the list.
+     * Get allowed show list
      *
      * @return boolean
-     */
+     */ 
     public function isAllowedList()
     {
-        $this->initializeIfNeeded();
-        return $this->permissions['allowedList'];
+        if(!$this->initialized)
+        {
+            $this->loadPermission();
+        }
+        
+        return $this->allowedList;
     }
 
     /**
-     * Check if the user has permission to view details.
+     * Get allowed show detail
      *
      * @return boolean
-     */
+     */ 
     public function isAllowedDetail()
     {
-        $this->initializeIfNeeded();
-        return $this->permissions['allowedDetail'];
+        if(!$this->initialized)
+        {
+            $this->loadPermission();
+        }
+        
+        return $this->allowedDetail;
     }
 
     /**
-     * Check if the user has permission to create new items.
+     * Get allowed create
      *
      * @return boolean
-     */
+     */ 
     public function isAllowedCreate()
     {
-        $this->initializeIfNeeded();
-        return $this->permissions['allowedCreate'];
+        if(!$this->initialized)
+        {
+            $this->loadPermission();
+        }
+        
+        return $this->allowedCreate;
     }
 
     /**
-     * Check if the user has permission to update existing items.
+     * Get allowed update
      *
      * @return boolean
-     */
+     */ 
     public function isAllowedUpdate()
     {
-        $this->initializeIfNeeded();
-        return $this->permissions['allowedUpdate'];
+        if(!$this->initialized)
+        {
+            $this->loadPermission();
+        }
+        
+        return $this->allowedUpdate;
     }
 
     /**
-     * Check if the user has permission to delete items.
+     * Get allowed delete
      *
      * @return boolean
-     */
+     */ 
     public function isAllowedDelete()
     {
-        $this->initializeIfNeeded();
-        return $this->permissions['allowedDelete'];
+        if(!$this->initialized)
+        {
+            $this->loadPermission();
+        }
+        
+        return $this->allowedDelete;
     }
 
     /**
-     * Check if the user has permission to sort order.
+     * Get allowed short order
      *
      * @return boolean
-     */
+     */ 
     public function isAllowedSortOrder()
     {
-        $this->initializeIfNeeded();
-        return $this->permissions['allowedSortOrder'];
+        if(!$this->initialized)
+        {
+            $this->loadPermission();
+        }
+        
+        return $this->allowedSortOrder;
     }
 
     /**
-     * Get user level ID.
+     * Get user level
      *
      * @return string
-     */
+     */ 
     public function getUserLevelId()
     {
         return $this->userLevelId;
     }
 
+
     /**
-     * Get the current user object.
+     * Get current user
      *
      * @return MagicObject
-     */
+     */ 
     public function getCurrentUser()
     {
         return $this->currentUser;
     }
 
     /**
-     * Get the user action being checked.
+     * Get user action
      *
-     * @return string|null
-     */
+     * @return string
+     */ 
     public function getUserAction()
     {
         return $this->userAction;
     }
 
     /**
-     * Set allowed sort order to false.
+     * Set allowed short order
      *
      * @return self
-     */
+     */ 
     public function setAllowedSortOrderFalse()
     {
-        $this->permissions['allowedSortOrder'] = false;
-        return $this;
-    }
+        $this->allowedSortOrder = false;
 
-    /**
-     * Initialize permissions if not already done.
-     *
-     * @return void
-     */
-    private function initializeIfNeeded()
-    {
-        if (!$this->initialized) {
-            $this->loadPermission();
-        }
+        return $this;
     }
 }
