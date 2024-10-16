@@ -712,7 +712,7 @@ class PicoDatabasePersistence // NOSONAR
     private function getNullCols($info)
     {
         $nullCols = array();
-        $nullList = $this->object->nullPropertiyList();
+        $nullList = $this->object->nullPropertyList();
         if($this->isArray($nullList))
         {
             foreach($nullList as $key=>$val)
@@ -982,14 +982,14 @@ class PicoDatabasePersistence // NOSONAR
     {
         if(strcasecmp($strategy, "GenerationType.UUID") == 0)
         {
-            $generatedValue = $this->database->generateNewId();
-            $this->object->set($prop, $generatedValue);
-            if($firstCall)
+            if($firstCall && ($this->object->get($prop) == null || $this->object->get($prop) == "") && !$this->generatedValue)
             {
+                $generatedValue = $this->database->generateNewId();
+                $this->object->set($prop, $generatedValue);
                 $this->generatedValue = true;
             }
         }
-        if(strcasecmp($strategy, "GenerationType.IDENTITY") == 0)
+        else if(strcasecmp($strategy, "GenerationType.IDENTITY") == 0)
         {
             if($firstCall)
             {
@@ -1119,13 +1119,14 @@ class PicoDatabasePersistence // NOSONAR
         
         if($info->getAutoIncrementKeys() != null)
         {
-            foreach($info->getAutoIncrementKeys() as $name=>$col)
+            foreach($info->getAutoIncrementKeys() as $propertyName=>$col)
             {
-                if(strcasecmp($col[self::KEY_STRATEGY], "GenerationType.UUID") == 0 && !$this->generatedValue)
+                if($this->isRequireGenerateValue($col[self::KEY_STRATEGY], $propertyName))
                 {
                     $value = $this->database->generateNewId();
                     $values[$col[self::KEY_NAME]] = $value;
-                    $this->object->set($name, $value);
+                    $this->object->set($propertyName, $value);
+                    $this->generatedValue = true;
                 }
             }
         }        
@@ -1134,6 +1135,20 @@ class PicoDatabasePersistence // NOSONAR
             throw new NoInsertableColumnException("No insertable column");
         }
         return $fixedValues;
+    }
+    
+    /**
+     * Check if data require a generated value
+     *
+     * @param string $strategy
+     * @param string $propertyName
+     * @return boolean
+     */
+    private function isRequireGenerateValue($strategy, $propertyName)
+    {
+        return strcasecmp($strategy, "GenerationType.UUID") == 0 
+                && ($this->object->get($propertyName) == null || $this->object->get($propertyName) == "") 
+                && !$this->generatedValue;
     }
 
     /**
@@ -1455,7 +1470,7 @@ class PicoDatabasePersistence // NOSONAR
      * Join array string with maximum length. If max is reached, it will create new line
      *
      * @param string[] $arr Array string to be joined
-     * @param integer $max Threshold to split line
+     * @param int $max Threshold to split line
      * @param string $normalSplit Normal splitter
      * @param string $maxSplit Overflow splitter
      * @return string
@@ -1487,7 +1502,7 @@ class PicoDatabasePersistence // NOSONAR
      * Split chunk query
      *
      * @param string[] $arr Array string to be joined
-     * @param integer $max Threshold to split line
+     * @param int $max Threshold to split line
      * @param string $normalSplit Normal splitter
      * @return array
      */
@@ -2574,7 +2589,7 @@ class PicoDatabasePersistence // NOSONAR
      * @param PicoSpecification|null $specification Specification
      * @param PicoPageable $pageable Pagable
      * @param PicoSortable $sortable Sortable
-     * @return integer
+     * @return int
      * @throws EntityException|EmptyResultException
      */
     public function countAll($specification = null, $pageable = null, $sortable = null)
@@ -2625,7 +2640,7 @@ class PicoDatabasePersistence // NOSONAR
      *
      * @param string $propertyName Property name
      * @param mixed $propertyValue Property value
-     * @return integer
+     * @return int
      * @throws EntityException|InvalidFilterException|PDOException|EmptyResultException
      */
     public function countBy($propertyName, $propertyValue)
@@ -2673,7 +2688,7 @@ class PicoDatabasePersistence // NOSONAR
      *
      * @param string $propertyName Property name
      * @param mixed $propertyValue Property value
-     * @return integer
+     * @return int
      * @throws EntityException|InvalidFilterException|PDOException|EmptyResultException
      */
     public function deleteBy($propertyName, $propertyValue)

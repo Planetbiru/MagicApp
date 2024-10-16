@@ -17,11 +17,11 @@ class PicoDatabaseUtilMySql //NOSONAR
     const KEY_NAME = "name";
 
     /**
-     * Get column list
+     * Retrieves a list of columns for a specified table.
      *
-     * @param PicoDatabase $database Datavase connection
-     * @param string $picoTableName Table name
-     * @return array
+     * @param PicoDatabase $database Database connection.
+     * @param string $picoTableName Table name.
+     * @return array An array of column details.
      */
     public static function getColumnList($database, $picoTableName)
     {
@@ -30,10 +30,10 @@ class PicoDatabaseUtilMySql //NOSONAR
     }
 
     /**
-     * Get auto increment keys
+     * Gets the auto-increment keys from the provided table information.
      *
-     * @param PicoTableInfo $tableInfo Table information
-     * @return array
+     * @param PicoTableInfo $tableInfo Table information.
+     * @return array An array of auto-increment key names.
      */
     public static function getAutoIncrementKey($tableInfo)
     {
@@ -53,11 +53,15 @@ class PicoDatabaseUtilMySql //NOSONAR
     }
 
     /**
-     * Dump database structure
+     * Dumps the structure of a table as a SQL statement.
      *
-     * @param PicoTableInfo $tableInfo Table information
-     * @param string $picoTableName Table name
-     * @return string
+     * @param PicoTableInfo $tableInfo Table information.
+     * @param string $picoTableName Table name.
+     * @param bool $createIfNotExists Whether to add "IF NOT EXISTS" in the create statement.
+     * @param bool $dropIfExists Whether to add "DROP TABLE IF EXISTS" before the create statement.
+     * @param string $engine Storage engine (default is 'InnoDB').
+     * @param string $charset Character set (default is 'utf8mb4').
+     * @return string SQL statement to create the table.
      */
     public static function dumpStructure($tableInfo, $picoTableName, $createIfNotExists = false, $dropIfExists = false, $engine = 'InnoDB', $charset = 'utf8mb4')
     {
@@ -113,10 +117,10 @@ class PicoDatabaseUtilMySql //NOSONAR
     }
 
     /**
-     * Create column
+     * Creates a column definition for a SQL statement.
      *
-     * @param array $column Column
-     * @return string
+     * @param array $column Column details.
+     * @return string SQL column definition.
      */
     public static function createColumn($column)
     {
@@ -142,11 +146,11 @@ class PicoDatabaseUtilMySql //NOSONAR
     }
 
     /**
-     * Fixing default value
+     * Fixes the default value for SQL insertion based on its type.
      *
-     * @param string $defaultValue Default value
-     * @param string $type Data type
-     * @return string
+     * @param string $defaultValue Default value to fix.
+     * @param string $type Data type of the column.
+     * @return string Fixed default value.
      */
     public static function fixDefaultValue($defaultValue, $type)
     {
@@ -162,12 +166,12 @@ class PicoDatabaseUtilMySql //NOSONAR
     }
 
     /**
-     * Dump data
+     * Dumps data from various sources into SQL insert statements.
      *
-     * @param array $columns Columns
-     * @param string $picoTableName Table name
-     * @param MagicObject|PicoPageData $data Data
-     * @return string
+     * @param array $columns Columns of the target table.
+     * @param string $picoTableName Table name.
+     * @param MagicObject|PicoPageData $data Data to dump.
+     * @return string|null SQL insert statements or null if no data.
      */
     public static function dumpData($columns, $picoTableName, $data) //NOSONAR
     {
@@ -187,12 +191,12 @@ class PicoDatabaseUtilMySql //NOSONAR
     }
 
     /**
-     * Dump records
+     * Dumps multiple records into SQL insert statements.
      *
-     * @param array $columns Columns
-     * @param string $picoTableName Table name
-     * @param MagicObject[] $data Data
-     * @return string
+     * @param array $columns Columns of the target table.
+     * @param string $picoTableName Table name.
+     * @param MagicObject[] $data Data records.
+     * @return string SQL insert statements.
      */
     public static function dumpRecords($columns, $picoTableName, $data)
     {
@@ -205,12 +209,12 @@ class PicoDatabaseUtilMySql //NOSONAR
     }
 
     /**
-     * Dump records
+     * Dumps a single record into an SQL insert statement.
      *
-     * @param array $columns Columns
-     * @param string $picoTableName Table name
-     * @param MagicObject $record Record
-     * @return string
+     * @param array $columns Columns of the target table.
+     * @param string $picoTableName Table name.
+     * @param MagicObject $record Data record.
+     * @return string SQL insert statement.
      */
     public static function dumpRecord($columns, $picoTableName, $record)
     {
@@ -234,11 +238,11 @@ class PicoDatabaseUtilMySql //NOSONAR
     }
 
     /**
-     * Show columns
+     * Shows the columns of a specified table.
      *
-     * @param PicoDatabase $database Database connection
-     * @param string $tableName Table name
-     * @return string[]
+     * @param PicoDatabase $database Database connection.
+     * @param string $tableName Table name.
+     * @return string[] An associative array of column names and their types.
      */
     public static function showColumns($database, $tableName)
     {
@@ -298,13 +302,14 @@ class PicoDatabaseUtilMySql //NOSONAR
     }
 
     /**
-     * Update config table
+     * Automatically configures import data settings from one database to another.
      *
-     * @param SecretObject[] $tables Tables
-     * @param string[] $sourceTables Source tables
-     * @param string $target Target table
-     * @param string[] $existingTables Existing table
-     * @return SecretObject[]
+     * @param PicoDatabase $source Source database connection.
+     * @param PicoDatabase $target Target database connection.
+     * @param string $sourceTable Source table name.
+     * @param string $targetTable Target table name.
+     * @param array $options Additional options for import configuration.
+     * @return array Configured options for import.
      */
     public static function updateConfigTable($databaseSource, $databaseTarget, $tables, $sourceTables, $target, $existingTables)
     {
@@ -357,11 +362,14 @@ class PicoDatabaseUtilMySql //NOSONAR
     }
 
     /**
-     * Importing data from another database. The destination table and column names can be different from the source table and column names.
+     * Imports data from the source database to the target database.
      *
-     * @param SecretObject $config Database import configuration
-     * @param callable $callbackFunction Callback function that will process the query made by the importer
-     * @return boolean
+     * @param PicoDatabase $source Source database connection.
+     * @param PicoDatabase $target Target database connection.
+     * @param string $sourceTable Source table name.
+     * @param string $targetTable Target table name.
+     * @param array $options Options for import operation.
+     * @return void
      */
     public static function importData($config, $callbackFunction)
     {
@@ -441,7 +449,7 @@ class PicoDatabaseUtilMySql //NOSONAR
      * @param PicoDatabase $databaseTarget Target database
      * @param string $tableName Table name
      * @param SecretObject $tableInfo Table information
-     * @param integer $maxRecord Maximum record per query
+     * @param int $maxRecord Maximum record per query
      * @param callable $callbackFunction Callback function
      * @return boolean
      */
@@ -494,8 +502,8 @@ class PicoDatabaseUtilMySql //NOSONAR
      * Get maximum record
      *
      * @param SecretObject $tableInfo Table information
-     * @param integer $maxRecord Maximum record per query
-     * @return integer
+     * @param int $maxRecord Maximum record per query
+     * @return int
      */
     public static function getMaxRecord($tableInfo, $maxRecord)
     {

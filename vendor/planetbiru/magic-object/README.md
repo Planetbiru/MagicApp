@@ -2,28 +2,31 @@
 
 # Introduction
 
-MagicObject is a library for making applications in the PHP language very easily. MagicObject can be derived into other classes with various intended uses.
+MagicObject is a powerful library for creating applications in PHP with ease. It allows for the derivation of classes with various intended uses. Below are some of its key features:
 
-Some examples of using MagicObject are as follows:
+# Features
 
-1. create dynamic objects
-2. create objects with setters and getters
-3. multi level object
-4. access the  with entity
-5. filtering and pagination
-6. dump database
-7. serialize and deserialize objects in JSON and Yaml format
-8. importing data from another database with destination table and column names can be different from the source table and column names
-9. reads INI, Yaml, and JSON files
-10. Get the environment variable value
-11. encrypt and decrypt application configuration
-12. object from POST, GET, COOKIE, REQUEST, SERVER
-13. PHP session
-14. object label
-15. multi language
-16. upload file
-17. annotations
-18. debug objects 
+1. **Dynamic Object Creation**: Easily create objects at runtime.
+2. **Setters and Getters**: Simplify property management with automatic methods.
+3. **Multi-Level Objects**: Support for nested objects.
+4. **Entity Access**: Streamline interactions with entities.
+5. **Filtering and Pagination**: Built-in methods for managing data display.
+6. **Native Query**: Defining native queries for a function will increase flexibility and resource efficiency in accessing the database.
+7. **Database Dumping**: Export database contents efficiently.
+8. **Serialization/Deserialization**: Handle JSON and YAML formats seamlessly.
+9. **Data Importing**: Import data even if source and destination schemas differ.
+10. **File Reading**: Read INI, YAML, and JSON configuration files.
+11. **Environment Variable Access**: Easily fetch environment variable values.
+12. **Configuration Encryption**: Secure application settings.
+13. **HTTP Data Handling**: Create objects from global request variables (POST, GET, etc.).
+14. **Session Management**: Integrate with PHP sessions.
+15. **Object Labeling**: Enhance object identification.
+16. **Multi-Language Support**: Facilitate localization.
+17. **File Uploads**: Handle file uploads efficiently.
+18. **Annotations**: Add metadata to objects for better structure.
+19. **Debugging**: Tools to debug and inspect objects.
+
+This library provides a versatile toolkit for building robust PHP applications!
 
 # Installation
 
