@@ -81,6 +81,9 @@ class AppEntityLanguage extends PicoEntityLanguage
         
         // add language
         $languageFilePath = $this->baseLanguageDirectory."/".$currentLanguage."/Entity/".$this->fullClassName.".ini";
+
+        $languageFilePath = str_replace(array("/", "\\"), DIRECTORY_SEPARATOR, $languageFilePath);
+        
         if(file_exists($languageFilePath))
         {
             $langs->loadIniFile($languageFilePath);
