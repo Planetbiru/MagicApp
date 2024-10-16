@@ -38,13 +38,13 @@ class AppUser
      * @var MagicObject
      */
     private $user;
-    
+
     /**
      * Constructor
      *
      * @param MagicObject $user The user data object.
      */
-    public function __construct(MagicObject $user)
+    public function __construct($user)
     {
         $this->user = $user;
     }
@@ -55,6 +55,7 @@ class AppUser
      * @param string $method The name of the method being called.
      * @param array $args The arguments passed to the method.
      * @return mixed
+     * @throws \BadMethodCallException
      */
     public function __call($method, $args)
     {
@@ -67,7 +68,7 @@ class AppUser
         // Handle setter methods
         if (stripos($method, 'set') === 0 && !empty($args)) {
             $property = lcfirst(substr($method, 3));
-            return $this->user->set($property, $args[0] ?? null);
+            return $this->user->set($property, isset($args[0]) ? $args[0] : null);
         }
 
         throw new \BadMethodCallException("Method {$method} does not exist.");
