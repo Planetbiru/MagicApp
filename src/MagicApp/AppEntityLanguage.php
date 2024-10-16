@@ -5,6 +5,7 @@ namespace MagicApp;
 use MagicObject\Language\PicoEntityLanguage;
 use MagicObject\MagicObject;
 use MagicObject\SecretObject;
+use MagicObject\Util\File\FileUtil;
 
 class AppEntityLanguage extends PicoEntityLanguage
 {
@@ -82,7 +83,7 @@ class AppEntityLanguage extends PicoEntityLanguage
         // add language
         $languageFilePath = $this->baseLanguageDirectory."/".$currentLanguage."/Entity/".$this->fullClassName.".ini";
 
-        $languageFilePath = str_replace(array("/", "\\"), DIRECTORY_SEPARATOR, $languageFilePath);
+        $languageFilePath = FileUtil::fixFilePath($languageFilePath);
         
         if(file_exists($languageFilePath))
         {
