@@ -3,12 +3,15 @@
 namespace MagicObject\Database;
 
 /**
- * Predicate for building query conditions.
+ * Class PicoPredicate
  *
- * This class allows you to define various query conditions
+ * A predicate for building query conditions in database queries.
+ * This class allows you to define various query conditions 
  * (e.g., equality, inequality, inclusion, pattern matching, etc.)
- * that can be used when constructing database queries.
- *
+ * to be used when constructing database queries.
+ * 
+ * @author Kamshory
+ * @package MagicObject\Database
  * @link https://github.com/Planetbiru/MagicObject
  */
 class PicoPredicate //NOSONAR
@@ -20,6 +23,9 @@ class PicoPredicate //NOSONAR
 
     /**
      * Constructor. Initializes the predicate with a field and value.
+     *
+     * If a field is provided, it sets the equality condition or 
+     * an IN condition based on the value type.
      *
      * @param string|null $field The name of the field.
      * @param mixed|null $value The value to compare against.
@@ -46,7 +52,7 @@ class PicoPredicate //NOSONAR
      *
      * @param string $field The name of the field.
      * @param mixed $value The value to compare against.
-     * @return self
+     * @return self Returns the current instance for method chaining.
      */
     public function equals($field, $value)
     {
@@ -61,7 +67,7 @@ class PicoPredicate //NOSONAR
      *
      * @param string $field The name of the field.
      * @param mixed $value The value to compare against.
-     * @return self
+     * @return self Returns the current instance for method chaining.
      */
     public function notEquals($field, $value)
     {
@@ -75,7 +81,7 @@ class PicoPredicate //NOSONAR
      * Set a condition for NULL.
      *
      * @param string $field The name of the field.
-     * @return self
+     * @return self Returns the current instance for method chaining.
      */
     public function isNull($field)
     {
@@ -86,7 +92,7 @@ class PicoPredicate //NOSONAR
      * Set a condition for NOT NULL.
      *
      * @param string $field The name of the field.
-     * @return self
+     * @return self Returns the current instance for method chaining.
      */
     public function isNotNull($field)
     {
@@ -98,7 +104,7 @@ class PicoPredicate //NOSONAR
      *
      * @param string $field The name of the field.
      * @param array $values The values to include.
-     * @return self
+     * @return self Returns the current instance for method chaining.
      */
     public function in($field, array $values)
     {
@@ -115,7 +121,7 @@ class PicoPredicate //NOSONAR
      *
      * @param string $field The name of the field.
      * @param array $values The values to exclude.
-     * @return self
+     * @return self Returns the current instance for method chaining.
      */
     public function notIn($field, array $values)
     {
@@ -132,7 +138,7 @@ class PicoPredicate //NOSONAR
      *
      * @param string $field The name of the field.
      * @param mixed $value The value to compare against.
-     * @return self
+     * @return self Returns the current instance for method chaining.
      */
     public function like($field, $value)
     {
@@ -147,7 +153,7 @@ class PicoPredicate //NOSONAR
      *
      * @param string $field The name of the field.
      * @param mixed $value The value to compare against.
-     * @return self
+     * @return self Returns the current instance for method chaining.
      */
     public function notLike($field, $value)
     {
@@ -162,7 +168,7 @@ class PicoPredicate //NOSONAR
      *
      * @param string $field The name of the field.
      * @param mixed $value The value to compare against.
-     * @return self
+     * @return self Returns the current instance for method chaining.
      */
     public function lessThan($field, $value)
     {
@@ -177,7 +183,7 @@ class PicoPredicate //NOSONAR
      *
      * @param string $field The name of the field.
      * @param mixed $value The value to compare against.
-     * @return self
+     * @return self Returns the current instance for method chaining.
      */
     public function greaterThan($field, $value)
     {
@@ -192,7 +198,7 @@ class PicoPredicate //NOSONAR
      *
      * @param string $field The name of the field.
      * @param mixed $value The value to compare against.
-     * @return self
+     * @return self Returns the current instance for method chaining.
      */
     public function lessThanOrEquals($field, $value)
     {
@@ -207,7 +213,7 @@ class PicoPredicate //NOSONAR
      *
      * @param string $field The name of the field.
      * @param mixed $value The value to compare against.
-     * @return self
+     * @return self Returns the current instance for method chaining.
      */
     public function greaterThanOrEquals($field, $value)
     {
@@ -261,7 +267,7 @@ class PicoPredicate //NOSONAR
      * Set the filter logic.
      *
      * @param string $filterLogic The filter logic to set.
-     * @return self
+     * @return self Returns the current instance for method chaining.
      */
     public function setFilterLogic($filterLogic)
     {
@@ -273,7 +279,7 @@ class PicoPredicate //NOSONAR
      * Generate a LIKE clause that matches the start of a string.
      *
      * @param string $value The value to use for matching.
-     * @return string The LIKE clause.
+     * @return string The LIKE clause for matching the start.
      */
     public static function generateLikeStarts($value)
     {
@@ -284,7 +290,7 @@ class PicoPredicate //NOSONAR
      * Generate a LIKE clause that matches the end of a string.
      *
      * @param string $value The value to use for matching.
-     * @return string The LIKE clause.
+     * @return string The LIKE clause for matching the end.
      */
     public static function generateLikeEnds($value)
     {
@@ -295,7 +301,7 @@ class PicoPredicate //NOSONAR
      * Generate a LIKE clause that matches anywhere in a string.
      *
      * @param string $value The value to use for matching.
-     * @return string The LIKE clause.
+     * @return string The LIKE clause for matching anywhere.
      */
     public static function generateLikeContains($value)
     {
@@ -335,6 +341,8 @@ class PicoPredicate //NOSONAR
     /**
      * Magic method to handle dynamic property assignment.
      *
+     * This method allows for setting property values dynamically.
+     *
      * @param string $name The property name.
      * @param mixed $value The value to set.
      */
@@ -357,7 +365,7 @@ class PicoPredicate //NOSONAR
      * Generate a SQL LOWER function call.
      *
      * @param string $value The value to wrap in the LOWER function.
-     * @return string The SQL function call.
+     * @return string The SQL LOWER function call.
      */
     public static function functionLower($value)
     {
@@ -368,7 +376,7 @@ class PicoPredicate //NOSONAR
      * Generate a SQL UPPER function call.
      *
      * @param string $value The value to wrap in the UPPER function.
-     * @return string The SQL function call.
+     * @return string The SQL UPPER function call.
      */
     public static function functionUpper($value)
     {

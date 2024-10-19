@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'planetbiru/magic-app',
-        'pretty_version' => '0.10.0.x-dev',
-        'version' => '0.10.0.9999999-dev',
-        'reference' => '950e3bc510019c6c2db97817e95eeaca06a1d0ec',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '53a8f906e7de0eea3c70cc56cc00bd68d2d73412',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,18 +11,18 @@
     ),
     'versions' => array(
         'planetbiru/magic-app' => array(
-            'pretty_version' => '0.10.0.x-dev',
-            'version' => '0.10.0.9999999-dev',
-            'reference' => '950e3bc510019c6c2db97817e95eeaca06a1d0ec',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '53a8f906e7de0eea3c70cc56cc00bd68d2d73412',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'planetbiru/magic-object' => array(
-            'pretty_version' => '2.0.0',
-            'version' => '2.0.0.0',
-            'reference' => '60157d1da619e693912eace36a0f1314cc676250',
+            'pretty_version' => '2.0.1',
+            'version' => '2.0.1.0',
+            'reference' => 'c8b1e2d209de77c735fd89126ce36606c4b472be',
             'type' => 'library',
             'install_path' => __DIR__ . '/../planetbiru/magic-object',
             'aliases' => array(),

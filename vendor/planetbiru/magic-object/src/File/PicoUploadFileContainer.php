@@ -7,7 +7,9 @@ namespace MagicObject\File;
  *
  * This class manages the uploaded file information and provides methods
  * to handle single or multiple file uploads.
- *
+ * 
+ * @author Kamshory
+ * @package MagicObject\File
  * @link https://github.com/Planetbiru/MagicObject
  */
 class PicoUploadFileContainer
@@ -36,7 +38,7 @@ class PicoUploadFileContainer
     /**
      * Checks if multiple files were uploaded.
      *
-     * @return boolean True if multiple files were uploaded; otherwise, false.
+     * @return bool True if multiple files were uploaded; otherwise, false.
      */
     public function isMultiple()
     {
@@ -47,7 +49,7 @@ class PicoUploadFileContainer
      * Checks if a specific file exists in the upload.
      *
      * @param int $index The index of the uploaded file.
-     * @return boolean True if the file exists; otherwise, false.
+     * @return bool True if the file exists; otherwise, false.
      */
     public function isExists($index)
     {

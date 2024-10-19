@@ -12,6 +12,26 @@ use MagicObject\MagicObject;
 use MagicObject\SecretObject;
 use PDO;
 
+/**
+ * Class PicoDatabaseUtilPostgreSql
+ *
+ * Utility class for managing PostgreSQL database operations in the framework.
+ * This class provides methods for retrieving table structures, generating SQL
+ * statements for creating tables, dumping data into SQL insert statements,
+ * and importing data from one database to another.
+ *
+ * Key Functionalities:
+ * - Retrieve and display column information for tables.
+ * - Generate SQL statements to create tables based on existing structures.
+ * - Dump data from various sources into SQL insert statements.
+ * - Facilitate the import of data between source and target databases, including
+ *   handling pre and post-import scripts.
+ * - Ensure data integrity by fixing types during the import process.
+ *
+ * @author Kamshory
+ * @package MagicObject\Util\Database
+ * @link https://github.com/Planetbiru/MagicObject
+ */
 class PicoDatabaseUtilPostgreSql //NOSONAR
 {
     const KEY_NAME = "name";
@@ -426,7 +446,7 @@ class PicoDatabaseUtilPostgreSql //NOSONAR
      * Check if array is not empty
      *
      * @param array $array Array to be checked
-     * @return boolean
+     * @return bool
      */
     public static function isNotEmpty($array)
     {
@@ -442,7 +462,7 @@ class PicoDatabaseUtilPostgreSql //NOSONAR
      * @param SecretObject $tableInfo Table information
      * @param int $maxRecord Maximum record per query
      * @param callable $callbackFunction Callback function
-     * @return boolean
+     * @return bool
      */
     public static function importDataTable($databaseSource, $databaseTarget, $tableNameSource, $tableNameTarget, $tableInfo, $maxRecord, $callbackFunction)
     {

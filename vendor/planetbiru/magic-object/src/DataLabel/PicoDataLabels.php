@@ -9,6 +9,8 @@ use MagicObject\DataLabel\PicoDataLabel;
  *
  * This class allows for the storage and management of multiple data labels.
  *
+ * @author Kamshory
+ * @package MagicObject\DataLabel
  * @link https://github.com/Planetbiru/MagicObject
  */
 class PicoDataLabels
@@ -24,7 +26,7 @@ class PicoDataLabels
      * Appends a new data label to the collection.
      *
      * @param PicoDataLabel $data The data label to be added.
-     * @return self The current instance for method chaining.
+     * @return self Returns the current instance for method chaining.
      */
     public function append($data)
     {

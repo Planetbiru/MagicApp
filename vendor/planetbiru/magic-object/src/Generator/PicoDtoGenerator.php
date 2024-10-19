@@ -11,6 +11,8 @@ use MagicObject\Util\PicoStringUtil;
  * This class helps in generating DTOs that can be used for transferring data 
  * via APIs or for serialization into files or databases.
  * 
+ * @author Kamshory
+ * @package MagicObject\Generator
  * @link https://github.com/Planetbiru/MagicObject
  */
 class PicoDtoGenerator
@@ -177,9 +179,9 @@ class PicoDtoGenerator
      */
     protected function createValueOf($picoTableName, $rows)
     {
-        $className = $this->entityName ?? ucfirst(PicoStringUtil::camelize($picoTableName));
-        $dtoName = $this->dtoName ?? ucfirst(PicoStringUtil::camelize($picoTableName)) . "Dto";
-
+        $className = isset($this->entityName) ? $this->entityName : ucfirst(PicoStringUtil::camelize($picoTableName));
+        $dtoName = isset($this->dtoName) ? $this->dtoName : ucfirst(PicoStringUtil::camelize($picoTableName)) . "Dto";
+        
         $str = "";
         $str .= "    /**\r\n";
         $str .= "     * Construct $dtoName from $className and not copy other properties\r\n";
@@ -241,7 +243,7 @@ class PicoDtoGenerator
     {
         $typeMap = $this->getTypeMap();
         $picoTableName = $this->tableName;
-        $classNameDto = $this->dtoName ?? ucfirst(PicoStringUtil::camelize($picoTableName)) . "Dto";
+        $classNameDto = isset($this->dtoName) ? $this->dtoName : ucfirst(PicoStringUtil::camelize($picoTableName)) . "Dto";
         $fileName = $this->baseNamespaceDto . "/" . $classNameDto;
         $path = $this->baseDir . "/" . $fileName . ".php";
         $path = str_replace("\\", "/", $path);

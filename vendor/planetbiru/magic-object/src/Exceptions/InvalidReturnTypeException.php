@@ -5,17 +5,14 @@ use Exception;
 use Throwable;
 
 /**
- * Class EntityException
+ * Class InvalidReturnTypeException
  *
- * Custom exception class for handling errors related to entity operations.
- * This can include issues such as validation failures, database errors, or
- * other exceptions that occur during entity processing.
- * 
- * @author Kamshory
+ * Exception thrown when an invalid return type is encountered.
+ *
  * @package MagicObject\Exceptions
  * @link https://github.com/Planetbiru/MagicObject
  */
-class EntityException extends Exception
+class InvalidReturnTypeException extends Exception
 {
     /**
      * Previous exception
@@ -25,13 +22,13 @@ class EntityException extends Exception
     private $previous;
 
     /**
-     * Constructor for EntityException.
+     * Constructor for InvalidReturnTypeException.
      *
      * @param string $message  Exception message
-     * @param int $code        Exception code
-     * @param Throwable|null $previous Previous exception
+     * @param int $code        Exception code (default: 0)
+     * @param Throwable|null $previous Previous exception (optional)
      */
-    public function __construct(string $message, int $code = 0, Throwable $previous = null)
+    public function __construct($message, $code = 0, $previous = null)
     {
         parent::__construct($message, $code, $previous);
         $this->previous = $previous;
@@ -40,7 +37,9 @@ class EntityException extends Exception
     /**
      * Get the previous exception.
      *
-     * @return Throwable|null
+     * Returns the previous exception if it exists, or null if there is no previous exception.
+     *
+     * @return Throwable|null The previous exception
      */
     public function getPreviousException()
     {

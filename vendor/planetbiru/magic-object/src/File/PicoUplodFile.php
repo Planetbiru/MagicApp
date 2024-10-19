@@ -8,7 +8,9 @@ use MagicObject\Util\PicoStringUtil;
  * Class representing an upload file tool.
  *
  * This class is designed to handle uploaded files. All attributes in this class are read-only.
- *
+ * 
+ * @author Kamshory
+ * @package MagicObject\File
  * @link https://github.com/Planetbiru/MagicObject
  */
 class PicoUploadFile
@@ -66,7 +68,7 @@ class PicoUploadFile
         if (strncasecmp($method, "get", 3) === 0) {
             $var = substr($method, 3);
             $camel = PicoStringUtil::camelize($var);
-            $key = $this->map[$camel] ?? null;
+            $key = isset($this->map[$camel]) ? $this->map[$camel] : null;
             return isset($this->values[$key]) ? $this->values[$key] : new PicoUploadFileContainer();
         }
     }
@@ -93,7 +95,7 @@ class PicoUploadFile
         $camel = PicoStringUtil::camelize($name);
         if (isset($this->map[$camel])) {
             $key = $this->map[$camel];
-            return $this->values[$key] ?? new PicoUploadFileContainer();
+            return isset($this->values[$key]) ? $this->values[$key] : new PicoUploadFileContainer();
         }
         return new PicoUploadFileContainer();
     }
@@ -102,7 +104,7 @@ class PicoUploadFile
      * Check if an uploaded file exists for the given parameter name.
      *
      * @param string $name The parameter name.
-     * @return boolean True if the file exists; otherwise, false.
+     * @return bool True if the file exists; otherwise, false.
      */
     public function __isset($name)
     {

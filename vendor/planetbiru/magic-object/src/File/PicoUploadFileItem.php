@@ -10,7 +10,9 @@ use MagicObject\Exceptions\InvalidParameterException;
  *
  * This class manages the information of an uploaded file and provides methods
  * to interact with the file, such as copying or moving it to a destination path.
- *
+ * 
+ * @author Kamshory
+ * @package MagicObject\File
  * @link https://github.com/Planetbiru/MagicObject
  */
 class PicoUploadFileItem
@@ -42,7 +44,7 @@ class PicoUploadFileItem
      * Copies the uploaded file to a specified destination path.
      *
      * @param string $path The target path where the file will be copied.
-     * @return boolean True on success; otherwise, false.
+     * @return bool True on success; otherwise, false.
      * @throws FileNotFoundException if the temporary file is not found.
      */
     public function copyTo($path)
@@ -58,7 +60,7 @@ class PicoUploadFileItem
      * Moves the uploaded file to a specified destination path.
      *
      * @param string $path The target path where the file will be moved.
-     * @return boolean True on success; otherwise, false.
+     * @return bool True on success; otherwise, false.
      * @throws FileNotFoundException if the temporary file is not found.
      */
     public function moveTo($path)

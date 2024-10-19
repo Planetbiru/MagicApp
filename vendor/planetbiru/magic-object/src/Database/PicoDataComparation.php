@@ -5,7 +5,9 @@ namespace MagicObject\Database;
 /**
  * Class for handling data comparisons.
  * Provides various comparison operations for use in database queries.
- *
+ * 
+ * @author Kamshory
+ * @package MagicObject\Database
  * @link https://github.com/Planetbiru/MagicObject
  */
 class PicoDataComparation
@@ -242,7 +244,7 @@ class PicoDataComparation
      *
      * @return string
      */
-    public function getComparison()
+    public function getComparison() // NOSONAR
     {
         switch ($this->comparison) {
             case self::NOT_EQUALS:

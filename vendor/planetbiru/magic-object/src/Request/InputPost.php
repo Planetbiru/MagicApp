@@ -6,7 +6,9 @@ use MagicObject\Util\ClassUtil\PicoObjectParser;
 
 /**
  * Class for handling input from HTTP POST requests.
- *
+ * 
+ * @author Kamshory
+ * @package MagicObject\Request
  * @link https://github.com/Planetbiru/MagicObject
  */
 class InputPost extends PicoRequestBase {
@@ -14,9 +16,9 @@ class InputPost extends PicoRequestBase {
     /**
      * Constructor for the InputPost class.
      *
-     * @param boolean $recursive Flag to indicate if all objects should be converted recursively.
-     * @param boolean $parseNullAndBool Flag to indicate whether to parse NULL and BOOL values.
-     * @param boolean $forceScalar Flag to indicate if only scalar values should be retrieved.
+     * @param bool $recursive Flag to indicate if all objects should be converted recursively.
+     * @param bool $parseNullAndBool Flag to indicate whether to parse NULL and BOOL values.
+     * @param bool $forceScalar Flag to indicate if only scalar values should be retrieved.
      */
     public function __construct($recursive = false, $parseNullAndBool = false, $forceScalar = false)
     {
@@ -44,7 +46,7 @@ class InputPost extends PicoRequestBase {
      * Override the loadData method to load POST data.
      *
      * @param array $data Data to load into the object.
-     * @param boolean $tolower Flag to indicate if the keys should be converted to lowercase (default is false).
+     * @param bool $tolower Flag to indicate if the keys should be converted to lowercase (default is false).
      * @return self Returns the instance of the current object.
      */
     public function loadData($data, $tolower = false)
