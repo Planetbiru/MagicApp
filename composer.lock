@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0c14c34a7a27483fbddef7ad7196e6df",
+    "content-hash": "3c620c4813703173112a375739c98552",
     "packages": [
         {
             "name": "planetbiru/magic-object",
-            "version": "2.0.1",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Planetbiru/MagicObject.git",
-                "reference": "c8b1e2d209de77c735fd89126ce36606c4b472be"
+                "reference": "34485daed7557dfc91c8b75d4a26fcb79785466f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Planetbiru/MagicObject/zipball/c8b1e2d209de77c735fd89126ce36606c4b472be",
-                "reference": "c8b1e2d209de77c735fd89126ce36606c4b472be",
+                "url": "https://api.github.com/repos/Planetbiru/MagicObject/zipball/34485daed7557dfc91c8b75d4a26fcb79785466f",
+                "reference": "34485daed7557dfc91c8b75d4a26fcb79785466f",
                 "shasum": ""
             },
             "require": {
@@ -41,9 +41,9 @@
             "description": "Magic object",
             "support": {
                 "issues": "https://github.com/Planetbiru/MagicObject/issues",
-                "source": "https://github.com/Planetbiru/MagicObject/tree/2.0.1"
+                "source": "https://github.com/Planetbiru/MagicObject/tree/2.0.0"
             },
-            "time": "2024-10-19T07:48:57+00:00"
+            "time": "2024-10-20T02:55:42+00:00"
         },
         {
             "name": "symfony/yaml",
