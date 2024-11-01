@@ -34,6 +34,13 @@ class ListDto
     protected $primaryKeyName;
     
     /**
+     * Data map
+     *
+     * @var DataMap[]
+     */
+    protected $dataMap;
+    
+    /**
      * An associative array mapping primary key names to their data types.
      *
      * @var string[]
@@ -51,7 +58,7 @@ class ListDto
      * Append a column title to the table.
      *
      * @param ListDataTitleDto $title The title to append.
-     * @return self
+     * @return self The current instance for method chaining.
      */
     public function appendTitle($title)
     {
@@ -63,6 +70,29 @@ class ListDto
         $this->data->appendTitle($title);
         
         return $this;
+    }
+    
+    /**
+     * Add a data map to the collection.
+     *
+     * This method appends a DataMap instance to the internal data map collection.
+     * If the collection does not exist, it initializes it first. Each DataMap is 
+     * stored in the data structure.
+     *
+     * @param DataMap $dataMap The DataMap instance to add.
+     * @return self The current instance for method chaining.
+     */
+    public function addDataMap($dataMap)
+    {
+        // Check if the data map is initialized; if not, reset it
+        if ($this->data->getDataMap() == null) {
+            $this->data->resetDataMap();
+        }
+        
+        // Append the DataMap instance to the data structure
+        $this->data->appendDataMap($dataMap);
+        
+        return $this; // Return the current instance for method chaining
     }
     
     /**
@@ -111,7 +141,7 @@ class ListDto
      * Append a row of data to the table.
      *
      * @param MagicObject $data The row data to append.
-     * @return self
+     * @return self The current instance for method chaining.
      */
     public function appendData($data)
     {
@@ -138,7 +168,7 @@ class ListDto
      *
      * @param  string|null  $responseCode  The response code indicating the status of the request.
      *
-     * @return  self
+     * @return  self The current instance for method chaining.
      */ 
     public function setResponseCode($responseCode)
     {
@@ -162,7 +192,7 @@ class ListDto
      *
      * @param  string|null  $responseMessage  A message providing additional information about the response.
      *
-     * @return  self
+     * @return  self The current instance for method chaining.
      */ 
     public function setResponseMessage($responseMessage)
     {
@@ -186,7 +216,7 @@ class ListDto
      *
      * @param  string[]|null  $primaryKeyName  The name of the primary key in the data structure.
      *
-     * @return  self
+     * @return  self The current instance for method chaining.
      */ 
     public function setPrimaryKeyName($primaryKeyName)
     {

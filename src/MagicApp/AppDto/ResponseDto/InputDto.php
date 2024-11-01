@@ -59,7 +59,7 @@ class InputDto
      * @param string[] $inputOption An array of options for the input.
      * @param string|null $sourceEndpoint The source endpoint for options if needed.
      */
-    public function __construct($field, $label, $type, $controlType, array $inputOption = [], $sourceEndpoint = null)
+    public function __construct($field, $label, $type, $controlType, $inputOption = [], $sourceEndpoint = null)
     {
         $this->field = $field;
         $this->label = $label;
@@ -173,7 +173,7 @@ class InputDto
      * @param string[] $inputOption An array of options for the input.
      * @return self The instance of this class.
      */
-    public function setInputOption(array $inputOption)
+    public function setInputOption($inputOption)
     {
         $this->inputOption = $inputOption;
         return $this;
