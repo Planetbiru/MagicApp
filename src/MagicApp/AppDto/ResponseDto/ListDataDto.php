@@ -36,6 +36,65 @@ class ListDataDto
     protected $rows;
     
     /**
+     * The name of the primary key in the data structure.
+     *
+     * @var string[]|null
+     */
+    protected $primaryKeyName;
+    
+    /**
+     * An associative array mapping primary key names to their data types.
+     *
+     * @var string[]
+     */
+    protected $primaryKeyDataType;
+
+    /**
+     * Get the name of the primary key in the data structure.
+     *
+     * @return string[]|null
+     */ 
+    public function getPrimaryKeyName()
+    {
+        return $this->primaryKeyName;
+    }
+
+    /**
+     * Set the name of the primary key in the data structure.
+     *
+     * @param  string[]|null  $primaryKeyName  The name of the primary key in the data structure.
+     *
+     * @return  self The current instance for method chaining.
+     */ 
+    public function setPrimaryKeyName($primaryKeyName)
+    {
+        $this->primaryKeyName = $primaryKeyName;
+
+        return $this;
+    }
+    
+    /**
+     * Add a primary key name and its data type to the list of primary keys.
+     *
+     * This method initializes the primary key name and data type properties as arrays if they haven't been set,
+     * then appends the new primary key name and its corresponding data type to the lists.
+     *
+     * @param string $primaryKeyName The primary key name to add.
+     * @param string $primaryKeyDataType The primary key data type to add.
+     * @return self The instance of this class.
+     */
+    public function addPrimaryKeyName($primaryKeyName, $primaryKeyDataType)
+    {
+        if (!isset($this->primaryKeyName)) {
+            $this->primaryKeyName = []; // Initialize as an array if not set
+            $this->primaryKeyDataType = []; // Initialize as an array if not set
+        }   
+        $this->primaryKeyName[] = $primaryKeyName; // Append the primary key name
+        $this->primaryKeyDataType[$primaryKeyName] = $primaryKeyDataType; // Append the primary key data type
+        return $this;
+    }
+    
+    /**
      * Append a column title to the table.
      *
      * @param ListDataTitleDto $title The title to append.
