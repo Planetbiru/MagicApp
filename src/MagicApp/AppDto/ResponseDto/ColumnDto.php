@@ -19,6 +19,13 @@ class ColumnDto
     public $value;
 
     /**
+     * The raw value associated with the field.
+     *
+     * @var mixed
+     */
+    public $valueRaw;
+
+    /**
      * The type of the field.
      *
      * @var string
@@ -54,25 +61,40 @@ class ColumnDto
     public $valueDraft;
 
     /**
+     * The raw draft value associated with the field.
+     *
+     * @var mixed
+     */
+    public $valueDraftRaw;
+
+    /**
      * Constructor to initialize properties of the ColumnDto class.
      *
      * @param string $field The name of the field.
-     * @param mixed $value The value associated with the field.
+     * @param ValueDto $value The value associated with the field.
      * @param string $type The type of the field.
      * @param string $label The label for the field.
      * @param bool $readonly Indicates if the field is read-only.
-     * @param bool $hidden Indicates if the field is hidden.
+     * @param ValueDto $hidden Indicates if the field is hidden.
      * @param mixed $valueDraft The draft value associated with the field.
      */
     public function __construct($field, $value, $type, $label, $readonly, $hidden, $valueDraft)
     {
         $this->field = $field;
-        $this->value = $value;
+        $this->value = $value->getDisplay();
+        if($value->getRaw() != null)
+        {
+            $this->valueRaw = $value->getRaw();
+        }
         $this->type = $type;
         $this->label = $label;
         $this->readonly = $readonly;
         $this->hidden = $hidden;
-        $this->valueDraft = $valueDraft;
+        $this->valueDraft = $valueDraft->getDisplay();
+        if($valueDraft->getRaw() != null)
+        {
+            $this->valueDraftRaw = $valueDraft->getRaw();
+        }
     }
 
     /**

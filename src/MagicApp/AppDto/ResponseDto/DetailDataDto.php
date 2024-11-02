@@ -14,12 +14,6 @@ use MagicObject\MagicObject;
  */
 class DetailDataDto
 {
-    /**
-     * An array of data map for the data table.
-     *
-     * @var DataMap[]
-     */
-    public $dataMap;
     
     /**
      * The name of the primary key in the data structure.
@@ -94,24 +88,6 @@ class DetailDataDto
         return $this;
     }
     
-    
-    /**
-     * Append a data map to the table.
-     *
-     * @param mixed $dataMap The data map to append.
-     * @return self The current instance for method chaining.
-     */
-    public function appendDataMap($dataMap)
-    {
-        if (!isset($this->dataMap)) {
-            $this->dataMap = array();
-        }
-        
-        $this->dataMap[] = $dataMap;
-        
-        return $this;
-    }
-    
     /**
      * Append a row of data to the table.
      *
@@ -137,29 +113,6 @@ class DetailDataDto
         
         return $this; // Return current instance for method chaining.
     }
-
-    /**
-     * Get the data map for the table.
-     *
-     * @return DataMap The data map.
-     */ 
-    public function getDataMap()
-    {
-        return $this->dataMap;
-    }
-    
-    /**
-     * Reset the data map to an empty array.
-     *
-     * @return self The current instance for method chaining.
-     */
-    public function resetDataMap()
-    {
-        $this->dataMap = []; // Assuming you want to set it to an empty array
-        return $this;
-    }
-    
-    
 
     /**
      * Get an array of column, each represented as a ColumnDto.

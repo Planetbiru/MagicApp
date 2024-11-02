@@ -7,6 +7,13 @@ use MagicObject\MagicObject;
 class MetadataDto
 {
     /**
+     * Indicates whether the metadata is active.
+     *
+     * @var bool
+     */
+    public $active;
+
+    /**
      * Associated array key value primary key.
      *
      * @var array
@@ -27,13 +34,6 @@ class MetadataDto
      * @var int
      */
     public $waitingFor;
-
-    /**
-     * Indicates whether the metadata is active.
-     *
-     * @var bool
-     */
-    public $active;
 
     /**
      * Creates a MetadataDto instance from provided data.
@@ -66,14 +66,14 @@ class MetadataDto
      * Constructor to initialize properties of the MetadataDto class.
      *
      * @param array $primaryKey An array representing the primary key.
-     * @param int $waitingFor An integer representing the operation status.
      * @param bool $active A boolean indicating if the metadata is active.
+     * @param int $waitingFor An integer representing the operation status.
      */
-    public function __construct($primaryKey, $waitingFor, $active)
+    public function __construct($primaryKey, $active, $waitingFor)
     {
         $this->primaryKey = $primaryKey;
-        $this->waitingFor = $waitingFor;
         $this->active = $active;
+        $this->waitingFor = $waitingFor;
     }
 
     /**
