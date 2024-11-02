@@ -2,8 +2,6 @@
 
 namespace MagicApp\AppDto\ResponseDto;
 
-use MagicObject\MagicObject;
-
 /**
  * Class DetailDataDto
  *
