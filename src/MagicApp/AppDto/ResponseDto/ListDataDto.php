@@ -11,9 +11,11 @@ use MagicObject\MagicObject;
  * This class manages the titles of columns, a data map, and the rows of data 
  * represented as RowDto instances. It provides methods for appending 
  * titles, data maps, and rows, as well as resetting these structures.
+ * 
  */
-class ListDataDto
+class ListDataDto extends ToString
 {
+    
     /**
      * An array of column titles for the data table.
      *

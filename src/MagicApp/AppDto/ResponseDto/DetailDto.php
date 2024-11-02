@@ -5,14 +5,56 @@ namespace MagicApp\AppDto\ResponseDto;
 /**
  * Data Transfer Object (DTO) for displaying record in a table format.
  */
-class DetailDto extends ResponseDto
+class DetailDto extends ToString
 {
+    /**
+     * The ID of the module associated with the data.
+     *
+     * @var string
+     */
+    public $moduleId;
+
+    /**
+     * The name of the module associated with the data.
+     *
+     * @var string
+     */
+    public $moduleName;
+
+    /**
+     * The title of the module associated with the data.
+     *
+     * @var string
+     */
+    public $moduleTitle;
+
+    /**
+     * The response code indicating the status of the request.
+     *
+     * @var string|null
+     */
+    public $responseCode;
+
+    /**
+     * A message providing additional information about the response.
+     *
+     * @var string|null
+     */
+    public $responseMessage;
+
     /**
      * The main data structure containing the list of items.
      *
      * @var DetailDataDto
      */
     public $data;
+
+    public function __construct($responseCode, $responseMessage, $data)
+    {
+        $this->responseCode = $responseCode;    
+        $this->responseMessage = $responseMessage;    
+        $this->data = $data;    
+    }
 
     /**
      * Get the main data structure containing the detail columns.
@@ -57,7 +99,7 @@ class DetailDto extends ResponseDto
     {
         if (!isset($this->data->primaryKeyName)) {
             $this->data->primaryKeyName = []; // Initialize as an array if not set
-            $this->primaryKeyDataType = []; // Initialize as an array if not set
+            $this->data->primaryKeyDataType = []; // Initialize as an array if not set
         }   
         $this->data->primaryKeyName[] = $primaryKeyName; // Append the primary key name
         $this->data->primaryKeyDataType[$primaryKeyName] = $primaryKeyDataType; // Append the primary key data type
@@ -65,18 +107,16 @@ class DetailDto extends ResponseDto
     }
 
     /**
-     * Convert the ListDto instance to a JSON string representation.
+     * Set metadata associated with the row.
      *
-     * This method clones the current instance and encodes it into a JSON format.
+     * @param  MetadataDto  $metadata  Metadata associated with the row.
      *
-     * @return string JSON representation of the ListDto instance.
+     * @return  self
      */ 
-    public function __toString()
+    public function setMetadata($metadata)
     {
-        return json_encode([
-            'responseCode' => $this->responseCode,
-            'responseMessage' => $this->responseMessage,
-            'data' => $this->data,
-        ], JSON_PRETTY_PRINT);
+        $this->data->metadata = $metadata;
+
+        return $this;
     }
 }

@@ -153,7 +153,7 @@ class DetailDataDto
      *
      * @return  self
      */ 
-    public function setMetadata(MetadataDto $metadata)
+    public function setMetadata($metadata)
     {
         $this->metadata = $metadata;
 

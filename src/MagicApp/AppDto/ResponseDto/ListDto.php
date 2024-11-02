@@ -12,15 +12,77 @@ use stdClass;
  * 
  * @JSON(property-naming-strategy="SNAKE_CASE")
  */
-class ListDto extends ResponseDto
+class ListDto extends ToString
 {
-    
+    /**
+     * The ID of the module associated with the data.
+     *
+     * @var string
+     */
+    public $moduleId;
+
+    /**
+     * The name of the module associated with the data.
+     *
+     * @var string
+     */
+    public $moduleName;
+
+    /**
+     * The title of the module associated with the data.
+     *
+     * @var string
+     */
+    public $moduleTitle;
+
+    /**
+     * The current page number for paginated data.
+     *
+     * @var int
+     */
+    public $pageNumber;
+
+    /**
+     * The number of items per page for pagination.
+     *
+     * @var int
+     */
+    public $pageSize;
+
+    /**
+     * The response code indicating the status of the request.
+     *
+     * @var string|null
+     */
+    public $responseCode;
+
+    /**
+     * A message providing additional information about the response.
+     *
+     * @var string|null
+     */
+    public $responseMessage;
+
     /**
      * The main data structure containing the list of items.
      *
      * @var ListDataDto|null
      */
     public $data;
+
+    /**
+     * Constructor to initialize properties.
+     *
+     * @param string|null $responseCode The response code.
+     * @param string|null $responseMessage The response message.
+     * @param mixed $data The associated data.
+     */
+    public function __construct($responseCode = null, $responseMessage = null, $data = null)
+    {
+        $this->responseCode = $responseCode;
+        $this->responseMessage = $responseMessage;
+        $this->data = $data;
+    }
 
     /**
      * Append a column title to the table.
@@ -220,20 +282,5 @@ class ListDto extends ResponseDto
     {
         return $this->data;
     }
-    
-    /**
-     * Convert the ListDto instance to a JSON string representation.
-     *
-     * This method clones the current instance and encodes it into a JSON format.
-     *
-     * @return string JSON representation of the ListDto instance.
-     */ 
-    public function __toString()
-    {
-        return json_encode([
-            'responseCode' => $this->responseCode,
-            'responseMessage' => $this->responseMessage,
-            'data' => $this->data,
-        ], JSON_PRETTY_PRINT);
-    }
+
 }

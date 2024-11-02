@@ -2,15 +2,13 @@
 
 namespace MagicApp\AppDto\ResponseDto;
 
-use MagicObject\MagicObject;
-
 /**
  * Class ResponseDto
  *
  * Represents a data transfer object for API responses.
  * This class holds the response code, message, and associated data.
  */
-class ResponseDto extends MagicObject
+class ResponseDto
 {
     /**
      * The response code indicating the status of the request.
@@ -126,21 +124,5 @@ class ResponseDto extends MagicObject
     {
         $this->data = $data;
         return $this;
-    }
-    
-    /**
-     * Convert the ListDto instance to a JSON string representation.
-     *
-     * This method clones the current instance and encodes it into a JSON format.
-     *
-     * @return string JSON representation of the ListDto instance.
-     */ 
-    public function __toString()
-    {
-        return json_encode([
-            'responseCode' => $this->responseCode,
-            'responseMessage' => $this->responseMessage,
-            'data' => $this->data,
-        ], JSON_PRETTY_PRINT);
     }
 }

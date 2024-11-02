@@ -1,14 +1,10 @@
 <?php
 
 use MagicApp\AppDto\ResponseDto\DataMap;
-use MagicApp\AppDto\ResponseDto\DetailDataDto;
-use MagicApp\AppDto\ResponseDto\DetailDto;
 use MagicApp\AppDto\ResponseDto\ListDataDto;
 use MagicApp\AppDto\ResponseDto\ListDataTitleDto;
 use MagicApp\AppDto\ResponseDto\ListDto;
-use MagicApp\AppDto\ResponseDto\MetadataDetailDto;
 use MagicApp\AppDto\ResponseDto\MetadataDto;
-use MagicApp\AppDto\ResponseDto\ValueDto;
 use MagicObject\MagicObject;
 
 require_once dirname(__DIR__) . "/vendor/autoload.php";
@@ -44,13 +40,4 @@ $listDto->appendData(new Apa(['apaId'=>'1241', 'name'=>'Coba', 'gender'=>'M', 'a
 $listDto->appendData(new Apa(['apaId'=>'1242', 'name'=>'Coba', 'gender'=>'M', 'active'=>"Ya"]), new MetadataDto(['apaId'=>'1234'], true, 0));
 $listDto->appendData(new Apa(['apaId'=>'1243', 'name'=>'Coba', 'gender'=>'M', 'active'=>"Ya"]), new MetadataDto(['apaId'=>'1234'], true, 0));
 
-//echo $listDto."\r\n";
-
-
-$detailDto = new DetailDto("001", "Success", new DetailDataDto());
-$detailDto->addPrimaryKeyName("apaId", "string");
-$detailDto->setMetadata(new MetadataDetailDto(['apaId'=>'1234'], true, 0, '', ''));
-
-$detailDto->addData('apaId', new ValueDto('1234'), 'string', 'ID', false, false, new ValueDto('1234'));
-$detailDto->addData('name', new ValueDto('Coba'), 'string', 'Name', false, false, new ValueDto('Coba'));
-echo $detailDto."\r\n";
+echo $listDto."\r\n";
