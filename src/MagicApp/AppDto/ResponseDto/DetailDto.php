@@ -25,18 +25,6 @@ class DetailDto extends ResponseDto
     }
 
     /**
-     * Append a column of data to the detail structure.
-     *
-     * @param DetailColumnDto $data The column data to append.
-     * @return self The instance of this class.
-     */
-    public function appendData($data)
-    {
-        $this->data->appendData($data);
-        return $this;
-    }
-
-    /**
      * Add a new detail column.
      *
      * This method creates a new DetailColumnDto and appends it to the detail data structure.
@@ -51,8 +39,23 @@ class DetailDto extends ResponseDto
      */
     public function addData($field, $value, $type = null, $label = null, $readonly = false, $hidden = false, $valueDraft = null)
     {
-        $this->data->appendData(new ColumnDto($field, $value, $type, $label, $readonly, $hidden, $valueDraft));
+        $this->data->appendData($field, $value, $type, $label, $readonly, $hidden, $valueDraft);
         return $this;
     }
 
+    /**
+     * Convert the ListDto instance to a JSON string representation.
+     *
+     * This method clones the current instance and encodes it into a JSON format.
+     *
+     * @return string JSON representation of the ListDto instance.
+     */ 
+    public function __toString()
+    {
+        return json_encode([
+            'responseCode' => $this->responseCode,
+            'responseMessage' => $this->responseMessage,
+            'data' => $this->data,
+        ], JSON_PRETTY_PRINT);
+    }
 }

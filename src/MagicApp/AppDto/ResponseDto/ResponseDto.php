@@ -48,6 +48,21 @@ class ResponseDto extends MagicObject
     }
 
     /**
+     * Set the metadata for the data object and return the current instance for method chaining.
+     *
+     * This method delegates the setting of metadata to the data object's setMetadata method.
+     *
+     * @param MetadataDto $metadata The metadata to associate with the data object.
+     * @return self The current instance for method chaining.
+     */
+    public function setMetadata($metadata)
+    {
+        $this->data->setMetadata($metadata);
+        return $this; // Return current instance for method chaining.
+    }
+
+
+    /**
      * Get the response code.
      *
      * @return string|null

@@ -1,6 +1,7 @@
 <?php
 
 use MagicApp\AppDto\ResponseDto\DataMap;
+use MagicApp\AppDto\ResponseDto\DetailDataDto;
 use MagicApp\AppDto\ResponseDto\DetailDto;
 use MagicApp\AppDto\ResponseDto\ListDataDto;
 use MagicApp\AppDto\ResponseDto\ListDataTitleDto;
@@ -44,6 +45,8 @@ $listDto->appendData(new Apa(['apaId'=>'1243', 'name'=>'Coba', 'gender'=>'M', 'a
 echo $listDto;
 */
 
-$detailDto = new DetailDto("001", "Success", new ListDataDto());
+$detailDto = new DetailDto("001", "Success", new DetailDataDto());
+$detailDto->setMetadata(new MetadataDto(['apaId'=>'1234'], 0, true));
+
 $detailDto->addData('apaId', '1234', 'string', 'ID', false, false, '1234');
 echo $detailDto;

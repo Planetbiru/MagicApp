@@ -5,22 +5,15 @@ namespace MagicApp\AppDto\ResponseDto;
 use MagicObject\MagicObject;
 
 /**
- * Class ListDataDto
+ * Class DetailDataDto
  *
- * Represents the data structure for a table, including column titles and rows.
+ * Represents the data structure for a table, including column titles and row.
  * This class manages the titles of columns, a data map, and the rows of data 
  * represented as RowDto instances. It provides methods for appending 
  * titles, data maps, and rows, as well as resetting these structures.
  */
-class ListDataDto
+class DetailDataDto
 {
-    /**
-     * An array of column titles for the data table.
-     *
-     * @var ListDataTitleDto[]
-     */
-    public $title;
-    
     /**
      * An array of data map for the data table.
      *
@@ -43,11 +36,18 @@ class ListDataDto
     public $primaryKeyDataType;
     
     /**
-     * An array of rows, each represented as a RowDto.
+     * An array of column, each represented as a ColumnDto.
      *
-     * @var RowDto[]
+     * @var ColumnDto[]
      */
-    public $rows;
+    public $columns;
+
+    /**
+     * Metadata associated with the row.
+     *
+     * @var MetadataDto
+     */
+    public $metadata;
 
     /**
      * Get the name of the primary key in the data structure.
@@ -94,22 +94,6 @@ class ListDataDto
         return $this;
     }
     
-    /**
-     * Append a column title to the table.
-     *
-     * @param ListDataTitleDto $title The title to append.
-     * @return self The current instance for method chaining.
-     */
-    public function appendTitle($title)
-    {
-        if (!isset($this->title)) {
-            $this->title = array();
-        }
-        
-        $this->title[] = $title;
-        
-        return $this;
-    }
     
     /**
      * Append a data map to the table.
@@ -134,42 +118,24 @@ class ListDataDto
      * This method adds a new row to the internal rows collection using the provided
      * MagicObject as data along with the associated MetadataDto.
      *
-     * @param MagicObject $data The row data to append.
-     * @param MetadataDto $metadata The metadata associated with the row data.
+     * @param string $field The name of the field.
+     * @param mixed $value The value associated with the field.
+     * @param string $type The type of the field.
+     * @param string $label The label for the field.
+     * @param bool $readonly Indicates if the field is read-only.
+     * @param bool $hidden Indicates if the field is hidden.
+     * @param mixed $valueDraft The draft value associated with the field.
      * @return self The current instance for method chaining.
      */
-    public function appendData($data, $metadata)
+    public function appendData($field, $value, $type, $label, $readonly, $hidden, $valueDraft)
     {
-        if (!isset($this->rows)) {
-            $this->rows = array();
+        if (!isset($this->columns)) {
+            $this->columns = array();
         }
         
-        $this->rows[] = new RowDto($data, $metadata);
+        $this->columns[] = new ColumnDto($field, $value, $type, $label, $readonly, $hidden, $valueDraft);
         
         return $this; // Return current instance for method chaining.
-    }
-
-
-
-    /**
-     * Get an array of column titles for the data table.
-     *
-     * @return ListDataTitleDto[] The column titles.
-     */ 
-    public function getTitle()
-    {
-        return $this->title;
-    }
-    
-    /**
-     * Reset the column titles to an empty array.
-     *
-     * @return self The current instance for method chaining.
-     */
-    public function resetTitle()
-    {
-        $this->title = [];
-        return $this;
     }
 
     /**
@@ -193,24 +159,53 @@ class ListDataDto
         return $this;
     }
     
+    
+
     /**
-     * Get an array of rows for the data table.
+     * Get an array of column, each represented as a ColumnDto.
      *
-     * @return RowDto[] The rows of data.
-     */
-    public function getRows()
+     * @return  ColumnDto[]
+     */ 
+    public function getColumns()
     {
-        return $this->rows;
+        return $this->columns;
     }
 
     /**
-     * Reset the rows to an empty array.
+     * Set an array of column, each represented as a ColumnDto.
      *
-     * @return self The current instance for method chaining.
-     */
-    public function resetRows()
+     * @param  ColumnDto[]  $columns  An array of column, each represented as a ColumnDto.
+     *
+     * @return  self
+     */ 
+    public function setColumns($columns)
     {
-        $this->rows = array();
+        $this->columns = $columns;
+
+        return $this;
+    }
+
+    /**
+     * Get metadata associated with the row.
+     *
+     * @return  MetadataDto
+     */ 
+    public function getMetadata()
+    {
+        return $this->metadata;
+    }
+
+    /**
+     * Set metadata associated with the row.
+     *
+     * @param  MetadataDto  $metadata  Metadata associated with the row.
+     *
+     * @return  self
+     */ 
+    public function setMetadata(MetadataDto $metadata)
+    {
+        $this->metadata = $metadata;
+
         return $this;
     }
 }

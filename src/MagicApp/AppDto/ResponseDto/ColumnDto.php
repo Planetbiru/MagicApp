@@ -9,49 +9,49 @@ class ColumnDto
      *
      * @var string
      */
-    private $field;
+    public $field;
 
     /**
      * The value associated with the field.
      *
      * @var mixed
      */
-    private $value;
+    public $value;
 
     /**
      * The type of the field.
      *
      * @var string
      */
-    private $type;
+    public $type;
 
     /**
      * The label for the field.
      *
      * @var string
      */
-    private $label;
+    public $label;
 
     /**
      * Indicates whether the field is read-only.
      *
      * @var bool
      */
-    private $readonly;
+    public $readonly;
 
     /**
      * Indicates whether the field is hidden.
      *
      * @var bool
      */
-    private $hidden;
+    public $hidden;
 
     /**
      * The draft value associated with the field.
      *
      * @var mixed
      */
-    private $valueDraft;
+    public $valueDraft;
 
     /**
      * Constructor to initialize properties of the ColumnDto class.
