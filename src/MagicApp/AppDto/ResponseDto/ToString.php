@@ -33,7 +33,7 @@ class ToString
         return json_encode($formattedProperties, JSON_PRETTY_PRINT);
     }
 
-    /**
+   /**
      * Convert property name to the desired format.
      *
      * @param string $name The original property name.
@@ -50,8 +50,19 @@ class ToString
             case 'TITLE_CASE':
                 return ucwords(str_replace(['_', '-'], ' ', $name));
             case 'CAMEL_CASE':
-            default:
                 return $name; // Default to camelCase
+            case 'PASCAL_CASE':
+                return str_replace(' ', '', ucwords(str_replace(['_', '-'], ' ', $name))); // UpperCamelCase
+            case 'CONSTANT_CASE':
+                return strtoupper(preg_replace('/([a-z])([A-Z])/', '$1_$2', $name)); // ALL_UPPER_CASE
+            case 'FLAT_CASE':
+                return strtolower(preg_replace('/([a-z])([A-Z])/', '$1$2', $name)); // alllowercase
+            case 'DOT_NOTATION':
+                return strtolower(preg_replace('/([a-z])([A-Z])/', '$1.$2', $name)); // this.is.dot.notation
+            case 'TRAIN_CASE':
+                return strtoupper(preg_replace('/([a-z])([A-Z])/', '$1-$2', $name)); // THIS-IS-TRAIN-CASE
+            default:
+                return $name; // Fallback to original
         }
     }
 
