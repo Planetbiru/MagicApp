@@ -12,12 +12,7 @@ class DetailDto extends ResponseDto
      *
      * @var DetailDataDto
      */
-    protected $data;
-    
-    public function __construct()
-    {
-        $this->data = new DetailDataDto();
-    }
+    public $data;
 
     /**
      * Get the main data structure containing the detail columns.
@@ -48,7 +43,6 @@ class DetailDto extends ResponseDto
      *
      * @param string $field The field associated with the detail.
      * @param mixed $value The value associated with the detail.
-     * @param string|null $type The type describing the detail.
      * @param string|null $label The label describing the detail.
      * @param bool $readonly Whether the detail is readonly.
      * @param bool $hidden Whether the detail is hidden.
@@ -57,20 +51,8 @@ class DetailDto extends ResponseDto
      */
     public function addData($field, $value, $type = null, $label = null, $readonly = false, $hidden = false, $valueDraft = null)
     {
-        $this->data->appendData(new DetailColumnDto($field, $value, $type, $label, $readonly, $hidden, $valueDraft));
+        $this->data->appendData(new ColumnDto($field, $value, $type, $label, $readonly, $hidden, $valueDraft));
         return $this;
     }
-    
-    /**
-     * Convert the DetailDto instance to a JSON string representation.
-     *
-     * This method clones the current instance and encodes it into a JSON format.
-     *
-     * @return string JSON representation of the DetailDto instance.
-     */ 
-    public function __toString()
-    {
-        $value = clone $this;
-        return json_encode($value);
-    }
+
 }

@@ -2,6 +2,8 @@
 
 namespace MagicApp\AppDto\ResponseDto;
 
+use MagicObject\MagicObject;
+
 class MetadataDto
 {
     /**
@@ -9,7 +11,7 @@ class MetadataDto
      *
      * @var array
      */
-    private $primaryKey;
+    public $primaryKey;
 
     /**
      * Represents the status of the operation.
@@ -24,14 +26,41 @@ class MetadataDto
      *
      * @var int
      */
-    private $waitingFor;
+    public $waitingFor;
 
     /**
      * Indicates whether the metadata is active.
      *
      * @var bool
      */
-    private $active;
+    public $active;
+
+    /**
+     * Creates a MetadataDto instance from provided data.
+     *
+     * This method constructs a MetadataDto by extracting values from a MagicObject
+     * based on specified keys for the primary key, waiting status, and active status.
+     *
+     * @param array $primaryKeyName An array of keys to construct the primary key.
+     * @param MagicObject $data The data object from which to extract values.
+     * @param string $waitingForKey The key for the waiting status in the data object.
+     * @param string $activeKey The key for the active status in the data object.
+     * @return MetadataDto An instance of MetadataDto populated with extracted values.
+     */
+    public static function valueOf(array $primaryKeyName, MagicObject $data, string $waitingForKey, string $activeKey): MetadataDto
+    {
+        $primaryKey = [];
+        
+        foreach ($primaryKeyName as $key) {
+            $primaryKey[$key] = $data->get($key);
+        }
+        
+        $waitingFor = $data->get($waitingForKey);
+        $active = $data->get($activeKey);
+        
+        return new self($primaryKey, $waitingFor, $active);
+    }
+
 
     /**
      * Constructor to initialize properties of the MetadataDto class.

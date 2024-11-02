@@ -277,7 +277,7 @@ class PicoDatabase //NOSONAR
     /**
      * Disconnect from the database.
      *
-     * @return self Returns the instance of the current object for method chaining.
+     * @return self Returns the current instance for method chaining.
      */
     public function disconnect()
     {
@@ -289,7 +289,7 @@ class PicoDatabase //NOSONAR
      * Set the time zone offset.
      *
      * @param string $timeZoneOffset Client time zone.
-     * @return self Returns the instance of the current object for method chaining.
+     * @return self Returns the current instance for method chaining.
      */
     public function setTimeZoneOffset($timeZoneOffset)
     {
@@ -302,7 +302,7 @@ class PicoDatabase //NOSONAR
      * Change the database.
      *
      * @param string $databaseName Database name.
-     * @return self Returns the instance of the current object for method chaining.
+     * @return self Returns the current instance for method chaining.
      */
     public function useDatabase($databaseName)
     {
@@ -708,10 +708,35 @@ class PicoDatabase //NOSONAR
         return json_encode($val);
     }
 
+
+    /**
+     * Get callback function when executing queries that modify data.
+     *
+     * @return callable|null
+     */ 
+    public function getCallbackExecuteQuery()
+    {
+        return $this->callbackExecuteQuery;
+    }
+
+    /**
+     * Set callback function when executing queries that modify data.
+     *
+     * @param callable|null  $callbackExecuteQuery  Callback function when executing queries that modify data.
+     *
+     * @return self Returns the current instance for method chaining.
+     */ 
+    public function setCallbackExecuteQuery($callbackExecuteQuery)
+    {
+        $this->callbackExecuteQuery = $callbackExecuteQuery;
+
+        return $this;
+    }
+
     /**
      * Get callback function when executing any query.
      *
-     * @return  callable|null
+     * @return callable|null
      */ 
     public function getCallbackDebugQuery()
     {
@@ -719,12 +744,16 @@ class PicoDatabase //NOSONAR
     }
 
     /**
-     * Get callback function when executing queries that modify data.
+     * Set callback function when executing any query.
      *
-     * @return  callable|null
+     * @param callable|null  $callbackDebugQuery  Callback function when executing any query.
+     *
+     * @return self Returns the current instance for method chaining.
      */ 
-    public function getCallbackExecuteQuery()
+    public function setCallbackDebugQuery($callbackDebugQuery)
     {
-        return $this->callbackExecuteQuery;
+        $this->callbackDebugQuery = $callbackDebugQuery;
+
+        return $this;
     }
 }

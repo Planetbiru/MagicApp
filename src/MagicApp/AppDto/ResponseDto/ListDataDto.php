@@ -9,7 +9,7 @@ use MagicObject\MagicObject;
  *
  * Represents the data structure for a table, including column titles and rows.
  * This class manages the titles of columns, a data map, and the rows of data 
- * represented as MagicObject instances. It provides methods for appending 
+ * represented as RowDto instances. It provides methods for appending 
  * titles, data maps, and rows, as well as resetting these structures.
  */
 class ListDataDto
@@ -43,9 +43,9 @@ class ListDataDto
     public $primaryKeyDataType;
     
     /**
-     * An array of rows, each represented as a MagicObject.
+     * An array of rows, each represented as a RowDto.
      *
-     * @var MagicObject[]
+     * @var RowDto[]
      */
     public $rows;
 
@@ -131,19 +131,25 @@ class ListDataDto
     /**
      * Append a row of data to the table.
      *
+     * This method adds a new row to the internal rows collection using the provided
+     * MagicObject as data along with the associated MetadataDto.
+     *
      * @param MagicObject $data The row data to append.
+     * @param MetadataDto $metadata The metadata associated with the row data.
      * @return self The current instance for method chaining.
      */
-    public function appendData($data)
+    public function appendData(MagicObject $data, MetadataDto $metadata)
     {
         if (!isset($this->rows)) {
             $this->rows = array();
         }
         
-        $this->rows[] = $data;
+        $this->rows[] = new RowDto($data, $metadata);
         
-        return $this;
+        return $this; // Return current instance for method chaining.
     }
+
+
 
     /**
      * Get an array of column titles for the data table.
@@ -190,7 +196,7 @@ class ListDataDto
     /**
      * Get an array of rows for the data table.
      *
-     * @return MagicObject[] The rows of data.
+     * @return RowDto[] The rows of data.
      */
     public function getRows()
     {

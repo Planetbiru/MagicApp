@@ -3,6 +3,7 @@ namespace MagicObject\Database;
 
 use DateTime;
 use Exception;
+use MagicObject\Exceptions\ClassNotFoundException;
 use PDO;
 use PDOException;
 use PDOStatement;
@@ -16,6 +17,7 @@ use MagicObject\Exceptions\NoColumnMatchException;
 use MagicObject\Exceptions\NoDatabaseConnectionException;
 use MagicObject\Exceptions\NoUpdatableColumnException;
 use MagicObject\Exceptions\NoPrimaryKeyDefinedException;
+use MagicObject\Exceptions\UnknownErrorException;
 use MagicObject\MagicObject;
 use MagicObject\Util\ClassUtil\ExtendedReflectionClass;
 use MagicObject\Util\ClassUtil\PicoAnnotationParser;
@@ -1393,7 +1395,7 @@ class PicoDatabasePersistence // NOSONAR
      * @param string $entityName Entity name
      * @param PicoTableInfo $info Table information
      * @return string[] Array of primary key column names
-     * @throws Exception If unable to retrieve the class name or parse annotations
+     * @throws ClassNotFoundException If unable to retrieve the class name or parse annotations
      */
     private function getPrimaryKeyOf($entityName, $info)
     {
@@ -1414,7 +1416,7 @@ class PicoDatabasePersistence // NOSONAR
                 }
             }
         }
-        catch(Exception $e)
+        catch(ClassNotFoundException $e)
         {
             // do nothing
         }
@@ -1427,7 +1429,7 @@ class PicoDatabasePersistence // NOSONAR
      * @param string $entityName Entity name
      * @param PicoTableInfo $info Table information
      * @return array Associative array mapping property names to column names
-     * @throws Exception If unable to retrieve the class name or parse annotations
+     * @throws ClassNotFoundException If unable to retrieve the class name or parse annotations
      */
     private function getColumnMapOf($entityName, $info)
     {
@@ -1445,7 +1447,7 @@ class PicoDatabasePersistence // NOSONAR
                 $columns[$prop->name] = $properties->getName();
             }
         }
-        catch(Exception $e)
+        catch(ClassNotFoundException $e)
         {
             // do nothing
         }
@@ -2649,7 +2651,7 @@ class PicoDatabasePersistence // NOSONAR
         }
         catch(Exception $e)
         {
-            // do nothing
+            throw new UnknownErrorException($e->getMessage());
         }
         return $result;
     }
@@ -2993,7 +2995,7 @@ class PicoDatabasePersistence // NOSONAR
      *
      * @param string $classNameJoin The class name for which to prepare the join cache.
      * 
-     * @return self Returns the current instance to allow method chaining.
+     * @return self Returns the current instance for method chaining.
      */
     private function prepareJoinCache($classNameJoin)
     {

@@ -104,20 +104,62 @@ class ListDto extends ResponseDto
         }
         return $this;
     }
+
+    /**
+     * Append a data map to the table.
+     *
+     * @param mixed $dataMap The data map to append.
+     * @return self The current instance for method chaining.
+     */
+    public function appendDataMap($dataMap)
+    {
+        if (!isset($this->data->dataMap)) {
+            $this->data->dataMap = array();
+        }
+        
+        $this->data->dataMap[] = $dataMap;
+        
+        return $this;
+    }
+
+    /**
+     * Add a primary key name and its data type to the list of primary keys.
+     *
+     * This method initializes the primary key name and data type properties as arrays if they haven't been set,
+     * then appends the new primary key name and its corresponding data type to the lists.
+     *
+     * @param string $primaryKeyName The primary key name to add.
+     * @param string $primaryKeyDataType The primary key data type to add.
+     * @return self The instance of this class.
+     */
+    public function addPrimaryKeyName($primaryKeyName, $primaryKeyDataType)
+    {
+        if (!isset($this->data->primaryKeyName)) {
+            $this->data->primaryKeyName = []; // Initialize as an array if not set
+            $this->data->primaryKeyDataType = []; // Initialize as an array if not set
+        }   
+        $this->data->primaryKeyName[] = $primaryKeyName; // Append the primary key name
+        $this->data->primaryKeyDataType[$primaryKeyName] = $primaryKeyDataType; // Append the primary key data type
+        return $this;
+    }
     
     /**
      * Append a row of data to the table.
      *
+     * This method adds a new row of data to the internal data collection,
+     * creating a ListDataDto instance if it doesn't already exist.
+     *
      * @param MagicObject $data The row data to append.
+     * @param MetadataDto $metadata The metadata associated with the row data.
      * @return self The current instance for method chaining.
      */
-    public function appendData($data)
+    public function appendData($data, $metadata)
     {
         if(!isset($this->data))
         {
             $this->data = new ListDataDto();
         }   
-        $this->data->appendData($data);
+        $this->data->appendData($data, $metadata);
         return $this;
     }
 
