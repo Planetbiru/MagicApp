@@ -7,6 +7,13 @@ namespace MagicApp\AppDto\ResponseDto;
  *
  * Represents a data transfer object for API responses.
  * This class holds the response code, message, and associated data.
+ * 
+ * The class extends the ToString base class, enabling string representation based on 
+ * the specified property naming strategy.
+ * 
+ * @package MagicApp\AppDto\ResponseDto
+ * @author Kamshory
+ * @link https://github.com/Planetbiru/MagicApp
  */
 class ResponseDto extends ToString
 {

@@ -4,6 +4,24 @@ namespace MagicApp\AppDto\ResponseDto;
 
 use MagicObject\MagicObject;
 
+/**
+ * Data Transfer Object (DTO) representing metadata information.
+ * 
+ * The MetadataDto class is designed to encapsulate metadata details 
+ * associated with various data operations. This includes indicators for 
+ * active status, a primary key to uniquely identify the metadata, and 
+ * a waiting status that reflects the current state of operations. 
+ * The class provides mechanisms to construct an instance from a 
+ * provided MagicObject, facilitating easy population of its properties 
+ * from dynamic data sources.
+ * 
+ * The class extends the ToString base class, enabling string representation based on 
+ * the specified property naming strategy.
+ * 
+ * @package MagicApp\AppDto\ResponseDto
+ * @author Kamshory
+ * @link https://github.com/Planetbiru/MagicApp
+ */
 class MetadataDto extends ToString
 {
     /**

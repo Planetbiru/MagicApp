@@ -8,6 +8,13 @@ namespace MagicApp\AppDto\ResponseDto;
  * This class represents the structure for a response code and its associated message.
  * It encapsulates the response code that indicates the status of a request,
  * along with a message that provides additional context about the response.
+ * 
+ * The class extends the ToString base class, enabling string representation based on 
+ * the specified property naming strategy.
+ * 
+ * @package MagicApp\AppDto\ResponseDto
+ * @author Kamshory
+ * @link https://github.com/Planetbiru/MagicApp
  */
 class ResponseCode extends ToString
 {

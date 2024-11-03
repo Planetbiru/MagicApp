@@ -2,6 +2,21 @@
 
 namespace MagicApp\AppDto\ResponseDto;
 
+/**
+ * Data Transfer Object (DTO) representing a column in a tabular data structure.
+ * 
+ * The ColumnDto class encapsulates the properties of a column, including its field name,
+ * associated values, data types, and display characteristics. It is designed to facilitate
+ * the representation and manipulation of data within a column context, allowing for 
+ * additional features such as read-only status and visibility control.
+ * 
+ * The class extends the ToString base class, enabling string representation based on 
+ * the specified property naming strategy.
+ * 
+ * @package MagicApp\AppDto\ResponseDto
+ * @author Kamshory
+ * @link https://github.com/Planetbiru/MagicApp
+ */
 class ColumnDto extends ToString
 {
     /**

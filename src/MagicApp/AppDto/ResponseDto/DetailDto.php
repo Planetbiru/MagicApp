@@ -5,6 +5,12 @@ namespace MagicApp\AppDto\ResponseDto;
 /**
  * Data Transfer Object (DTO) for displaying record in a table format.
  * 
+ * The class extends the ToString base class, enabling string representation based on 
+ * the specified property naming strategy.
+ * 
+ * @package MagicApp\AppDto\ResponseDto
+ * @author Kamshory
+ * @link https://github.com/Planetbiru/MagicApp
  */
 class DetailDto extends ToString
 {

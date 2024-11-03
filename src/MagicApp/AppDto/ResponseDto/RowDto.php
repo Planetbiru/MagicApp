@@ -4,6 +4,22 @@ namespace MagicApp\AppDto\ResponseDto;
 
 use MagicObject\MagicObject;
 
+/**
+ * Data Transfer Object (DTO) representing a row of data with associated metadata.
+ * 
+ * The RowDto class encapsulates a single row of data within a dataset, 
+ * along with its corresponding metadata. This class is designed to hold 
+ * both the data object, which can be dynamically structured through the 
+ * MagicObject class, and the metadata that provides additional context 
+ * about the row's status and attributes.
+ * 
+ * The class extends the ToString base class, enabling string representation based on 
+ * the specified property naming strategy.
+ * 
+ * @package MagicApp\AppDto\ResponseDto
+ * @author Kamshory
+ * @link https://github.com/Planetbiru/MagicApp
+ */
 class RowDto extends ToString
 {
     /**

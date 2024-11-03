@@ -10,6 +10,12 @@ use stdClass;
 /**
  * Data Transfer Object (DTO) for displaying records in a table format.
  * 
+ * The class extends the ToString base class, enabling string representation based on 
+ * the specified property naming strategy.
+ * 
+ * @package MagicApp\AppDto\ResponseDto
+ * @author Kamshory
+ * @link https://github.com/Planetbiru/MagicApp
  */
 class ListDto extends ToString
 {

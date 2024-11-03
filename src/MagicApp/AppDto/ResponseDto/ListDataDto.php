@@ -12,6 +12,12 @@ use MagicObject\MagicObject;
  * represented as RowDto instances. It provides methods for appending 
  * titles, data maps, and rows, as well as resetting these structures.
  * 
+ * The class extends the ToString base class, enabling string representation based on 
+ * the specified property naming strategy.
+ * 
+ * @package MagicApp\AppDto\ResponseDto
+ * @author Kamshory
+ * @link https://github.com/Planetbiru/MagicApp
  */
 class ListDataDto extends ToString
 {
