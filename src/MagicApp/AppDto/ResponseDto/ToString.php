@@ -8,9 +8,6 @@ use stdClass;
 /**
  * Base class providing a __toString method for derived classes.
  * 
- * The class extends the ToString base class, enabling string representation based on 
- * the specified property naming strategy.
- * 
  * @package MagicApp\AppDto\ResponseDto
  * @author Kamshory
  * @link https://github.com/Planetbiru/MagicApp
