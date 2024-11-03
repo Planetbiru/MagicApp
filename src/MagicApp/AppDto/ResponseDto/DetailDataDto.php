@@ -10,7 +10,7 @@ namespace MagicApp\AppDto\ResponseDto;
  * represented as RowDto instances. It provides methods for appending 
  * titles, data maps, and rows, as well as resetting these structures.
  */
-class DetailDataDto
+class DetailDataDto extends ToString
 {
     
     /**

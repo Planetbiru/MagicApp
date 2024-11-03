@@ -9,7 +9,7 @@ namespace MagicApp\AppDto\ResponseDto;
  * This class contains a field name and an associative array that defines how 
  * the field is mapped, allowing for flexible data transformation and retrieval.
  */
-class DataMap
+class DataMap extends ToString
 {
     /**
      * The name of the field being mapped.

@@ -4,7 +4,7 @@ namespace MagicApp\AppDto\ResponseDto;
 
 use MagicObject\MagicObject;
 
-class RowDto
+class RowDto extends ToString
 {
     /**
      * Data associated with the row.

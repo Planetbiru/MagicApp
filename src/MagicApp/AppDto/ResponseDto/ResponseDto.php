@@ -8,7 +8,7 @@ namespace MagicApp\AppDto\ResponseDto;
  * Represents a data transfer object for API responses.
  * This class holds the response code, message, and associated data.
  */
-class ResponseDto
+class ResponseDto extends ToString
 {
     /**
      * The response code indicating the status of the request.

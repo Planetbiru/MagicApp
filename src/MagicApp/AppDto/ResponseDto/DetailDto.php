@@ -4,6 +4,7 @@ namespace MagicApp\AppDto\ResponseDto;
 
 /**
  * Data Transfer Object (DTO) for displaying record in a table format.
+ * 
  */
 class DetailDto extends ToString
 {

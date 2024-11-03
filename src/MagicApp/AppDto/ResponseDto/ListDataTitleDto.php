@@ -5,7 +5,7 @@ namespace MagicApp\AppDto\ResponseDto;
 /**
  * Represents the title of a column in a table row.
  */
-class ListDataTitleDto
+class ListDataTitleDto extends ToString
 {
     /**
      * The field associated with the column title.

@@ -4,7 +4,7 @@ namespace MagicApp\AppDto\ResponseDto;
 
 use MagicObject\MagicObject;
 
-class MetadataDto
+class MetadataDto extends ToString
 {
     /**
      * Indicates whether the metadata is active.

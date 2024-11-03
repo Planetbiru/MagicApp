@@ -10,7 +10,6 @@ use stdClass;
 /**
  * Data Transfer Object (DTO) for displaying records in a table format.
  * 
- * @JSON(property-naming-strategy="SNAKE_CASE")
  */
 class ListDto extends ToString
 {

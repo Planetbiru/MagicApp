@@ -9,7 +9,7 @@ namespace MagicApp\AppDto\ResponseDto;
  * It encapsulates the response code that indicates the status of a request,
  * along with a message that provides additional context about the response.
  */
-class ResponseCode
+class ResponseCode extends ToString
 {
     /**
      * The response code indicating the status of the request.

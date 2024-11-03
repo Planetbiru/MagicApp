@@ -2,7 +2,7 @@
 
 namespace MagicApp\AppDto\ResponseDto;
 
-class ValueDto
+class ValueDto extends ToString
 {
     /**
      * Data to be displayed.

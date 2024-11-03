@@ -2,7 +2,7 @@
 
 namespace MagicApp\AppDto\ResponseDto;
 
-class ColumnDto
+class ColumnDto extends ToString
 {
     /**
      * The name of the field.

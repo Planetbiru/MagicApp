@@ -2,11 +2,96 @@
 
 namespace MagicApp\AppDto\ResponseDto;
 
+use MagicObject\MagicObject;
+use stdClass;
+
 /**
  * Base class providing a __toString method for derived classes.
  */
 class ToString
 {
+    
+    /**
+     * Get propery value
+     *
+     * @return stdClass
+     */
+    public function getPropertyValue($namingStrategyValue = null)
+    {
+        $properties = get_object_vars($this); // Get all properties of the instance
+        $formattedProperties = new stdClass;
+
+        // Get the property naming strategy from the class annotations
+        $namingStrategy = $this->getJsonPropertyNamingStrategy();
+        if(isset($namingStrategy))
+        {
+            $namingStrategyValue = $namingStrategy;
+        }
+        
+        foreach ($properties as $key => $value) {
+            // Apply naming strategy only for object or array properties
+            if($value instanceof ToString)
+            {
+                $formattedProperties->{$this->convertPropertyName($key, $namingStrategyValue)} = $value->getPropertyValue($namingStrategyValue);
+            }
+            else if($value instanceof MagicObject)
+            {
+                $formattedProperties->{$this->convertPropertyName($key, $namingStrategyValue)} = $value->value($namingStrategyValue == 'CAMEL_CASE');
+            }
+            else if (is_array($value)) 
+            {
+                $formattedProperties->{$this->convertPropertyName($key, $namingStrategyValue)} = [];
+                if($this->isAssociativeArray($value))
+                {
+                    foreach($value as $k=>$v)
+                    {
+                        if($v instanceof ToString)
+                        {
+                            $formattedProperties->{$this->convertPropertyName($key, $namingStrategyValue)}[$this->convertPropertyName($k, $namingStrategyValue)] = $v->getPropertyValue($namingStrategyValue);
+                        }
+                        else if($v instanceof MagicObject)
+                        {
+                            $formattedProperties->{$this->convertPropertyName($key, $namingStrategyValue)}[$this->convertPropertyName($k, $namingStrategyValue)] = $v->value($namingStrategyValue == 'CAMEL_CASE');
+                        }
+                        else
+                        {
+                            $formattedProperties->{$this->convertPropertyName($key, $namingStrategyValue)}[$this->convertPropertyName($k, $namingStrategyValue)] = $v;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach($value as $k=>$v)
+                    {
+                        if($v instanceof ToString)
+                        {
+                            $formattedProperties->{$this->convertPropertyName($key, $namingStrategyValue)}[] = $v->getPropertyValue($namingStrategyValue);
+                        }
+                        else if($v instanceof MagicObject)
+                        {
+                           
+                            
+                            $formattedProperties->{$this->convertPropertyName($key, $namingStrategyValue)}[] = $v->value($namingStrategyValue == 'CAMEL_CASE');
+                        }
+                        else
+                        {
+                            $formattedProperties->{$this->convertPropertyName($key, $namingStrategyValue)}[] = $v;
+                        }
+                    }
+                }
+                $formattedProperties->{$this->convertPropertyName($key, $namingStrategyValue)} = $value;
+            } 
+            else if (is_object($value)) 
+            {
+                $formattedProperties->{$this->convertPropertyName($key, $namingStrategyValue)} = $value;
+            } 
+            else 
+            {
+                $formattedProperties->{$this->convertPropertyName($key, $namingStrategyValue)} = $value;
+            }
+        }
+        return $formattedProperties;
+    }
     /**
      * Convert the instance to a string representation based on JSON annotations.
      *
@@ -14,23 +99,12 @@ class ToString
      */
     public function __toString()
     {
-        $properties = get_object_vars($this); // Get all properties of the instance
-        $formattedProperties = [];
+        return json_encode($this->getPropertyValue(), JSON_PRETTY_PRINT);
+    }
 
-        // Get the property naming strategy from the class annotations
-        $namingStrategy = $this->getJsonPropertyNamingStrategy();
-
-        foreach ($properties as $key => $value) {
-            // Apply naming strategy only for object or array properties
-            if (is_object($value) || is_array($value)) {
-                $formattedProperties[$this->convertPropertyName($key, $namingStrategy)] = $value;
-            } else {
-                // For non-object/array properties, keep the original name
-                $formattedProperties[$key] = $value;
-            }
-        }
-
-        return json_encode($formattedProperties, JSON_PRETTY_PRINT);
+    private function isAssociativeArray($array) {
+        if (array() === $array) return false; // Tidak boleh array kosong
+        return array_keys($array) !== range(0, count($array) - 1);
     }
 
    /**
@@ -81,6 +155,6 @@ class ToString
             return $matches[1];
         }
 
-        return 'CAMEL_CASE'; // Default naming strategy
+        return null;
     }
 }
