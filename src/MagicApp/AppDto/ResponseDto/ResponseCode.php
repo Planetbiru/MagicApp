@@ -24,7 +24,7 @@ class ResponseCode extends ToString
      * @var string
      */
     public $responseCode;
-    
+
     /**
      * A message providing additional information about the response.
      *

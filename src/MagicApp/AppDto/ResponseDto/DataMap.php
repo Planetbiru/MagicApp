@@ -38,7 +38,7 @@ class DataMap extends ToString
      * @param string $field The name of the field.
      * @param array $map An associative array defining the mapping for the field.
      */
-    public function __construct($field, $map)
+    public function __construct($field, array $map)
     {
         $this->field = $field;
         $this->map = $map;
@@ -58,12 +58,12 @@ class DataMap extends ToString
      * Set the name of the field.
      *
      * @param string $field The name of the field.
-     * @return self The instance of this class.
+     * @return self The instance of this class for method chaining.
      */
     public function setField($field)
     {
         $this->field = $field;
-        return $this;
+        return $this; // Return current instance for method chaining.
     }
 
     /**
@@ -80,11 +80,11 @@ class DataMap extends ToString
      * Set the mapping for the field.
      *
      * @param array $map The mapping for the field.
-     * @return self The instance of this class.
+     * @return self The instance of this class for method chaining.
      */
-    public function setMap($map)
+    public function setMap(array $map)
     {
         $this->map = $map;
-        return $this;
+        return $this; // Return current instance for method chaining.
     }
 }

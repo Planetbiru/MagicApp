@@ -9,15 +9,15 @@ namespace MagicApp\AppDto\ResponseDto;
  * specific details related to metadata associated with data operations. 
  * It includes properties that indicate the status of operations, the 
  * primary key associated with the metadata, and its active status. 
- * This class is particularly useful for scenarios where detailed 
- * tracking of metadata operations is required, such as in data 
- * approval processes, updates, or state changes.
+ * This class is particularly useful for scenarios requiring detailed 
+ * tracking of metadata operations, such as in data approval processes, 
+ * updates, or state changes.
  * 
  * The class provides methods for accessing and manipulating these properties 
  * while leveraging inheritance from the MetadataDto class for common metadata 
  * functionalities.
  * 
- * The class extends the ToString base class, enabling string representation based on 
+ * The class also extends the ToString base class, enabling string representation based on 
  * the specified property naming strategy.
  * 
  * @package MagicApp\AppDto\ResponseDto
@@ -44,12 +44,12 @@ class MetadataDetailDto extends MetadataDto
      * Represents the status of the operation.
      * 
      * Possible values:
-     * 1 = approval for new data,
-     * 2 = updating data,
-     * 3 = activate,
-     * 4 = deactivate,
-     * 5 = delete,
-     * 6 = sort order.
+     * - 1: approval for new data
+     * - 2: updating data
+     * - 3: activate
+     * - 4: deactivate
+     * - 5: delete
+     * - 6: sort order
      *
      * @var int
      */

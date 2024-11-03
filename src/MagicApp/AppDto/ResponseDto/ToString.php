@@ -27,7 +27,7 @@ use stdClass;
  */
 class ToString
 {
-    /**
+     /**
      * Retrieve the properties of the current instance formatted according to the specified naming strategy.
      *
      * This method retrieves all properties of the instance and applies the appropriate naming strategy

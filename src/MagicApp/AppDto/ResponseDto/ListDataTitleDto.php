@@ -77,7 +77,7 @@ class ListDataTitleDto extends ToString
     public function setField($field)
     {
         $this->field = $field;
-        return $this;
+        return $this; // Return current instance for method chaining.
     }
 
     /**
@@ -99,7 +99,7 @@ class ListDataTitleDto extends ToString
     public function setLabel($label)
     {
         $this->label = $label;
-        return $this;
+        return $this; // Return current instance for method chaining.
     }
 
     /**
@@ -121,7 +121,7 @@ class ListDataTitleDto extends ToString
     public function setSortable($sortable)
     {
         $this->sortable = $sortable;
-        return $this;
+        return $this; // Return current instance for method chaining.
     }
 
     /**
@@ -143,6 +143,6 @@ class ListDataTitleDto extends ToString
     public function setCurrentSort($currentSort)
     {
         $this->currentSort = $currentSort;
-        return $this;
+        return $this; // Return current instance for method chaining.
     }
 }

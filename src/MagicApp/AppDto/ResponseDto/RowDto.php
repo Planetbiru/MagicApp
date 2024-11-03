@@ -86,7 +86,7 @@ class RowDto extends ToString
      * @param MetadataDto $metadata The new metadata object.
      * @return self The current instance for method chaining.
      */
-    public function setMetadata(MetadataDto $metadata)
+    public function setMetadata($metadata)
     {
         $this->metadata = $metadata;
         return $this; // Return current instance for method chaining.

@@ -21,35 +21,34 @@ use MagicObject\MagicObject;
  */
 class ListDataDto extends ToString
 {
-    
     /**
      * An array of column titles for the data table.
      *
      * @var ListDataTitleDto[]
      */
     public $title;
-    
+
     /**
-     * An array of data map for the data table.
+     * An array of data maps for the data table.
      *
      * @var DataMap[]
      */
     public $dataMap;
-    
+
     /**
      * The name of the primary key in the data structure.
      *
      * @var string[]|null
      */
     public $primaryKeyName;
-    
+
     /**
      * An associative array mapping primary key names to their data types.
      *
      * @var string[]
      */
     public $primaryKeyDataType;
-    
+
     /**
      * An array of rows, each represented as a RowDto.
      *
@@ -70,14 +69,12 @@ class ListDataDto extends ToString
     /**
      * Set the name of the primary key in the data structure.
      *
-     * @param  string[]|null  $primaryKeyName  The name of the primary key in the data structure.
-     *
-     * @return  self The current instance for method chaining.
+     * @param string[]|null $primaryKeyName The name of the primary key.
+     * @return self The current instance for method chaining.
      */ 
     public function setPrimaryKeyName($primaryKeyName)
     {
         $this->primaryKeyName = $primaryKeyName;
-
         return $this;
     }
     
@@ -89,17 +86,17 @@ class ListDataDto extends ToString
      *
      * @param string $primaryKeyName The primary key name to add.
      * @param string $primaryKeyDataType The primary key data type to add.
-     * @return self The instance of this class.
+     * @return self The instance of this class for method chaining.
      */
     public function addPrimaryKeyName($primaryKeyName, $primaryKeyDataType)
     {
         if (!isset($this->primaryKeyName)) {
-            $this->primaryKeyName = []; // Initialize as an array if not set
-            $this->primaryKeyDataType = []; // Initialize as an array if not set
+            $this->primaryKeyName = array(); // Initialize as an array if not set
+            $this->primaryKeyDataType = array(); // Initialize as an array if not set
         }   
         $this->primaryKeyName[] = $primaryKeyName; // Append the primary key name
         $this->primaryKeyDataType[$primaryKeyName] = $primaryKeyDataType; // Append the primary key data type
-        return $this;
+        return $this; // Return current instance for method chaining.
     }
     
     /**
@@ -114,15 +111,15 @@ class ListDataDto extends ToString
             $this->title = array();
         }
         
-        $this->title[] = $title;
+        $this->title[] = $title; // Append the column title
         
-        return $this;
+        return $this; // Return current instance for method chaining.
     }
     
     /**
      * Append a data map to the table.
      *
-     * @param mixed $dataMap The data map to append.
+     * @param DataMap $dataMap The data map to append.
      * @return self The current instance for method chaining.
      */
     public function appendDataMap($dataMap)
@@ -131,9 +128,9 @@ class ListDataDto extends ToString
             $this->dataMap = array();
         }
         
-        $this->dataMap[] = $dataMap;
+        $this->dataMap[] = $dataMap; // Append the data map
         
-        return $this;
+        return $this; // Return current instance for method chaining.
     }
     
     /**
@@ -152,12 +149,10 @@ class ListDataDto extends ToString
             $this->rows = array();
         }
         
-        $this->rows[] = new RowDto($data, $metadata);
+        $this->rows[] = new RowDto($data, $metadata); // Create and append new RowDto
         
         return $this; // Return current instance for method chaining.
     }
-
-
 
     /**
      * Get an array of column titles for the data table.
@@ -176,14 +171,14 @@ class ListDataDto extends ToString
      */
     public function resetTitle()
     {
-        $this->title = [];
-        return $this;
+        $this->title = array(); // Resetting title array
+        return $this; // Return current instance for method chaining.
     }
 
     /**
      * Get the data map for the table.
      *
-     * @return DataMap The data map.
+     * @return DataMap[] The data map.
      */ 
     public function getDataMap()
     {
@@ -197,8 +192,8 @@ class ListDataDto extends ToString
      */
     public function resetDataMap()
     {
-        $this->dataMap = []; // Assuming you want to set it to an empty array
-        return $this;
+        $this->dataMap = array(); // Resetting data map array
+        return $this; // Return current instance for method chaining.
     }
     
     /**
@@ -218,7 +213,7 @@ class ListDataDto extends ToString
      */
     public function resetRows()
     {
-        $this->rows = array();
-        return $this;
+        $this->rows = array(); // Resetting rows array
+        return $this; // Return current instance for method chaining.
     }
 }

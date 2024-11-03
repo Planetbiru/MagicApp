@@ -27,7 +27,7 @@ class ColumnDto extends ToString
     public $field;
 
     /**
-     * The value associated with the field.
+     * The value associated with the field for display purposes.
      *
      * @var mixed
      */
@@ -41,14 +41,14 @@ class ColumnDto extends ToString
     public $valueRaw;
 
     /**
-     * The type of the field.
+     * The data type of the field.
      *
      * @var string
      */
     public $type;
 
     /**
-     * The label for the field.
+     * The label for the field, typically used in user interfaces.
      *
      * @var string
      */
@@ -62,14 +62,14 @@ class ColumnDto extends ToString
     public $readonly;
 
     /**
-     * Indicates whether the field is hidden.
+     * Indicates whether the field is hidden from the user interface.
      *
      * @var bool
      */
     public $hidden;
 
     /**
-     * The draft value associated with the field.
+     * The draft value associated with the field for temporary storage.
      *
      * @var mixed
      */
@@ -87,11 +87,11 @@ class ColumnDto extends ToString
      *
      * @param string $field The name of the field.
      * @param ValueDto $value The value associated with the field.
-     * @param string $type The type of the field.
+     * @param string $type The data type of the field.
      * @param string $label The label for the field.
      * @param bool $readonly Indicates if the field is read-only.
-     * @param ValueDto $hidden Indicates if the field is hidden.
-     * @param mixed $valueDraft The draft value associated with the field.
+     * @param bool $hidden Indicates if the field is hidden.
+     * @param ValueDto $valueDraft The draft value associated with the field.
      */
     public function __construct($field, $value, $type, $label, $readonly, $hidden, $valueDraft)
     {
@@ -126,7 +126,7 @@ class ColumnDto extends ToString
      * Set the name of the field and return the current instance for method chaining.
      *
      * @param string $field The name of the field.
-     * @return ColumnDto The current instance for method chaining.
+     * @return self The current instance for method chaining.
      */
     public function setField($field)
     {
@@ -148,7 +148,7 @@ class ColumnDto extends ToString
      * Set the value associated with the field and return the current instance for method chaining.
      *
      * @param mixed $value The value to associate with the field.
-     * @return ColumnDto The current instance for method chaining.
+     * @return self The current instance for method chaining.
      */
     public function setValue($value)
     {
@@ -170,7 +170,7 @@ class ColumnDto extends ToString
      * Set the type of the field and return the current instance for method chaining.
      *
      * @param string $type The type to set for the field.
-     * @return ColumnDto The current instance for method chaining.
+     * @return self The current instance for method chaining.
      */
     public function setType($type)
     {
@@ -192,7 +192,7 @@ class ColumnDto extends ToString
      * Set the label for the field and return the current instance for method chaining.
      *
      * @param string $label The label to set for the field.
-     * @return ColumnDto The current instance for method chaining.
+     * @return self The current instance for method chaining.
      */
     public function setLabel($label)
     {
@@ -214,7 +214,7 @@ class ColumnDto extends ToString
      * Set the read-only status of the field and return the current instance for method chaining.
      *
      * @param bool $readonly Indicates if the field should be read-only.
-     * @return ColumnDto The current instance for method chaining.
+     * @return self The current instance for method chaining.
      */
     public function setReadonly($readonly)
     {
@@ -236,7 +236,7 @@ class ColumnDto extends ToString
      * Set the hidden status of the field and return the current instance for method chaining.
      *
      * @param bool $hidden Indicates if the field should be hidden.
-     * @return ColumnDto The current instance for method chaining.
+     * @return self The current instance for method chaining.
      */
     public function setHidden($hidden)
     {
@@ -258,7 +258,7 @@ class ColumnDto extends ToString
      * Set the draft value associated with the field and return the current instance for method chaining.
      *
      * @param mixed $valueDraft The draft value to associate with the field.
-     * @return ColumnDto The current instance for method chaining.
+     * @return self The current instance for method chaining.
      */
     public function setValueDraft($valueDraft)
     {

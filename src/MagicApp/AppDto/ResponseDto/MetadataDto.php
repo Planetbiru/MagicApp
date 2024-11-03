@@ -7,13 +7,11 @@ use MagicObject\MagicObject;
 /**
  * Data Transfer Object (DTO) representing metadata information.
  * 
- * The MetadataDto class is designed to encapsulate metadata details 
- * associated with various data operations. This includes indicators for 
- * active status, a primary key to uniquely identify the metadata, and 
- * a waiting status that reflects the current state of operations. 
- * The class provides mechanisms to construct an instance from a 
- * provided MagicObject, facilitating easy population of its properties 
- * from dynamic data sources.
+ * The MetadataDto class encapsulates metadata details associated with various data operations.
+ * It includes indicators for active status, a primary key to uniquely identify the metadata, and 
+ * a waiting status reflecting the current state of operations. 
+ * This class facilitates easy population of its properties from dynamic data sources, particularly
+ * through its static `valueOf` method.
  * 
  * The class extends the ToString base class, enabling string representation based on 
  * the specified property naming strategy.
@@ -42,12 +40,12 @@ class MetadataDto extends ToString
      * Represents the status of the operation.
      * 
      * Possible values:
-     * 1 = approval for new data,
-     * 2 = updating data,
-     * 3 = activate,
-     * 4 = deactivate,
-     * 5 = delete,
-     * 6 = sort order.
+     * - 1: approval for new data
+     * - 2: updating data
+     * - 3: activate
+     * - 4: deactivate
+     * - 5: delete
+     * - 6: sort order
      *
      * @var int
      */
@@ -65,7 +63,7 @@ class MetadataDto extends ToString
      * @param string $activeKey The key for the active status in the data object.
      * @return MetadataDto An instance of MetadataDto populated with extracted values.
      */
-    public static function valueOf(array $primaryKeyName, MagicObject $data, string $waitingForKey, string $activeKey): MetadataDto
+    public static function valueOf($primaryKeyName, $data, $waitingForKey, $activeKey)
     {
         $primaryKey = [];
         
@@ -76,9 +74,8 @@ class MetadataDto extends ToString
         $waitingFor = $data->get($waitingForKey);
         $active = $data->get($activeKey);
         
-        return new self($primaryKey, $waitingFor, $active);
+        return new self($primaryKey, $active, $waitingFor);
     }
-
 
     /**
      * Constructor to initialize properties of the MetadataDto class.
@@ -108,10 +105,12 @@ class MetadataDto extends ToString
      * Set the primary key.
      *
      * @param array $primaryKey An array representing the primary key.
+     * @return self The current instance for method chaining.
      */
     public function setPrimaryKey($primaryKey)
     {
         $this->primaryKey = $primaryKey;
+        return $this;
     }
 
     /**
@@ -126,6 +125,7 @@ class MetadataDto extends ToString
 
     /**
      * Set the waiting status.
+     *
      * @param int $waitingFor An integer representing the new operation status.
      * @return self The current instance for method chaining.
      */

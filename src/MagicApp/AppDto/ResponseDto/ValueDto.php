@@ -45,9 +45,7 @@ class ValueDto extends ToString
     public function __construct($display = null, $raw = null)
     {
         $this->display = $display;
-        if ($raw != null) {
-            $this->raw = $raw;
-        }
+        $this->raw = $raw !== null ? $raw : $display; // Default raw to display if not provided
     }
 
     /**

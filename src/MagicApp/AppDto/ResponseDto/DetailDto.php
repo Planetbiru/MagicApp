@@ -3,7 +3,7 @@
 namespace MagicApp\AppDto\ResponseDto;
 
 /**
- * Data Transfer Object (DTO) for displaying record in a table format.
+ * Data Transfer Object (DTO) for displaying records in a table format.
  * 
  * The class extends the ToString base class, enabling string representation based on 
  * the specified property naming strategy.
@@ -56,6 +56,13 @@ class DetailDto extends ToString
      */
     public $data;
 
+    /**
+     * Constructor for initializing the DetailDto instance.
+     *
+     * @param string|null $responseCode The response code.
+     * @param string|null $responseMessage The response message.
+     * @param DetailDataDto $data The main data structure.
+     */
     public function __construct($responseCode, $responseMessage, $data)
     {
         $this->responseCode = $responseCode;    
@@ -80,16 +87,17 @@ class DetailDto extends ToString
      *
      * @param string $field The field associated with the detail.
      * @param ValueDto $value The value associated with the detail.
+     * @param string|null $type The type of the value.
      * @param string|null $label The label describing the detail.
      * @param bool $readonly Whether the detail is readonly.
      * @param bool $hidden Whether the detail is hidden.
      * @param ValueDto|null $valueDraft The value associated with the draft data.
-     * @return self The instance of this class.
+     * @return self The instance of this class for method chaining.
      */
     public function addData($field, $value, $type = null, $label = null, $readonly = false, $hidden = false, $valueDraft = null)
     {
         $this->data->appendData($field, $value, $type, $label, $readonly, $hidden, $valueDraft);
-        return $this;
+        return $this; // Return current instance for method chaining.
     }
 
     /**
@@ -100,30 +108,28 @@ class DetailDto extends ToString
      *
      * @param string $primaryKeyName The primary key name to add.
      * @param string $primaryKeyDataType The primary key data type to add.
-     * @return self The instance of this class.
+     * @return self The instance of this class for method chaining.
      */
     public function addPrimaryKeyName($primaryKeyName, $primaryKeyDataType)
     {
         if (!isset($this->data->primaryKeyName)) {
-            $this->data->primaryKeyName = []; // Initialize as an array if not set
-            $this->data->primaryKeyDataType = []; // Initialize as an array if not set
+            $this->data->primaryKeyName = array(); // Initialize as an array if not set
+            $this->data->primaryKeyDataType = array(); // Initialize as an array if not set
         }   
         $this->data->primaryKeyName[] = $primaryKeyName; // Append the primary key name
         $this->data->primaryKeyDataType[$primaryKeyName] = $primaryKeyDataType; // Append the primary key data type
-        return $this;
+        return $this; // Return current instance for method chaining.
     }
 
     /**
      * Set metadata associated with the row.
      *
-     * @param  MetadataDto  $metadata  Metadata associated with the row.
-     *
-     * @return  self
+     * @param MetadataDto $metadata Metadata associated with the row.
+     * @return self The current instance for method chaining.
      */ 
     public function setMetadata($metadata)
     {
         $this->data->metadata = $metadata;
-
-        return $this;
+        return $this; // Return current instance for method chaining.
     }
 }

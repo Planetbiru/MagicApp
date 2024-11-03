@@ -58,14 +58,15 @@ class ResponseDto extends ToString
      * This method delegates the setting of metadata to the data object's setMetadata method.
      *
      * @param MetadataDto $metadata The metadata to associate with the data object.
-     * @return self The current instance for method chaining.
+     * @return self The current instance for method chaining. The current instance for method chaining.
      */
     public function setMetadata($metadata)
     {
-        $this->data->setMetadata($metadata);
+        if ($this->data && method_exists($this->data, 'setMetadata')) {
+            $this->data->setMetadata($metadata);
+        }
         return $this; // Return current instance for method chaining.
     }
-
 
     /**
      * Get the response code.
@@ -81,7 +82,7 @@ class ResponseDto extends ToString
      * Set the response code.
      *
      * @param string|null $responseCode The response code to set.
-     * @return self
+     * @return self The current instance for method chaining.
      */
     public function setResponseCode($responseCode)
     {
@@ -103,7 +104,7 @@ class ResponseDto extends ToString
      * Set the response message.
      *
      * @param string|null $responseMessage The response message to set.
-     * @return self
+     * @return self The current instance for method chaining.
      */
     public function setResponseMessage($responseMessage)
     {
@@ -125,7 +126,7 @@ class ResponseDto extends ToString
      * Set the associated data.
      *
      * @param mixed $data The data to set.
-     * @return self
+     * @return self The current instance for method chaining.
      */
     public function setData($data)
     {
