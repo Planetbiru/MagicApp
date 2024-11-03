@@ -8,6 +8,19 @@ use stdClass;
 /**
  * Base class providing a __toString method for derived classes.
  * 
+ * This class facilitates converting objects into a string representation, 
+ * specifically JSON, while allowing for customizable property naming 
+ * conventions. It is designed to be extended by other DTO classes to 
+ * provide consistent string output across the application.
+ * 
+ * Features:
+ * - Retrieves properties of the current instance, applying specified 
+ *   naming strategies (e.g., snake_case, camelCase, etc.).
+ * - Formats nested objects and arrays correctly based on the naming 
+ *   conventions.
+ * - Uses reflection to read class annotations for dynamic property naming 
+ *   strategy.
+ * 
  * @package MagicApp\AppDto\ResponseDto
  * @author Kamshory
  * @link https://github.com/Planetbiru/MagicApp
