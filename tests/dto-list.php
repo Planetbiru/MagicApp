@@ -17,7 +17,15 @@ class Apa extends MagicObject
     
 }
 
-$listDto = new ListDto("001", "Success", new ListDataDto());
+/**
+ * @JSON(property-naming-strategy="CAMEL_CASE")
+ */
+class ApaDto extends ListDto
+{
+    
+}
+
+$listDto = new ApaDto("001", "Success", new ListDataDto());
 
 $listDto->appendTitle(new ListDataTitleDto("apaId", "ID", true, "DESC"));
 $listDto->appendTitle(new ListDataTitleDto("name", "Nama", true));
