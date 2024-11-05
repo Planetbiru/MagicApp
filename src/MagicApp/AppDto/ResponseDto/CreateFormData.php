@@ -114,9 +114,6 @@ class CreateFormData extends ToString
      */
     public function addButton($buttonFormData)
     {
-        if ($this->button === null) {
-            $this->button = [];
-        }
         $this->button[] = $buttonFormData;
         return $this;
     }

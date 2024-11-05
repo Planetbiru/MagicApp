@@ -9,6 +9,8 @@ namespace MagicApp\AppDto\ResponseDto;
  * This includes typical HTML button attributes, such as `id`, `class`, and `value`.
  *
  * @package MagicApp\AppDto\ResponseDto
+ * @author Kamshory
+ * @link https://github.com/Planetbiru/MagicApp
  */
 class ButtonFormData extends ToString
 {
