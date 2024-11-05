@@ -3,6 +3,7 @@
 namespace MagicApp\AppDto\ResponseDto;
 
 use MagicObject\MagicObject;
+use MagicObject\Util\ClassUtil\PicoAnnotationParser;
 use ReflectionClass;
 use stdClass;
 
@@ -28,6 +29,26 @@ use stdClass;
 class ToString
 {
     /**
+     * Check if $propertyNamingStrategy and $prettify are set
+     *
+     * @var bool
+     */
+    private $propertySet;
+    /**
+     * Undocumented variable
+     *
+     * @var string
+     */
+    private $propertyNamingStrategy;
+
+    /**
+     * Undocumented variable
+     *
+     * @var bool
+     */
+    private $prettify;
+
+    /**
      * Retrieves the properties of the current instance formatted according to the specified naming strategy.
      *
      * This method retrieves all properties of the current instance and applies the appropriate naming strategy 
@@ -37,7 +58,7 @@ class ToString
      *
      * @param string|null $namingStrategy The naming strategy to use for formatting property names.
      *                                     If null, the strategy will be determined from class annotations.
-     * @return stdClass An object containing the formatted property values.
+     * @return stdClass An object containing the formatted property values, excluding private properties.
      */
     public function getPropertyValue($namingStrategy = null)
     {
@@ -48,8 +69,20 @@ class ToString
         if ($namingStrategy === null) {
             $namingStrategy = $this->getPropertyNamingStrategy(get_class($this));
         }
-        
-        foreach ($properties as $key => $value) {
+
+        // Use ReflectionClass to check property visibility
+        $reflection = new ReflectionClass($this);
+        $allProperties = $reflection->getProperties(); // Get all properties including private, protected, public
+
+        foreach ($allProperties as $property) {
+            // Skip private properties
+            if ($property->isPrivate()) {
+                continue;
+            }
+
+            $key = $property->getName();
+            $value = $properties[$key]; // Get the value of the property
+
             // Apply the naming strategy only for object or array properties
             if ($value instanceof ToString) {
                 $formattedProperties->{$this->convertPropertyName($key, $namingStrategy)} = $value->getPropertyValue($namingStrategy);
@@ -72,8 +105,10 @@ class ToString
                 $formattedProperties->{$this->convertPropertyName($key, $namingStrategy)} = $value;
             }
         }
+
         return $formattedProperties;
     }
+
 
     /**
      * Converts the instance to a JSON string representation based on class annotations.
@@ -135,50 +170,62 @@ class ToString
     }
 
     /**
-     * Extracts the value of the `property-naming-strategy` annotation from the class doc comment.
+     * Parses the annotations in the class doc comment to retrieve the `property-naming-strategy` 
+     * and `prettify` values and sets them to the current instance.
      *
-     * This method uses reflection to read the class doc comment and extract the 
-     * value of the `property-naming-strategy` annotation if present.
+     * This method uses the `PicoAnnotationParser` to extract and parse the `@JSON` annotation 
+     * from the class doc comment. It retrieves the `property-naming-strategy` and `prettify` 
+     * values and stores them in the instance for later use.
      *
-     * @param string $className The name of the class to inspect.
-     * @return string|null The value of the `property-naming-strategy` or null if not found.
+     * @param string $className The fully qualified name of the class to inspect.
+     * @return self Returns the current instance for method chaining.
      */
-    public static function getPropertyNamingStrategy($className)
+    private function parseAnnotation($className)
     {
-        // Read the class doc comment using reflection
-        $reflection = new ReflectionClass($className);
-        $docComment = $reflection->getDocComment();
-
-        // Search for the @JSON(property-naming-strategy="...") annotation
-        if (preg_match('/@JSON\(property-naming-strategy="([^"]+)"\)/', $docComment, $matches)) {
-            return $matches[1]; // Return the value of property-naming-strategy
-        }
-
-        return null; // Return null if not found
+        $reflexClass = new PicoAnnotationParser($className);
+        $attr = $reflexClass->parseKeyValueAsObject($reflexClass->getFirstParameter("JSON"));
+        $this->propertyNamingStrategy = $attr->getPropertyNamingStrategy();
+        $this->prettify = strtolower($attr->getPrettify()) === 'true';
+        $this->propertySet = true;
+        return $this;
     }
 
     /**
-     * Extracts the value of the `prettify` annotation from the class doc comment.
+     * Retrieves the `property-naming-strategy` value from the class annotations.
      *
-     * This method uses reflection to read the class doc comment and extract the 
-     * value of the `prettify` annotation if present. If the annotation is set to "true", 
-     * the output will be formatted as a pretty JSON string.
+     * This method checks if the `property-naming-strategy` annotation has been parsed already.
+     * If not, it calls `parseAnnotation()` to parse and set the required values. Once set, 
+     * it returns the `property-naming-strategy` value, which determines how property names 
+     * should be formatted (e.g., camelCase, snake_case).
      *
-     * @param string $className The name of the class to inspect.
-     * @return bool Returns true if prettify is enabled, false otherwise.
+     * @param string $className The fully qualified name of the class to inspect.
+     * @return string|null The value of the `property-naming-strategy` annotation or null if not found.
      */
-    public static function getPrettify($className)
+    public function getPropertyNamingStrategy($className)
     {
-        // Read the class doc comment using reflection
-        $reflection = new ReflectionClass($className);
-        $docComment = $reflection->getDocComment();
-        
-        // Regex pattern to extract the value of 'prettify'
-        $pattern = '/prettify\s*=\s*"([^"]+)"|prettify\s*=\s*([a-zA-Z0-9_]+)/';
-        if (preg_match($pattern, $docComment, $matches)) {
-            return (isset($matches[1]) && strtolower($matches[1]) == 'true') || (isset($matches[2]) && strtolower($matches[2]) == 'true');
+        if (!isset($this->propertySet)) {
+            $this->parseAnnotation($className);
         }
-        
-        return false; // Return false if no match is found
+
+        return $this->propertyNamingStrategy; // Returns the value of the property-naming-strategy
+    }
+
+    /**
+     * Retrieves the `prettify` value from the class annotations.
+     *
+     * This method checks if the `prettify` annotation has been parsed already.
+     * If not, it calls `parseAnnotation()` to parse and set the required values. Once set, 
+     * it returns the `prettify` value, which determines if the output should be formatted
+     * as pretty (i.e., indented) JSON.
+     *
+     * @param string $className The fully qualified name of the class to inspect.
+     * @return bool Returns true if the `prettify` annotation is set to "true", false otherwise.
+     */
+    public function getPrettify($className)
+    {
+        if (!isset($this->propertySet)) {
+            $this->parseAnnotation($className);
+        }
+        return $this->prettify;
     }
 }
