@@ -45,11 +45,11 @@ class MetadataDetailDto extends MetadataDto
      * 
      * Possible values:
      * - 1: approval for new data
-     * - 2: updating data
-     * - 3: activate
-     * - 4: deactivate
-     * - 5: delete
-     * - 6: sort order
+     * - 2: approval for updating data
+     * - 3: approval for activate
+     * - 4: approval for deactivate
+     * - 5: approval for delete
+     * - 6: approval for sort order
      *
      * @var int
      */
