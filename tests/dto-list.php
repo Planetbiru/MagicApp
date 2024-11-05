@@ -5,7 +5,6 @@ use MagicApp\AppDto\ResponseDto\ListDataDto;
 use MagicApp\AppDto\ResponseDto\ListDataTitleDto;
 use MagicApp\AppDto\ResponseDto\ListDto;
 use MagicApp\AppDto\ResponseDto\MetadataDto;
-use MagicObject\Database\PicoPageable;
 use MagicObject\MagicObject;
 
 require_once dirname(__DIR__) . "/vendor/autoload.php";
@@ -19,7 +18,7 @@ class Apa extends MagicObject
 }
 
 /**
- * @JSON(property-naming-strategy="CAMEL_CASE")
+ * @JSON(property-naming-strategy="SNAKE_CASE", prettify=true)
  */
 class ApaDto extends ListDto
 {
