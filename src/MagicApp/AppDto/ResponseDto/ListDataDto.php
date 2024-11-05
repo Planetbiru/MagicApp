@@ -7,10 +7,10 @@ use MagicObject\MagicObject;
 /**
  * Class ListDataDto
  *
- * Represents the data structure for a table, including column titles and rows.
- * This class manages the titles of columns, a data map, and the rows of data 
+ * Represents the data structure for a table, including column titles and row.
+ * This class manages the titles of columns, a data map, and the row of data 
  * represented as RowDto instances. It provides methods for appending 
- * titles, data maps, and rows, as well as resetting these structures.
+ * titles, data maps, and row, as well as resetting these structures.
  * 
  * The class extends the ToString base class, enabling string representation based on 
  * the specified property naming strategy.
@@ -50,11 +50,11 @@ class ListDataDto extends ToString
     public $primaryKeyDataType;
 
     /**
-     * An array of rows, each represented as a RowDto.
+     * An array of row, each represented as a RowDto.
      *
      * @var RowDto[]
      */
-    public $rows;
+    public $row;
 
     /**
      * Get the name of the primary key in the data structure.
@@ -136,7 +136,7 @@ class ListDataDto extends ToString
     /**
      * Append a row of data to the table.
      *
-     * This method adds a new row to the internal rows collection using the provided
+     * This method adds a new row to the internal row collection using the provided
      * MagicObject as data along with the associated MetadataDto.
      *
      * @param MagicObject $data The row data to append.
@@ -145,11 +145,11 @@ class ListDataDto extends ToString
      */
     public function appendData($data, $metadata)
     {
-        if (!isset($this->rows)) {
-            $this->rows = array();
+        if (!isset($this->row)) {
+            $this->row = array();
         }
         
-        $this->rows[] = new RowDto($data, $metadata); // Create and append new RowDto
+        $this->row[] = new RowDto($data, $metadata); // Create and append new RowDto
         
         return $this; // Return current instance for method chaining.
     }
@@ -197,23 +197,23 @@ class ListDataDto extends ToString
     }
     
     /**
-     * Get an array of rows for the data table.
+     * Get an array of row for the data table.
      *
-     * @return RowDto[] The rows of data.
+     * @return RowDto[] The row of data.
      */
-    public function getRows()
+    public function getRow()
     {
-        return $this->rows;
+        return $this->row;
     }
 
     /**
-     * Reset the rows to an empty array.
+     * Reset the row to an empty array.
      *
      * @return self The current instance for method chaining.
      */
-    public function resetRows()
+    public function resetRow()
     {
-        $this->rows = array(); // Resetting rows array
+        $this->row = array(); // Resetting row array
         return $this; // Return current instance for method chaining.
     }
 }

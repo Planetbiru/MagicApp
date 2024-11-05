@@ -129,7 +129,7 @@ class DetailDto extends ToString
      */ 
     public function setMetadata($metadata)
     {
-        $this->data->metadata = $metadata;
+        $this->data->column->metadata = $metadata;
         return $this; // Return current instance for method chaining.
     }
 }

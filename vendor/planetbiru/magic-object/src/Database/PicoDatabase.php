@@ -695,9 +695,12 @@ class PicoDatabase //NOSONAR
     }
 
     /**
-     * Magic method to debug the object.
+     * Convert the object to a JSON string representation for debugging.
      *
-     * @return string Returns a JSON representation of the object's state.
+     * This method is intended for debugging purposes only and provides 
+     * a JSON representation of the object's state.
+     *
+     * @return string The JSON representation of the object.
      */
     public function __toString()
     {
@@ -723,7 +726,6 @@ class PicoDatabase //NOSONAR
      * Set callback function when executing queries that modify data.
      *
      * @param callable|null  $callbackExecuteQuery  Callback function when executing queries that modify data.
-     *
      * @return self Returns the current instance for method chaining.
      */ 
     public function setCallbackExecuteQuery($callbackExecuteQuery)
@@ -747,7 +749,6 @@ class PicoDatabase //NOSONAR
      * Set callback function when executing any query.
      *
      * @param callable|null  $callbackDebugQuery  Callback function when executing any query.
-     *
      * @return self Returns the current instance for method chaining.
      */ 
     public function setCallbackDebugQuery($callbackDebugQuery)

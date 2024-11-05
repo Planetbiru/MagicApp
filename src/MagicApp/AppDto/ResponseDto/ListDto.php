@@ -2,6 +2,7 @@
 
 namespace MagicApp\AppDto\ResponseDto;
 
+use MagicObject\Database\PicoPageable;
 use MagicObject\MagicObject;
 use MagicObject\SetterGetter;
 use MagicObject\Util\PicoGenericObject;
@@ -41,18 +42,11 @@ class ListDto extends ToString
     public $moduleTitle;
 
     /**
-     * The current page number for paginated data.
+     * Current page
      *
-     * @var int
+     * @var PageDto
      */
-    public $pageNumber;
-
-    /**
-     * The number of items per page for pagination.
-     *
-     * @var int
-     */
-    public $pageSize;
+    public $page;
 
     /**
      * The response code indicating the status of the request.
@@ -87,6 +81,7 @@ class ListDto extends ToString
         $this->responseCode = $responseCode;
         $this->responseMessage = $responseMessage;
         $this->data = $data;
+        $this->page = new PageDto();
     }
 
     /**
@@ -243,9 +238,9 @@ class ListDto extends ToString
     /**
      * Set the response code indicating the status of the request.
      *
-     * @param  string|null  $responseCode  The response code indicating the status of the request.
+     * @param string|null  $responseCode  The response code indicating the status of the request.
      *
-     * @return  self The current instance for method chaining.
+     * @return self The current instance for method chaining.
      */ 
     public function setResponseCode($responseCode)
     {
@@ -267,9 +262,9 @@ class ListDto extends ToString
     /**
      * Set a message providing additional information about the response.
      *
-     * @param  string|null  $responseMessage  A message providing additional information about the response.
+     * @param string|null  $responseMessage  A message providing additional information about the response.
      *
-     * @return  self The current instance for method chaining.
+     * @return self The current instance for method chaining.
      */ 
     public function setResponseMessage($responseMessage)
     {

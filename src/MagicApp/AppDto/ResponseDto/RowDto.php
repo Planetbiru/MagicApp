@@ -22,6 +22,7 @@ use MagicObject\MagicObject;
  */
 class RowDto extends ToString
 {
+
     /**
      * Data associated with the row.
      *

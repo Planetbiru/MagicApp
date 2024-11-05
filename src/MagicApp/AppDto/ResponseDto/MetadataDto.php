@@ -84,7 +84,7 @@ class MetadataDto extends ToString
      * @param bool $active A boolean indicating if the metadata is active.
      * @param int $waitingFor An integer representing the operation status.
      */
-    public function __construct($primaryKey, $active, $waitingFor)
+    public function __construct($primaryKey = null, $active = true, $waitingFor = 0)
     {
         $this->primaryKey = $primaryKey;
         $this->active = $active;

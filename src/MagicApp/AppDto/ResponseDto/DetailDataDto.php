@@ -6,7 +6,7 @@ namespace MagicApp\AppDto\ResponseDto;
  * Class DetailDataDto
  *
  * Represents the data structure for a table, including column titles and rows.
- * This class manages the titles of columns, a data map, and the rows of data 
+ * This class manages the titles of column, a data map, and the rows of data 
  * represented as RowDto instances. It provides methods for appending 
  * titles, data maps, and rows, as well as resetting these structures.
  * 
@@ -34,18 +34,17 @@ class DetailDataDto extends ToString
     public $primaryKeyDataType;
 
     /**
-     * An array of columns, each represented as a ColumnDto.
+     * An array of column, each represented as a ColumnDto.
      *
-     * @var ColumnDto[]
+     * @var ColumnDto
      */
-    public $columns;
+    public $column;
 
-    /**
-     * Metadata associated with the row.
-     *
-     * @var MetadataDto
-     */
-    public $metadata;
+    public function __construct()
+    {
+        $this->column = new ColumnDto();
+    }
+
 
     /**
      * Get the name of the primary key in the data structure.
@@ -93,7 +92,7 @@ class DetailDataDto extends ToString
     /**
      * Append a row of data to the table.
      *
-     * This method adds a new row to the internal columns collection using the provided
+     * This method adds a new row to the internal column collection using the provided
      * parameters to create a ColumnDto instance.
      *
      * @param string $field The name of the field.
@@ -107,55 +106,37 @@ class DetailDataDto extends ToString
      */
     public function appendData($field, $value, $type, $label, $readonly, $hidden, $valueDraft)
     {
-        if (!isset($this->columns)) {
-            $this->columns = array(); // Initialize as an array if not set
+        if (!isset($this->column)) {
+            $this->column = new ColumnDto(); // Initialize as an array if not set
+        }
+        if (!isset($this->column->data)) {
+            $this->column->data = []; // Initialize as an array if not set
         }
 
-        $this->columns[] = new ColumnDto($field, $value, $type, $label, $readonly, $hidden, $valueDraft);
+
+        $this->column->data[] = new ColumnDataDto($field, $value, $type, $label, $readonly, $hidden, $valueDraft);
         return $this; // Return current instance for method chaining.
     }
 
     /**
-     * Get an array of columns, each represented as a ColumnDto.
+     * Get an array of column, each represented as a ColumnDto.
      *
-     * @return ColumnDto[] The columns in the data structure.
+     * @return ColumnDto[] The column in the data structure.
      */
-    public function getColumns()
+    public function getcolumn()
     {
-        return $this->columns;
+        return $this->column;
     }
 
     /**
-     * Set an array of columns, each represented as a ColumnDto.
+     * Set an array of column, each represented as a ColumnDto.
      *
-     * @param ColumnDto[] $columns An array of columns to set.
+     * @param ColumnDto[] $column An array of column to set.
      * @return self The current instance for method chaining.
      */
-    public function setColumns($columns)
+    public function setcolumn($column)
     {
-        $this->columns = $columns;
-        return $this; // Return current instance for method chaining.
-    }
-
-    /**
-     * Get metadata associated with the row.
-     *
-     * @return MetadataDto The metadata associated with the row.
-     */
-    public function getMetadata()
-    {
-        return $this->metadata;
-    }
-
-    /**
-     * Set metadata associated with the row.
-     *
-     * @param MetadataDto $metadata Metadata to associate with the row.
-     * @return self The current instance for method chaining.
-     */
-    public function setMetadata($metadata)
-    {
-        $this->metadata = $metadata;
+        $this->column = $column;
         return $this; // Return current instance for method chaining.
     }
 }
