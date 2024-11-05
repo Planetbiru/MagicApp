@@ -58,7 +58,7 @@ class ToString
      *
      * @param string|null $namingStrategy The naming strategy to use for formatting property names.
      *                                     If null, the strategy will be determined from class annotations.
-     * @return stdClass An object containing the formatted property values, excluding private properties.
+     * @return stdClass An object containing the formatted property values, excluding private properties from the current class.
      */
     public function getPropertyValue($namingStrategy = null)
     {
@@ -70,18 +70,18 @@ class ToString
             $namingStrategy = $this->getPropertyNamingStrategy(get_class($this));
         }
 
-        // Use ReflectionClass to check property visibility
+        // Use ReflectionClass to inspect the current class and its properties
         $reflection = new ReflectionClass($this);
         $allProperties = $reflection->getProperties(); // Get all properties including private, protected, public
 
         foreach ($allProperties as $property) {
-            // Skip private properties
-            if ($property->isPrivate()) {
-                continue;
-            }
-
             $key = $property->getName();
             $value = $properties[$key]; // Get the value of the property
+            
+            // Skip private properties of the current class
+            if ($property->isPrivate() && $property->getDeclaringClass()->getName() === get_class($this)) {
+                continue; // Skip this property if it's private in the current class
+            }
 
             // Apply the naming strategy only for object or array properties
             if ($value instanceof ToString) {
@@ -108,7 +108,6 @@ class ToString
 
         return $formattedProperties;
     }
-
 
     /**
      * Converts the instance to a JSON string representation based on class annotations.
