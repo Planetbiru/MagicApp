@@ -2,17 +2,21 @@
 
 namespace MagicApp\AppDto\ResponseDto;
 
+use MagicObject\Database\PicoPage;
 use MagicObject\Database\PicoPageable;
 
 /**
  * Class PageDto
  *
  * Represents an object that handles pagination details, including the page number,
- * page size, and the data offset. This class facilitates the management of pagination 
- * for collections of data. It can either initialize from a PicoPageable object or 
- * default to the first page with one item.
+ * page size, and the data offset. This class is useful for managing pagination in 
+ * collections of data. It can be initialized with various pagination-related objects 
+ * such as `PicoPageable`, `PicoPage`, or another `PageDto`, or with an array containing 
+ * the page number and page size.
  *
  * @package MagicApp\AppDto\ResponseDto
+ * @author Kamshory
+ * @link https://github.com/Planetbiru/MagicApp
  */
 class PageDto extends ToString
 {
@@ -41,19 +45,45 @@ class PageDto extends ToString
     /**
      * Constructor for the PageDto class.
      * 
-     * This constructor initializes the page number, page size, and data offset.
-     * If a PicoPageable object is provided, it uses its pagination details. 
+     * This constructor initializes the pagination details (page number, page size, 
+     * and data offset). It can accept various types of input, including:
+     * - `PicoPageable` object: A paginated object that provides the current page and page size.
+     * - `PicoPage` object: A simpler object that holds pagination information.
+     * - `PageDto` object: An existing `PageDto` to copy pagination data from.
+     * - `array`: An array where the first element is the page number and the second element is the page size.
+     * 
+     * If no parameter is provided, the pagination defaults to page 1 with a page size of 10.
      *
-     * @param PicoPageable|null $pagable An optional object that provides pagination 
+     * @param PicoPageable|PicoPage|PageDto|array|null $page An optional object or array that provides pagination 
      *                                    details (e.g., page number, page size).
      */
-    public function __construct($pagable = null)
+    public function __construct($page = null)
     {
-        if (isset($pagable)) {
-            // Initialize from the PicoPageable object
-            $this->pageNumber = $pagable->getPage()->getPageNumber();
-            $this->pageSize = $pagable->getPage()->getPageSize();
-            $this->dataOffset = ($this->pageNumber - 1) * $this->pageSize;
+        if (isset($page)) {
+            if($page instanceof PicoPageable)
+            {
+                $this->pageNumber = $page->getPage()->getPageNumber();
+                $this->pageSize = $page->getPage()->getPageSize();
+                $this->dataOffset = ($this->pageNumber - 1) * $this->pageSize;
+            }
+            else if($page instanceof PicoPage)
+            {
+                $this->pageNumber = $page->getPageNumber();
+                $this->pageSize = $page->getPageSize();
+                $this->dataOffset = ($this->pageNumber - 1) * $this->pageSize;
+            }
+            else if($page instanceof PageDto)
+            {
+                $this->pageNumber = $page->getPageNumber();
+                $this->pageSize = $page->getPageSize();
+                $this->dataOffset = ($this->pageNumber - 1) * $this->pageSize;
+            }
+            else if(is_array($page))
+            {
+                $this->pageNumber = intval($page[0]);
+                $this->pageSize = intval($page[1]);
+                $this->dataOffset = ($this->pageNumber - 1) * $this->pageSize;
+            }
         }
     }
 

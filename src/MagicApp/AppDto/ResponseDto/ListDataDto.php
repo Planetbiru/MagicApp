@@ -50,6 +50,13 @@ class ListDataDto extends ToString
     public $primaryKeyDataType;
 
     /**
+     * Current page
+     *
+     * @var PageDto
+     */
+    public $page;
+
+    /**
      * An array of row, each represented as a RowDto.
      *
      * @var RowDto[]

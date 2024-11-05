@@ -2,7 +2,6 @@
 
 namespace MagicApp\AppDto\ResponseDto;
 
-use MagicObject\Database\PicoPageable;
 use MagicObject\MagicObject;
 use MagicObject\SetterGetter;
 use MagicObject\Util\PicoGenericObject;
@@ -42,13 +41,6 @@ class ListDto extends ToString
     public $moduleTitle;
 
     /**
-     * Current page
-     *
-     * @var PageDto
-     */
-    public $page;
-
-    /**
      * The response code indicating the status of the request.
      *
      * @var string|null
@@ -82,6 +74,31 @@ class ListDto extends ToString
         $this->responseMessage = $responseMessage;
         $this->data = $data;
     }
+    
+    /**
+     * Sets the pagination details for the current object.
+     *
+     * This method assigns a `PageDto` instance to the object. It accepts various types 
+     * of input to initialize the pagination details:
+     * - A `PicoPageable` object, which contains the page and page size details.
+     * - A `PicoPage` object, which provides the page number and page size.
+     * - A `PageDto` object, which copies pagination information from another `PageDto`.
+     * - An `array` containing the page number and page size (array format: [page_number, page_size]).
+     *
+     * If no input is provided, the pagination is set to the default values from the 
+     * constructor of `PageDto` (page 1, page size 10).
+     *
+     * @param PicoPageable|PicoPage|PageDto|array|null $pageable A pagination object or array providing
+     *                                      details (e.g., page number, page size).
+     * 
+     * @return self Returns the current instance for method chaining.
+     */
+    public function setPage($pageable)
+    {
+        $this->data->page = new PageDto($pageable);
+        return $this;
+    }
+
 
     /**
      * Append a column title to the table.

@@ -5,6 +5,7 @@ use MagicApp\AppDto\ResponseDto\ListDataDto;
 use MagicApp\AppDto\ResponseDto\ListDataTitleDto;
 use MagicApp\AppDto\ResponseDto\ListDto;
 use MagicApp\AppDto\ResponseDto\MetadataDto;
+use MagicObject\Database\PicoPageable;
 use MagicObject\MagicObject;
 
 require_once dirname(__DIR__) . "/vendor/autoload.php";
@@ -34,8 +35,9 @@ $listDto->appendTitle(new ListDataTitleDto("active", "Aktif", true));
 
 $listDto->appendDataMap(new DataMap('active', [true=>'Ya', false=>'Tidak']));
 $listDto->appendDataMap(new DataMap('gender', ['M'=>'Laki-Laki']));
-
 $listDto->addPrimaryKeyName("apaId", "string");
+
+$listDto->setPage([5, 30]);
 
 $listDto->appendData(new Apa(['apaId'=>'1234', 'name'=>'Coba', 'gender'=>'M', 'active'=>"Ya"]), new MetadataDto(['apaId'=>'1234'], true, 0));
 $listDto->appendData(new Apa(['apaId'=>'1235', 'name'=>'Coba', 'gender'=>'M', 'active'=>"Ya"]), new MetadataDto(['apaId'=>'1234'], true, 0));
