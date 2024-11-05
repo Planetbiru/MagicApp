@@ -100,7 +100,7 @@ class ButtonFormData extends ToString
     /**
      * Get the element type.
      *
-     * @return string
+     * @return string The type of the form element.
      */
     public function getElement()
     {
@@ -110,8 +110,8 @@ class ButtonFormData extends ToString
     /**
      * Set the element type.
      *
-     * @param string $element
-     * @return self
+     * @param string $element The element type (e.g., 'button', 'submit').
+     * @return self The current instance for method chaining.
      */
     public function setElement($element)
     {
@@ -122,7 +122,7 @@ class ButtonFormData extends ToString
     /**
      * Get the CSS class applied to the button.
      *
-     * @return string
+     * @return string The CSS class.
      */
     public function getClass()
     {
@@ -132,8 +132,8 @@ class ButtonFormData extends ToString
     /**
      * Set the CSS class for the button.
      *
-     * @param string $class
-     * @return self
+     * @param string $class The CSS class to apply to the button.
+     * @return self The current instance for method chaining.
      */
     public function setClass($class)
     {
@@ -144,7 +144,7 @@ class ButtonFormData extends ToString
     /**
      * Get the ID of the button.
      *
-     * @return string
+     * @return string The unique ID of the button.
      */
     public function getId()
     {
@@ -154,8 +154,8 @@ class ButtonFormData extends ToString
     /**
      * Set the ID of the button.
      *
-     * @param string $id
-     * @return self
+     * @param string $id The unique identifier for the button.
+     * @return self The current instance for method chaining.
      */
     public function setId($id)
     {
@@ -166,7 +166,7 @@ class ButtonFormData extends ToString
     /**
      * Get the name of the button.
      *
-     * @return string
+     * @return string The name attribute of the button.
      */
     public function getName()
     {
@@ -176,8 +176,8 @@ class ButtonFormData extends ToString
     /**
      * Set the name of the button.
      *
-     * @param string $name
-     * @return self
+     * @param string $name The name of the button.
+     * @return self The current instance for method chaining.
      */
     public function setName($name)
     {
@@ -188,7 +188,7 @@ class ButtonFormData extends ToString
     /**
      * Get the value of the button.
      *
-     * @return string
+     * @return string The value attribute of the button.
      */
     public function getValue()
     {
@@ -198,8 +198,8 @@ class ButtonFormData extends ToString
     /**
      * Set the value of the button.
      *
-     * @param string $value
-     * @return self
+     * @param string $value The value to set for the button.
+     * @return self The current instance for method chaining.
      */
     public function setValue($value)
     {
@@ -210,7 +210,7 @@ class ButtonFormData extends ToString
     /**
      * Get the additional attributes for the button.
      *
-     * @return array
+     * @return array The associative array of additional attributes.
      */
     public function getAttribute()
     {
@@ -220,8 +220,8 @@ class ButtonFormData extends ToString
     /**
      * Set the additional attributes for the button.
      *
-     * @param array $attribute
-     * @return self
+     * @param array $attribute The associative array of attributes to set for the button.
+     * @return self The current instance for method chaining.
      */
     public function setAttribute($attribute)
     {
@@ -235,7 +235,7 @@ class ButtonFormData extends ToString
      *
      * @param string $key   The attribute key (e.g., 'data-toggle')
      * @param string $value The attribute value (e.g., 'modal')
-     * @return self
+     * @return self The current instance for method chaining.
      */
     public function appendAttribute($key, $value)
     {
@@ -246,7 +246,7 @@ class ButtonFormData extends ToString
     /**
      * Get the text content of the button.
      *
-     * @return string
+     * @return string The text content inside the button element.
      */
     public function getTextContent()
     {
@@ -256,8 +256,8 @@ class ButtonFormData extends ToString
     /**
      * Set the text content of the button.
      *
-     * @param string $textContent
-     * @return self
+     * @param string $textContent The text content inside the button element.
+     * @return self The current instance for method chaining.
      */
     public function setTextContent($textContent)
     {
