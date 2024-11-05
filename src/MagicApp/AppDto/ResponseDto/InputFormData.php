@@ -27,7 +27,7 @@ namespace MagicApp\AppDto\ResponseDto;
  *
  * @package MagicApp\AppDto\ResponseDto
  */
-class InputFormData
+class InputFormData extends ToString
 {
     /**
      * The label that will be displayed next to the filter input element.
