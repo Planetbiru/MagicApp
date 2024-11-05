@@ -81,7 +81,6 @@ class ListDto extends ToString
         $this->responseCode = $responseCode;
         $this->responseMessage = $responseMessage;
         $this->data = $data;
-        $this->page = new PageDto();
     }
 
     /**
