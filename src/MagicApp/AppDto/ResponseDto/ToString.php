@@ -22,6 +22,17 @@ use stdClass;
  * - Uses reflection to read class annotations for dynamic property naming strategy.
  * - Implements the `__toString` method to output a JSON representation of the object.
  * 
+ * **Supported Naming Strategies:**
+ * - `SNAKE_CASE`: Converts property names to snake_case (e.g., `myProperty` becomes `my_property`).
+ * - `KEBAB_CASE`: Converts property names to kebab-case (e.g., `myProperty` becomes `my-property`).
+ * - `TITLE_CASE`: Converts property names to Title Case (e.g., `myProperty` becomes `My Property`).
+ * - `CAMEL_CASE`: The default naming convention (e.g., `my_property` becomes `myProperty`).
+ * - `PASCAL_CASE`: Converts property names to PascalCase (e.g., `myProperty` becomes `MyProperty`).
+ * - `CONSTANT_CASE`: Converts property names to CONSTANT_CASE (e.g., `myProperty` becomes `MY_PROPERTY`).
+ * - `FLAT_CASE`: Converts property names to lowercase without any delimiters (e.g., `myProperty` becomes `myproperty`).
+ * - `DOT_NOTATION`: Converts property names to dot notation (e.g., `myProperty` becomes `my.property`).
+ * - `TRAIN_CASE`: Converts property names to TRAIN-CASE (e.g., `myProperty` becomes `MY-PROPERTY`).
+ * 
  * @package MagicApp\AppDto\ResponseDto
  * @author Kamshory
  * @link https://github.com/Planetbiru/MagicApp
@@ -62,13 +73,13 @@ class ToString
      */
     public function getPropertyValue($namingStrategy = null)
     {
-        $properties = get_object_vars($this); // Get all properties of the instance
-        $formattedProperties = new stdClass;
-
         // Determine the naming strategy from class annotations if not provided
         if ($namingStrategy === null) {
             $namingStrategy = $this->getPropertyNamingStrategy(get_class($this));
         }
+
+        $properties = get_object_vars($this); // Get all properties of the instance
+        $formattedProperties = new stdClass;
 
         // Use ReflectionClass to inspect the current class and its properties
         $reflection = new ReflectionClass($this);
@@ -77,36 +88,55 @@ class ToString
         foreach ($allProperties as $property) {
             $key = $property->getName();
             $value = $properties[$key]; // Get the value of the property
-            
+
             // Skip private properties of the current class
             if ($property->isPrivate() && $property->getDeclaringClass()->getName() === get_class($this)) {
                 continue; // Skip this property if it's private in the current class
             }
 
-            // Apply the naming strategy only for object or array properties
+            $formattedKey = $this->convertPropertyName($key, $namingStrategy);
+
+            // Handle different types of property values (object, array, or primitive types)
             if ($value instanceof ToString) {
-                $formattedProperties->{$this->convertPropertyName($key, $namingStrategy)} = $value->getPropertyValue($namingStrategy);
+                $formattedProperties->{$formattedKey} = $value->getPropertyValue($namingStrategy);
             } elseif ($value instanceof MagicObject) {
-                $formattedProperties->{$this->convertPropertyName($key, $namingStrategy)} = $value->value($namingStrategy === 'SNAKE_CASE');
+                $formattedProperties->{$formattedKey} = $value->value($namingStrategy === 'SNAKE_CASE');
             } elseif (is_array($value)) {
-                $formattedProperties->{$this->convertPropertyName($key, $namingStrategy)} = [];
-                foreach ($value as $k => $v) {
-                    if ($v instanceof ToString) {
-                        $formattedProperties->{$this->convertPropertyName($key, $namingStrategy)}[$this->convertPropertyName($k, $namingStrategy)] = $v->getPropertyValue($namingStrategy);
-                    } elseif ($v instanceof MagicObject) {
-                        $formattedProperties->{$this->convertPropertyName($key, $namingStrategy)}[$this->convertPropertyName($k, $namingStrategy)] = $v->value($namingStrategy === 'CAMEL_CASE');
-                    } else {
-                        $formattedProperties->{$this->convertPropertyName($key, $namingStrategy)}[$this->convertPropertyName($k, $namingStrategy)] = $v;
-                    }
-                }
+                $formattedProperties->{$formattedKey} = $this->processArray($value, $namingStrategy);
             } elseif (is_object($value)) {
-                $formattedProperties->{$this->convertPropertyName($key, $namingStrategy)} = $value;
+                $formattedProperties->{$formattedKey} = $value;
             } else {
-                $formattedProperties->{$this->convertPropertyName($key, $namingStrategy)} = $value;
+                $formattedProperties->{$formattedKey} = $value;
             }
         }
 
         return $formattedProperties;
+    }
+
+    /**
+     * Process an array of values, applying the naming strategy to each key and value.
+     *
+     * @param array $value The array to process.
+     * @param string $namingStrategy The naming strategy to apply.
+     * @return array The processed array with formatted keys and values.
+     */
+    private function processArray($value, $namingStrategy)
+    {
+        $processedArray = [];
+        foreach ($value as $k => $v) {
+            $formattedKey = $this->convertPropertyName($k, $namingStrategy);
+
+            // Process individual elements (ToString or MagicObject instances)
+            if ($v instanceof ToString) {
+                $processedArray[$formattedKey] = $v->getPropertyValue($namingStrategy);
+            } elseif ($v instanceof MagicObject) {
+                $processedArray[$formattedKey] = $v->value($namingStrategy === 'CAMEL_CASE');
+            } else {
+                $processedArray[$formattedKey] = $v;
+            }
+        }
+
+        return $processedArray;
     }
 
     /**
@@ -150,7 +180,7 @@ class ToString
             case 'KEBAB_CASE':
                 return strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $name));
             case 'TITLE_CASE':
-                return ucwords(str_replace(['_', '-'], ' ', $name));
+                return ucwords(str_replace(['_', '-'], ' ', $this->convertPropertyName($name, 'SNAKE_CASE')));
             case 'CAMEL_CASE':
                 return $name; // Default to camelCase
             case 'PASCAL_CASE':

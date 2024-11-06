@@ -4,19 +4,18 @@ use MagicApp\AppDto\ResponseDto\DetailDataDto;
 use MagicApp\AppDto\ResponseDto\DetailDto;
 use MagicApp\AppDto\ResponseDto\MetadataDetailDto;
 use MagicApp\AppDto\ResponseDto\ValueDto;
-use MagicObject\MagicObject;
 
 require_once dirname(__DIR__) . "/vendor/autoload.php";
 
 /**
- * @JSON(property-naming-strategy="SNAKE_CASE")
+ * @JSON(property-naming-strategy="PASCAL_CASE", prettify=false)
  */
-class Apa extends MagicObject
+class Apa extends DetailDto
 {
     
 }
 
-$detailDto = new DetailDto("001", "Success", new DetailDataDto());
+$detailDto = new Apa("001", "Success", new DetailDataDto());
 $detailDto->addPrimaryKeyName("apaId", "string");
 $detailDto->setMetadata(new MetadataDetailDto(['apaId'=>'1234'], true, 0, '', ''));
 
