@@ -20,6 +20,14 @@ class ButtonFormData extends ToString
      * @var string
      */
     public $element;
+    
+    /**
+     * The type of the button (e.g., 'submit', 'reset').
+     * This property can be used for input buttons, but is not currently utilized.
+     *
+     * @var string
+     */
+    public $type;
 
     /**
      * The CSS class applied to the button element.
@@ -50,13 +58,6 @@ class ButtonFormData extends ToString
     public $value;
 
     /**
-     * An associative array of additional attributes for the button element.
-     *
-     * @var array
-     */
-    public $attribute;
-
-    /**
      * The text content inside the button element.
      *
      * @var string
@@ -64,35 +65,35 @@ class ButtonFormData extends ToString
     public $textContent;
 
     /**
+     * An associative array of additional attributes for the button element.
+     *
+     * @var array
+     */
+    public $attribute;
+
+    /**
      * ButtonFormData constructor.
      *
-     * This constructor allows initializing the properties of the ButtonFormData object.
-     * All properties can be optionally initialized by passing values for each one. 
-     * Default values are provided for each parameter in case no arguments are passed.
+     * Initializes the properties of the ButtonFormData object. All properties can be optionally initialized 
+     * by passing values for each one. Default values are provided for each parameter if none are passed.
      *
      * @param string $element      The type of the button form element (default is 'button').
-     * @param string $class        The CSS class applied to the button element (default is null).
-     * @param string $id           The unique identifier for the button element (default is null).
-     * @param string $name         The name attribute of the button (default is null).
-     * @param string $value        The value attribute of the button (default is null).
-     * @param array  $attribute    An associative array of additional attributes for the button (default is an empty array).
-     * @param string $textContent  The text content inside the button element (default is null).
+     * @param string|null $type    The type of the button (e.g., 'submit', 'reset', 'button') (default is 'button').
+     * @param string|null $class   The CSS class applied to the button element (default is null).
+     * @param string|null $id      The unique identifier for the button element (default is null).
+     * @param string|null $name    The name attribute of the button (default is null).
+     * @param string|null $value   The value attribute of the button (default is null).
+     * @param string|null $textContent The text content inside the button element (default is null).
      */
-    public function __construct(
-        $element = 'button',
-        $class = null,
-        $id = null,
-        $name = null,
-        $value = null,
-        $attribute = array(),
-        $textContent = null
-    ) {
+    public function __construct($element = 'button', $type = 'button', $class = null, $id = null, $name = null, $value = null, $textContent = null)
+    {
         $this->element = $element;
+        $this->type = $type;
         $this->class = $class;
         $this->id = $id;
         $this->name = $name;
         $this->value = $value;
-        $this->attribute = $attribute;
+        $this->attribute = [];
         $this->textContent = $textContent;
     }
 
@@ -115,6 +116,32 @@ class ButtonFormData extends ToString
     public function setElement($element)
     {
         $this->element = $element;
+        return $this;
+    }
+    
+    /**
+     * Get the button type (e.g., 'submit', 'reset', 'button').
+     *
+     * Returns the type of the button.
+     *
+     * @return string|null The type of the button.
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set the button type (e.g., 'submit', 'reset', 'button').
+     *
+     * Sets the type of the button (such as 'submit', 'reset', or 'button').
+     * 
+     * @param string $type The button type (e.g., 'submit', 'reset', 'button').
+     * @return self The current instance for method chaining.
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
         return $this;
     }
 
@@ -207,6 +234,28 @@ class ButtonFormData extends ToString
     }
 
     /**
+     * Get the text content of the button.
+     *
+     * @return string The text content inside the button element.
+     */
+    public function getTextContent()
+    {
+        return $this->textContent;
+    }
+
+    /**
+     * Set the text content of the button.
+     *
+     * @param string $textContent The text content inside the button element.
+     * @return self The current instance for method chaining.
+     */
+    public function setTextContent($textContent)
+    {
+        $this->textContent = $textContent;
+        return $this;
+    }
+    
+    /**
      * Get the additional attributes for the button.
      *
      * @return array The associative array of additional attributes.
@@ -239,28 +288,6 @@ class ButtonFormData extends ToString
     public function appendAttribute($key, $value)
     {
         $this->attribute[$key] = $value;
-        return $this;
-    }
-
-    /**
-     * Get the text content of the button.
-     *
-     * @return string The text content inside the button element.
-     */
-    public function getTextContent()
-    {
-        return $this->textContent;
-    }
-
-    /**
-     * Set the text content of the button.
-     *
-     * @param string $textContent The text content inside the button element.
-     * @return self The current instance for method chaining.
-     */
-    public function setTextContent($textContent)
-    {
-        $this->textContent = $textContent;
         return $this;
     }
 }
