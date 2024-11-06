@@ -104,6 +104,20 @@ class ToString
     const TRAIN_CASE = 'TRAIN_CASE';
 
     /**
+     * Class annotation JSON
+     * 
+     * @var string
+     */
+    const JSON = 'JSON';
+
+    /**
+     * Value 'true'
+     * 
+     * @var string
+     */
+    const VALUE_TRUE = 'true';
+
+    /**
      * A regular expression used to match camelCase or PascalCase property names
      * to insert appropriate delimiters (like underscores or hyphens).
      *
@@ -178,8 +192,11 @@ class ToString
 
             $formattedKey = $this->convertPropertyName($key, $namingStrategy);
 
-            // Handle different types of property values (ToString, MagicObject, arrays, or other objects)
-            if ($value instanceof ToString) {
+            // Handle different types of property values
+            if ($value === null) {
+                // Explicitly handle null values
+                $formattedProperties->{$formattedKey} = null;
+            } elseif ($value instanceof ToString) {
                 // Recursively retrieve property values from other ToString objects
                 $formattedProperties->{$formattedKey} = $value->getPropertyValue($namingStrategy);
             } elseif ($value instanceof MagicObject) {
@@ -190,7 +207,7 @@ class ToString
                 $formattedProperties->{$formattedKey} = $this->processArray($value, $namingStrategy);
             } elseif (is_object($value)) {
                 // Leave other objects as is (without changing naming strategy) in the result
-                $formattedProperties->{$formattedKey} = $value; // other object will be serialize as is without change naming strategy
+                $formattedProperties->{$formattedKey} = $value;
             } else {
                 // Handle primitive values (string, int, float, etc.)
                 $formattedProperties->{$formattedKey} = $value;
@@ -308,9 +325,9 @@ class ToString
     private function parseAnnotation($className)
     {
         $reflexClass = new PicoAnnotationParser($className);
-        $attr = $reflexClass->parseKeyValueAsObject($reflexClass->getFirstParameter("JSON"));
+        $attr = $reflexClass->parseKeyValueAsObject($reflexClass->getFirstParameter(self::JSON));
         $this->propertyNamingStrategy = $attr->getPropertyNamingStrategy();
-        $this->prettify = strtolower($attr->getPrettify()) === 'true';
+        $this->prettify = strtolower($attr->getPrettify()) === self::VALUE_TRUE;
         $this->propertySet = true;
         return $this;
     }

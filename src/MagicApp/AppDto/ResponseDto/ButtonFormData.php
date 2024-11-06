@@ -35,7 +35,7 @@ class ButtonFormData extends ToString
     protected $element;
     
     /**
-     * The type of the button (e.g., 'submit', 'reset').
+     * The type of the button (e.g., 'submit', 'reset', 'button').
      * This property can be used for input buttons, but is not currently utilized.
      *
      * @var string

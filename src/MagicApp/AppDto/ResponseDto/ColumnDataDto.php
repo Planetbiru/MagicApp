@@ -93,22 +93,28 @@ class ColumnDataDto extends ToString
      * @param bool $hidden Indicates if the field is hidden.
      * @param ValueDto $valueDraft The draft value associated with the field.
      */
-    public function __construct($field, $value, $type, $label, $readonly, $hidden, $valueDraft)
+    public function __construct($field, $value, $type, $label, $readonly = false, $hidden = false, $valueDraft = null)
     {
         $this->field = $field;
-        $this->value = $value->getDisplay();
-        if($value->getRaw() != null)
+        if(isset($value))
         {
-            $this->valueRaw = $value->getRaw();
+            $this->value = $value->getDisplay();
+            if($value->getRaw() != null)
+            {
+                $this->valueRaw = $value->getRaw();
+            }
         }
         $this->type = $type;
         $this->label = $label;
         $this->readonly = $readonly;
         $this->hidden = $hidden;
-        $this->valueDraft = $valueDraft->getDisplay();
-        if($valueDraft->getRaw() != null)
+        if(isset($valueDraft))
         {
-            $this->valueDraftRaw = $valueDraft->getRaw();
+            $this->valueDraft = $valueDraft->getDisplay();
+            if($valueDraft->getRaw() != null)
+            {
+                $this->valueDraftRaw = $valueDraft->getRaw();
+            }
         }
     }
 
