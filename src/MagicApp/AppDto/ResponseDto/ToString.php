@@ -39,15 +39,80 @@ use stdClass;
  */
 class ToString
 {
+    /**
+     * Naming strategy that converts property names to snake_case (e.g., `myProperty` becomes `my_property`).
+     *
+     * @var string
+     */
     const SNAKE_CASE = 'SNAKE_CASE';
+
+    /**
+     * Naming strategy that converts property names to kebab-case (e.g., `myProperty` becomes `my-property`).
+     *
+     * @var string
+     */
     const KEBAB_CASE = 'KEBAB_CASE';
+
+    /**
+     * Naming strategy that converts property names to title case (e.g., `myProperty` becomes `My Property`).
+     *
+     * @var string
+     */
     const TITLE_CASE = 'TITLE_CASE';
-    const CAMEL_CASE = 'CAMEL_CASE';  // Default case
+
+    /**
+     * Naming strategy that converts property names to camelCase (e.g., `my_property` becomes `myProperty`).
+     * This is the default case.
+     *
+     * @var string
+     */
+    const CAMEL_CASE = 'CAMEL_CASE';
+
+    /**
+     * Naming strategy that converts property names to PascalCase (e.g., `myProperty` becomes `MyProperty`).
+     *
+     * @var string
+     */
     const PASCAL_CASE = 'PASCAL_CASE';
+
+    /**
+     * Naming strategy that converts property names to CONSTANT_CASE (e.g., `myProperty` becomes `MY_PROPERTY`).
+     *
+     * @var string
+     */
     const CONSTANT_CASE = 'CONSTANT_CASE';
+
+    /**
+     * Naming strategy that converts property names to flat case (e.g., `myProperty` becomes `myproperty`).
+     *
+     * @var string
+     */
     const FLAT_CASE = 'FLAT_CASE';
+
+    /**
+     * Naming strategy that converts property names to dot notation (e.g., `myProperty` becomes `my.property`).
+     *
+     * @var string
+     */
     const DOT_NOTATION = 'DOT_NOTATION';
+
+    /**
+     * Naming strategy that converts property names to train-case (e.g., `myProperty` becomes `MY-PROPERTY`).
+     *
+     * @var string
+     */
     const TRAIN_CASE = 'TRAIN_CASE';
+
+    /**
+     * A regular expression used to match camelCase or PascalCase property names
+     * to insert appropriate delimiters (like underscores or hyphens).
+     *
+     * This regular expression is used for converting between different case styles
+     * where uppercase letters are separated from lowercase letters with a delimiter.
+     *
+     * @var string
+     */
+    const REGEX_NAMING_STRATEGY = '/([a-z])([A-Z])/';
     
     /**
      * Check if $propertyNamingStrategy and $prettify are set
@@ -186,9 +251,9 @@ class ToString
     {
         switch ($format) {
             case self::SNAKE_CASE:
-                return strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $name)); //NOSONAR
+                return strtolower(preg_replace(self::REGEX_NAMING_STRATEGY, '$1_$2', $name)); //NOSONAR
             case self::KEBAB_CASE:
-                return strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $name)); //NOSONAR
+                return strtolower(preg_replace(self::REGEX_NAMING_STRATEGY, '$1-$2', $name)); //NOSONAR
             case self::TITLE_CASE:
                 return ucwords(str_replace(['_', '-'], ' ', $this->convertPropertyName($name, self::SNAKE_CASE)));
             case self::CAMEL_CASE:
@@ -196,13 +261,13 @@ class ToString
             case self::PASCAL_CASE:
                 return str_replace(' ', '', ucwords(str_replace(['_', '-'], ' ', $name)));
             case self::CONSTANT_CASE:
-                return strtoupper(preg_replace('/([a-z])([A-Z])/', '$1_$2', $name)); //NOSONAR
+                return strtoupper(preg_replace(self::REGEX_NAMING_STRATEGY, '$1_$2', $name)); //NOSONAR
             case self::FLAT_CASE:
-                return strtolower(preg_replace('/([a-z])([A-Z])/', '$1$2', $name)); //NOSONAR
+                return strtolower(preg_replace(self::REGEX_NAMING_STRATEGY, '$1$2', $name)); //NOSONAR
             case self::DOT_NOTATION:
-                return strtolower(preg_replace('/([a-z])([A-Z])/', '$1.$2', $name)); //NOSONAR
+                return strtolower(preg_replace(self::REGEX_NAMING_STRATEGY, '$1.$2', $name)); //NOSONAR
             case self::TRAIN_CASE:
-                return strtoupper(preg_replace('/([a-z])([A-Z])/', '$1-$2', $name)); //NOSONAR
+                return strtoupper(preg_replace(self::REGEX_NAMING_STRATEGY, '$1-$2', $name)); //NOSONAR
             default:
                 return $name;
         }
