@@ -55,8 +55,8 @@ class OptionDto extends ToString
 
     /**
      * An associative array of HTML attributes for the option element. This allows for customization 
-     * of the appearance or behavior of the option in the rendered HTML, such as adding a `disabled`, 
-     * `class`, or `id` attribute.
+     * of the appearance or behavior of the option in the rendered HTML, such as adding a `disabled` 
+     * or `data-*` attribute.
      * 
      * @var array
      */
@@ -72,7 +72,7 @@ class OptionDto extends ToString
      * @param string $value The value to associate with the option (e.g., "1", "0").
      * @param bool $selected Whether the option is selected by default. Defaults to `false`.
      * @param string $group The group name to which this option belongs (e.g., 'Countries', 'Payment Methods').
-     * @param array $attribute Additional HTML attributes for the option element (e.g., `class`, `disabled`).
+     * @param array $attribute Additional HTML attributes for the option element (e.g., `disabled`, `data-*`).
      */
     public function __construct($text = '', $value = '', $selected = false, $group = '', $attribute = [])
     {
@@ -176,7 +176,7 @@ class OptionDto extends ToString
     /**
      * Gets the array of HTML attributes for the option element.
      *
-     * @return array The option's HTML attributes (e.g., class, disabled).
+     * @return array The option's HTML attributes (e.g., `disabled`, `data-*`).
      */
     public function getAttribute()
     {
