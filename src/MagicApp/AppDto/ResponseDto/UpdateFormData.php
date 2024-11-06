@@ -18,6 +18,8 @@ namespace MagicApp\AppDto\ResponseDto;
  * - `button`: An array of `ButtonFormData` objects, representing buttons in the form (optional).
  *
  * @package MagicApp\AppDto\ResponseDto
+ * @author Kamshory
+ * @link https://github.com/Planetbiru/MagicApp
  */
 class UpdateFormData extends ToString
 {

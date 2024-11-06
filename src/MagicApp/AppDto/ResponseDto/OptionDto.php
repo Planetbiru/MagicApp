@@ -15,6 +15,8 @@ namespace MagicApp\AppDto\ResponseDto;
  * with custom attributes, such as dropdown menus or radio buttons.
  *
  * @package MagicApp\AppDto\ResponseDto
+ * @author Kamshory
+ * @link https://github.com/Planetbiru/MagicApp
  */
 class OptionDto extends ToString
 {

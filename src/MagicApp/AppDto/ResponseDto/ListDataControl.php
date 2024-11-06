@@ -10,6 +10,8 @@ namespace MagicApp\AppDto\ResponseDto;
  * and the associated HTML attributes and text content.
  *
  * @package MagicApp\AppDto\ResponseDto
+ * @author Kamshory
+ * @link https://github.com/Planetbiru/MagicApp
  */
 class ListDataControl extends ToString
 {

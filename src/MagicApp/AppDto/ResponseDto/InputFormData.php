@@ -26,6 +26,8 @@ namespace MagicApp\AppDto\ResponseDto;
  * - `defaultValue`: The default value for the filter input, which is pre-filled when the form is loaded.
  *
  * @package MagicApp\AppDto\ResponseDto
+ * @author Kamshory
+ * @link https://github.com/Planetbiru/MagicApp
  */
 class InputFormData extends ToString
 {

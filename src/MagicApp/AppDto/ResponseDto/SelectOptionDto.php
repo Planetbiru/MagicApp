@@ -15,6 +15,8 @@ namespace MagicApp\AppDto\ResponseDto;
  * representation of the option in a form element.
  *
  * @package MagicApp\AppDto\ResponseDto
+ * @author Kamshory
+ * @link https://github.com/Planetbiru/MagicApp
  */
 class SelectOptionDto extends ToString
 {
