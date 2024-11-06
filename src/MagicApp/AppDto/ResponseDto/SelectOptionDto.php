@@ -29,7 +29,7 @@ class SelectOptionDto extends ToString
     public $source;
 
     /**
-     * The namespace where the module is located, such as "/", "/admin", "supervisor", etc.
+     * The namespace where the module is located, such as "/", "/admin", "/supervisor", etc.
      *
      * @var string
      */
@@ -61,7 +61,7 @@ class SelectOptionDto extends ToString
      * is provided, an empty `OptionDto` will be created to initialize the option.
      *
      * @param string $source The source from which the option is derived (e.g., API, Database).
-     * @param string $namespace The namespace where the module is located, such as "/", "/admin", "supervisor", etc.
+     * @param string $namespace The namespace where the module is located, such as "/", "/admin", "/supervisor", etc.
      * @param string $field The field associated with this option (e.g., country_id, product_id).
      * @param OptionDto $option An instance of `OptionDto` that defines the option's metadata.
      */

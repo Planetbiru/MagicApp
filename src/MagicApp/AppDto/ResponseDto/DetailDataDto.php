@@ -45,7 +45,6 @@ class DetailDataDto extends ToString
         $this->column = new ColumnDto();
     }
 
-
     /**
      * Get the name of the primary key in the data structure.
      *

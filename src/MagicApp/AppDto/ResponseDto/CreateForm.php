@@ -28,7 +28,7 @@ namespace MagicApp\AppDto\ResponseDto;
 class CreateForm extends ToString
 {
     /**
-     * The namespace where the module is located, such as "/", "/admin", "supervisor", etc.
+     * The namespace where the module is located, such as "/", "/admin", "/supervisor", etc.
      *
      * @var string
      */
