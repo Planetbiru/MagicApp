@@ -21,7 +21,7 @@ use MagicObject\Database\PicoPageable;
 class PageDto extends ToString
 {
     /**
-     * The current page number
+     * The current page number, start from 1
      *
      * @var int
      */

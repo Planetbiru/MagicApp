@@ -41,7 +41,12 @@ class DataMap extends ToString
     public function __construct($field, $map)
     {
         $this->field = $field;
-        $this->map = $map;
+        $this->map = [];
+        foreach($map as $key=>$value)
+        {
+            $this->map[] = ['name'=>$key, 'value'=>$value];
+        }
+       
     }
 
     /**

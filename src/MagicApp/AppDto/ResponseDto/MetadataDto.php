@@ -86,7 +86,12 @@ class MetadataDto extends ToString
      */
     public function __construct($primaryKey = null, $active = true, $waitingFor = 0)
     {
-        $this->primaryKey = $primaryKey;
+        $this->primaryKey = [];
+        
+        foreach($primaryKey as $key=>$value)
+        {
+            $this->primaryKey[] = ['name'=>$key, 'value'=>$value];
+        }
         $this->active = $active;
         $this->waitingFor = $waitingFor;
     }

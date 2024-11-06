@@ -24,21 +24,21 @@ class DetailDataDto extends ToString
      *
      * @var string[]|null
      */
-    protected $primaryKeyName;
+    private $primaryKeyName;
 
     /**
      * An associative array mapping primary key names to their data types.
      *
      * @var string[]
      */
-    protected $primaryKeyDataType;
+    private $primaryKeyDataType;
 
     /**
      * An array of column, each represented as a ColumnDto.
      *
      * @var ColumnDto
      */
-    protected $column;
+    private $column;
 
     public function __construct()
     {
@@ -84,7 +84,7 @@ class DetailDataDto extends ToString
             $this->primaryKeyDataType = array(); // Initialize as an array if not set
         }
         $this->primaryKeyName[] = $primaryKeyName; // Append the primary key name
-        $this->primaryKeyDataType[$primaryKeyName] = $primaryKeyDataType; // Append the primary key data type
+        $this->primaryKeyDataType[] = ['name'=>$primaryKeyName, 'type'=>$primaryKeyDataType]; // Append the primary key data type
         return $this; // Return current instance for method chaining.
     }
 

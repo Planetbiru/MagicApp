@@ -281,7 +281,7 @@ class ListDto extends ToString
     /**
      * Set the response code indicating the status of the request.
      *
-     * @param string|null  $responseCode  The response code indicating the status of the request.
+     * @param string|null $responseCode The response code indicating the status of the request.
      *
      * @return self The current instance for method chaining.
      */ 

@@ -102,7 +102,7 @@ class ListDataDto extends ToString
             $this->primaryKeyDataType = array(); // Initialize as an array if not set
         }   
         $this->primaryKeyName[] = $primaryKeyName; // Append the primary key name
-        $this->primaryKeyDataType[$primaryKeyName] = $primaryKeyDataType; // Append the primary key data type
+        $this->primaryKeyDataType[] = ['name'=>$primaryKeyName, 'type'=>$primaryKeyDataType]; // Append the primary key data type
         return $this; // Return current instance for method chaining.
     }
     
@@ -227,7 +227,7 @@ class ListDataDto extends ToString
     /**
      * Get current page
      *
-     * @return  PageDto
+     * @return PageDto
      */ 
     public function getPage()
     {
@@ -237,11 +237,11 @@ class ListDataDto extends ToString
     /**
      * Set current page
      *
-     * @param  PageDto  $page  Current page
+     * @param PageDto $page Current page
      *
      * @return  self
      */ 
-    public function setPage(PageDto $page)
+    public function setPage($page)
     {
         $this->page = $page;
 
@@ -251,7 +251,7 @@ class ListDataDto extends ToString
     /**
      * Get an associative array mapping primary key names to their data types.
      *
-     * @return  string[]
+     * @return string[]
      */ 
     public function getPrimaryKeyDataType()
     {
@@ -261,9 +261,9 @@ class ListDataDto extends ToString
     /**
      * Set an associative array mapping primary key names to their data types.
      *
-     * @param  string[]  $primaryKeyDataType  An associative array mapping primary key names to their data types.
+     * @param string[] $primaryKeyDataType An associative array mapping primary key names to their data types.
      *
-     * @return  self
+     * @return self
      */ 
     public function setPrimaryKeyDataType($primaryKeyDataType)
     {
