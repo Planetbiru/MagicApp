@@ -39,6 +39,16 @@ use stdClass;
  */
 class ToString
 {
+    const SNAKE_CASE = 'SNAKE_CASE';
+    const KEBAB_CASE = 'KEBAB_CASE';
+    const TITLE_CASE = 'TITLE_CASE';
+    const CAMEL_CASE = 'CAMEL_CASE';  // Default case
+    const PASCAL_CASE = 'PASCAL_CASE';
+    const CONSTANT_CASE = 'CONSTANT_CASE';
+    const FLAT_CASE = 'FLAT_CASE';
+    const DOT_NOTATION = 'DOT_NOTATION';
+    const TRAIN_CASE = 'TRAIN_CASE';
+    
     /**
      * Check if $propertyNamingStrategy and $prettify are set
      *
@@ -172,29 +182,29 @@ class ToString
      * @param string $format The desired naming format.
      * @return string The converted property name.
      */
-    private function convertPropertyName($name, $format)
+    private function convertPropertyName($name, $format) //NOSONAR
     {
         switch ($format) {
-            case 'SNAKE_CASE':
-                return strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $name));
-            case 'KEBAB_CASE':
-                return strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $name));
-            case 'TITLE_CASE':
-                return ucwords(str_replace(['_', '-'], ' ', $this->convertPropertyName($name, 'SNAKE_CASE')));
-            case 'CAMEL_CASE':
-                return $name; // Default to camelCase
-            case 'PASCAL_CASE':
-                return str_replace(' ', '', ucwords(str_replace(['_', '-'], ' ', $name))); // UpperCamelCase
-            case 'CONSTANT_CASE':
-                return strtoupper(preg_replace('/([a-z])([A-Z])/', '$1_$2', $name)); // ALL_UPPER_CASE
-            case 'FLAT_CASE':
-                return strtolower(preg_replace('/([a-z])([A-Z])/', '$1$2', $name)); // alllowercase
-            case 'DOT_NOTATION':
-                return strtolower(preg_replace('/([a-z])([A-Z])/', '$1.$2', $name)); // this.is.dot.notation
-            case 'TRAIN_CASE':
-                return strtoupper(preg_replace('/([a-z])([A-Z])/', '$1-$2', $name)); // THIS-IS-TRAIN-CASE
+            case self::SNAKE_CASE:
+                return strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $name)); //NOSONAR
+            case self::KEBAB_CASE:
+                return strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $name)); //NOSONAR
+            case self::TITLE_CASE:
+                return ucwords(str_replace(['_', '-'], ' ', $this->convertPropertyName($name, self::SNAKE_CASE)));
+            case self::CAMEL_CASE:
+                return $name;
+            case self::PASCAL_CASE:
+                return str_replace(' ', '', ucwords(str_replace(['_', '-'], ' ', $name)));
+            case self::CONSTANT_CASE:
+                return strtoupper(preg_replace('/([a-z])([A-Z])/', '$1_$2', $name)); //NOSONAR
+            case self::FLAT_CASE:
+                return strtolower(preg_replace('/([a-z])([A-Z])/', '$1$2', $name)); //NOSONAR
+            case self::DOT_NOTATION:
+                return strtolower(preg_replace('/([a-z])([A-Z])/', '$1.$2', $name)); //NOSONAR
+            case self::TRAIN_CASE:
+                return strtoupper(preg_replace('/([a-z])([A-Z])/', '$1-$2', $name)); //NOSONAR
             default:
-                return $name; // Fallback to original name
+                return $name;
         }
     }
 
