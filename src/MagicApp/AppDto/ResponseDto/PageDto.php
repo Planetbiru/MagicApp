@@ -25,14 +25,14 @@ class PageDto extends ToString
      *
      * @var int
      */
-    public $pageNumber;
+    protected $pageNumber;
 
     /**
      * The page size, i.e., the number of items displayed per page
      *
      * @var int
      */
-    public $pageSize;
+    protected $pageSize;
 
     /**
      * The data offset, which is used to calculate the starting position of data on 
@@ -40,7 +40,7 @@ class PageDto extends ToString
      *
      * @var int
      */
-    public $dataOffset;
+    protected $dataOffset;
 
     /**
      * Constructor for the PageDto class.

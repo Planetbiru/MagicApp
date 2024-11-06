@@ -26,42 +26,42 @@ class ListDataDto extends ToString
      *
      * @var ListDataTitleDto[]
      */
-    public $title;
+    protected $title;
 
     /**
      * An array of data maps for the data table.
      *
      * @var DataMap[]
      */
-    public $dataMap;
+    protected $dataMap;
 
     /**
      * The name of the primary key in the data structure.
      *
      * @var string[]|null
      */
-    public $primaryKeyName;
+    protected $primaryKeyName;
 
     /**
      * An associative array mapping primary key names to their data types.
      *
      * @var string[]
      */
-    public $primaryKeyDataType;
+    protected $primaryKeyDataType;
 
     /**
      * Current page
      *
      * @var PageDto
      */
-    public $page;
+    protected $page;
 
     /**
      * An array of row, each represented as a RowDto.
      *
      * @var RowDto[]
      */
-    public $row;
+    protected $row;
 
     /**
      * Get the name of the primary key in the data structure.
@@ -222,5 +222,67 @@ class ListDataDto extends ToString
     {
         $this->row = array(); // Resetting row array
         return $this; // Return current instance for method chaining.
+    }
+
+    /**
+     * Get current page
+     *
+     * @return  PageDto
+     */ 
+    public function getPage()
+    {
+        return $this->page;
+    }
+
+    /**
+     * Set current page
+     *
+     * @param  PageDto  $page  Current page
+     *
+     * @return  self
+     */ 
+    public function setPage(PageDto $page)
+    {
+        $this->page = $page;
+
+        return $this;
+    }
+
+    /**
+     * Get an associative array mapping primary key names to their data types.
+     *
+     * @return  string[]
+     */ 
+    public function getPrimaryKeyDataType()
+    {
+        return $this->primaryKeyDataType;
+    }
+
+    /**
+     * Set an associative array mapping primary key names to their data types.
+     *
+     * @param  string[]  $primaryKeyDataType  An associative array mapping primary key names to their data types.
+     *
+     * @return  self
+     */ 
+    public function setPrimaryKeyDataType($primaryKeyDataType)
+    {
+        $this->primaryKeyDataType = $primaryKeyDataType;
+
+        return $this;
+    }
+
+    /**
+     * Set an array of data maps for the data table.
+     *
+     * @param  DataMap[]  $dataMap  An array of data maps for the data table.
+     *
+     * @return  self
+     */ 
+    public function setDataMap($dataMap)
+    {
+        $this->dataMap = $dataMap;
+
+        return $this;
     }
 }

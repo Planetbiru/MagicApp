@@ -8,7 +8,7 @@ use MagicApp\AppDto\ResponseDto\ValueDto;
 require_once dirname(__DIR__) . "/vendor/autoload.php";
 
 /**
- * @JSON(property-naming-strategy="PASCAL_CASE", prettify=false)
+ * @JSON(property-naming-strategy="SNAKE_CASE", prettify=true)
  */
 class Apa extends DetailDto
 {

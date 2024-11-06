@@ -26,7 +26,7 @@ class OptionDto extends ToString
      *
      * @var string
      */
-    public $text;
+    protected $text;
 
     /**
      * The value associated with the option. This value is typically sent as part of the form data 
@@ -35,7 +35,7 @@ class OptionDto extends ToString
      *
      * @var string
      */
-    public $value;
+    protected $value;
 
     /**
      * The group name to which the option belongs. This could be used to categorize or group options.
@@ -43,7 +43,7 @@ class OptionDto extends ToString
      * 
      * @var string
      */
-    public $group;
+    protected $group;
 
     /**
      * Indicates whether the option is selected by default. If set to `true`, the option will be
@@ -51,7 +51,7 @@ class OptionDto extends ToString
      *
      * @var bool
      */
-    public $selected;
+    protected $selected;
 
     /**
      * An associative array of HTML attributes for the option element. This allows for customization 
@@ -60,7 +60,7 @@ class OptionDto extends ToString
      * 
      * @var array
      */
-    public $attribute;
+    protected $attribute;
 
     /**
      * Constructor for the OptionDto class.

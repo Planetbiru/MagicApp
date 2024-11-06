@@ -23,14 +23,14 @@ class DataMap extends ToString
      *
      * @var string
      */
-    public $field;
+    protected $field;
     
     /**
      * An associative array representing the mapping of the field.
      *
      * @var array
      */
-    public $map;
+    protected $map;
 
     /**
      * Constructor for initializing a DataMap instance.

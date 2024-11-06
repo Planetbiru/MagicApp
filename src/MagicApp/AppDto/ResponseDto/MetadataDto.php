@@ -27,14 +27,14 @@ class MetadataDto extends ToString
      *
      * @var bool
      */
-    public $active;
+    protected $active;
 
     /**
      * Associated array key value primary key.
      *
      * @var array
      */
-    public $primaryKey;
+    protected $primaryKey;
 
     /**
      * Represents the status of the operation.
@@ -49,7 +49,7 @@ class MetadataDto extends ToString
      *
      * @var int
      */
-    public $waitingFor;
+    protected $waitingFor;
 
     /**
      * Creates a MetadataDto instance from provided data.

@@ -32,7 +32,7 @@ class ButtonFormData extends ToString
      *
      * @var string
      */
-    public $element;
+    protected $element;
     
     /**
      * The type of the button (e.g., 'submit', 'reset').
@@ -40,49 +40,49 @@ class ButtonFormData extends ToString
      *
      * @var string
      */
-    public $type;
+    protected $type;
 
     /**
      * The CSS class applied to the button element.
      *
      * @var string
      */
-    public $class;
+    protected $class;
 
     /**
      * The unique identifier for the button.
      *
      * @var string
      */
-    public $id;
+    protected $id;
 
     /**
      * The name of the button, typically used in form submission.
      *
      * @var string
      */
-    public $name;
+    protected $name;
 
     /**
      * The value of the button, typically used in form submission.
      *
      * @var string
      */
-    public $value;
+    protected $value;
 
     /**
      * The text content inside the button element.
      *
      * @var string
      */
-    public $textContent;
+    protected $textContent;
 
     /**
      * An associative array of additional attributes for the button element.
      *
      * @var array
      */
-    public $attribute;
+    protected $attribute;
 
     /**
      * ButtonFormData constructor.

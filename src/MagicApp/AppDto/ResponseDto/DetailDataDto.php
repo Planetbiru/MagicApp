@@ -24,21 +24,21 @@ class DetailDataDto extends ToString
      *
      * @var string[]|null
      */
-    public $primaryKeyName;
+    protected $primaryKeyName;
 
     /**
      * An associative array mapping primary key names to their data types.
      *
      * @var string[]
      */
-    public $primaryKeyDataType;
+    protected $primaryKeyDataType;
 
     /**
      * An array of column, each represented as a ColumnDto.
      *
      * @var ColumnDto
      */
-    public $column;
+    protected $column;
 
     public function __construct()
     {
@@ -109,20 +109,20 @@ class DetailDataDto extends ToString
             $this->column = new ColumnDto(); // Initialize as an array if not set
         }
         if (!isset($this->column->data)) {
-            $this->column->data = []; // Initialize as an array if not set
+            $this->column->setData([]); // Initialize as an array if not set
         }
 
 
-        $this->column->data[] = new ColumnDataDto($field, $value, $type, $label, $readonly, $hidden, $valueDraft);
+        $this->column->addData(new ColumnDataDto($field, $value, $type, $label, $readonly, $hidden, $valueDraft));
         return $this; // Return current instance for method chaining.
     }
 
     /**
      * Get an array of column, each represented as a ColumnDto.
      *
-     * @return ColumnDto[] The column in the data structure.
+     * @return ColumnDto The column in the data structure.
      */
-    public function getcolumn()
+    public function getColumn()
     {
         return $this->column;
     }
@@ -133,9 +133,61 @@ class DetailDataDto extends ToString
      * @param ColumnDto[] $column An array of column to set.
      * @return self The current instance for method chaining.
      */
-    public function setcolumn($column)
+    public function setColumn($column)
     {
         $this->column = $column;
         return $this; // Return current instance for method chaining.
     }
+
+    /**
+     * Retrieves the associative array mapping primary key names to their data types.
+     *
+     * This method returns the current mapping of primary key names to their associated data types
+     * as an associative array, where the keys are the primary key names and the values are 
+     * their respective data types.
+     *
+     * @return string[] An associative array where the keys are primary key names and the values are data types.
+     */
+    public function getPrimaryKeyDataType()
+    {
+        return $this->primaryKeyDataType;
+    }
+
+    /**
+     * Sets an associative array mapping primary key names to their data types.
+     *
+     * This method allows setting or updating the mapping of primary key names to their respective
+     * data types. The argument should be an associative array where each key represents a primary 
+     * key name and the corresponding value is the data type.
+     *
+     * @param string[] $primaryKeyDataType An associative array mapping primary key names to their data types.
+     *                                     The array should contain primary key names as keys and data types as values.
+     * 
+     * @return self Returns the current instance for method chaining.
+     */
+    public function setPrimaryKeyDataType($primaryKeyDataType)
+    {
+        $this->primaryKeyDataType = $primaryKeyDataType;
+
+        return $this;
+    }
+
+    /**
+     * Appends or updates the data type for a specific primary key name.
+     *
+     * This method allows appending a new primary key name and its associated data type to the existing 
+     * mapping or updating the data type of an existing primary key name. The primary key name is 
+     * specified as the `$name` argument, and the data type is specified as the `$type` argument.
+     *
+     * @param string $name The primary key name to be added or updated in the mapping.
+     * @param string $type The data type to be associated with the primary key name.
+     * 
+     * @return self Returns the current instance for method chaining.
+     */
+    public function appendPrimaryKeyDataType($name, $type)
+    {
+        $this->primaryKeyDataType[$name] = $type;
+        return $this;
+    }
+
 }

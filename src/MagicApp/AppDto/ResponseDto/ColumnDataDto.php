@@ -24,63 +24,63 @@ class ColumnDataDto extends ToString
      *
      * @var string
      */
-    public $field;
+    protected $field;
 
     /**
      * The label for the field, typically used in user interfaces.
      *
      * @var string
      */
-    public $label;
+    protected $label;
 
     /**
      * The value associated with the field for display purposes.
      *
      * @var mixed
      */
-    public $value;
+    protected $value;
 
     /**
      * The raw value associated with the field.
      *
      * @var mixed
      */
-    public $valueRaw;
+    protected $valueRaw;
 
     /**
      * The data type of the field.
      *
      * @var string
      */
-    public $type;
+    protected $type;
 
     /**
      * Indicates whether the field is read-only.
      *
      * @var bool
      */
-    public $readonly;
+    protected $readonly;
 
     /**
      * Indicates whether the field is hidden from the user interface.
      *
      * @var bool
      */
-    public $hidden;
+    protected $hidden;
 
     /**
      * The draft value associated with the field for temporary storage.
      *
      * @var mixed
      */
-    public $valueDraft;
+    protected $valueDraft;
 
     /**
      * The raw draft value associated with the field.
      *
      * @var mixed
      */
-    public $valueDraftRaw;
+    protected $valueDraftRaw;
 
     /**
      * Constructor to initialize properties of the ColumnDataDto class.

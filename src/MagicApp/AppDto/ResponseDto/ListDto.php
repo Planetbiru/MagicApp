@@ -24,49 +24,49 @@ class ListDto extends ToString
      *
      * @var string
      */
-    public $namespace;
+    protected $namespace;
     
     /**
      * The ID of the module associated with the data.
      *
      * @var string
      */
-    public $moduleId;
+    protected $moduleId;
 
     /**
      * The name of the module associated with the data.
      *
      * @var string
      */
-    public $moduleName;
+    protected $moduleName;
 
     /**
      * The title of the module associated with the data.
      *
      * @var string
      */
-    public $moduleTitle;
+    protected $moduleTitle;
 
     /**
      * The response code indicating the status of the request.
      *
      * @var string|null
      */
-    public $responseCode;
+    protected $responseCode;
 
     /**
      * A message providing additional information about the response.
      *
      * @var string|null
      */
-    public $responseMessage;
+    protected $responseMessage;
 
     /**
      * The main data structure containing the list of items.
      *
      * @var ListDataDto|null
      */
-    public $data;
+    protected $data;
 
     /**
      * Constructor to initialize properties.
@@ -124,7 +124,7 @@ class ListDto extends ToString
      */
     public function setPage($pageable)
     {
-        $this->data->page = new PageDto($pageable);
+        $this->data->setPage(new PageDto($pageable));
         return $this;
     }
 
@@ -219,11 +219,11 @@ class ListDto extends ToString
      */
     public function appendDataMap($dataMap)
     {
-        if (!isset($this->data->dataMap)) {
-            $this->data->dataMap = array();
+        if ($this->data->getDataMap() == null) {
+            $this->data->setDataMap([]);
         }
         
-        $this->data->dataMap[] = $dataMap;
+        $this->data->appendDataMap($dataMap);
         
         return $this;
     }
@@ -241,11 +241,10 @@ class ListDto extends ToString
     public function addPrimaryKeyName($primaryKeyName, $primaryKeyDataType)
     {
         if (!isset($this->data->primaryKeyName)) {
-            $this->data->primaryKeyName = []; // Initialize as an array if not set
-            $this->data->primaryKeyDataType = []; // Initialize as an array if not set
+            $this->data->setPrimaryKeyName([]); // Initialize as an array if not set
+            $this->data->setPrimaryKeyDataType([]); // Initialize as an array if not set
         }   
-        $this->data->primaryKeyName[] = $primaryKeyName; // Append the primary key name
-        $this->data->primaryKeyDataType[$primaryKeyName] = $primaryKeyDataType; // Append the primary key data type
+        $this->data->addPrimaryKeyName($primaryKeyName, $primaryKeyDataType); // Append the primary key name
         return $this;
     }
     

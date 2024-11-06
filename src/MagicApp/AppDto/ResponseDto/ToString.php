@@ -135,15 +135,22 @@ class ToString
     private $prettify;
 
     /**
-     * Retrieves the properties of the current instance formatted according to the specified naming strategy.
+     * Retrieves the properties of the current instance and formats them according to the specified naming strategy.
      *
-     * This method retrieves all properties of the current instance and applies the appropriate naming strategy 
-     * to properties that are objects or arrays. The formatted properties are returned as an `stdClass` object.
+     * This method retrieves all properties of the current instance, applies the given naming strategy
+     * to format the property names (e.g., camelCase, snake_case), and handles nested objects or arrays.
+     * The formatted properties are returned as an `stdClass` object.
      *
-     * If no naming strategy is provided, the strategy will be determined from class annotations.
+     * If no naming strategy is provided, the strategy will be determined dynamically from the class annotations.
+     * The class annotations can specify the default naming strategy and whether the output should be prettified.
      *
-     * @param string|null $namingStrategy The naming strategy to use for formatting property names.
-     *                                     If null, the strategy will be determined from class annotations.
+     * The method supports nested objects and arrays, and will recursively apply the naming strategy to 
+     * the properties of those objects and array keys.
+     * 
+     * Private properties defined within the current class are excluded from the formatted result.
+     *
+     * @param string|null $namingStrategy The naming strategy to use for formatting property names. 
+     *                                    If null, the strategy will be derived from class annotations.
      * @return stdClass An object containing the formatted property values, excluding private properties from the current class.
      */
     public function getPropertyValue($namingStrategy = null)
@@ -171,16 +178,21 @@ class ToString
 
             $formattedKey = $this->convertPropertyName($key, $namingStrategy);
 
-            // Handle different types of property values (object, array, or primitive types)
+            // Handle different types of property values (ToString, MagicObject, arrays, or other objects)
             if ($value instanceof ToString) {
+                // Recursively retrieve property values from other ToString objects
                 $formattedProperties->{$formattedKey} = $value->getPropertyValue($namingStrategy);
             } elseif ($value instanceof MagicObject) {
+                // Retrieve value from MagicObject, applying the naming strategy if needed
                 $formattedProperties->{$formattedKey} = $value->value($namingStrategy === 'SNAKE_CASE');
             } elseif (is_array($value)) {
+                // Process arrays recursively, applying the naming strategy to array keys
                 $formattedProperties->{$formattedKey} = $this->processArray($value, $namingStrategy);
             } elseif (is_object($value)) {
-                $formattedProperties->{$formattedKey} = $value;
+                // Leave other objects as is (without changing naming strategy) in the result
+                $formattedProperties->{$formattedKey} = $value; // other object will be serialize as is without change naming strategy
             } else {
+                // Handle primitive values (string, int, float, etc.)
                 $formattedProperties->{$formattedKey} = $value;
             }
         }

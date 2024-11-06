@@ -19,49 +19,49 @@ class DetailDto extends ToString
      *
      * @var string
      */
-    public $namespace;
+    protected $namespace;
     
     /**
      * The ID of the module associated with the data.
      *
      * @var string
      */
-    public $moduleId;
+    protected $moduleId;
 
     /**
      * The name of the module associated with the data.
      *
      * @var string
      */
-    public $moduleName;
+    protected $moduleName;
 
     /**
      * The title of the module associated with the data.
      *
      * @var string
      */
-    public $moduleTitle;
+    protected $moduleTitle;
 
     /**
      * The response code indicating the status of the request.
      *
      * @var string|null
      */
-    public $responseCode;
+    protected $responseCode;
 
     /**
      * A message providing additional information about the response.
      *
      * @var string|null
      */
-    public $responseMessage;
+    protected $responseMessage;
 
     /**
      * The main data structure containing the list of items.
      *
      * @var DetailDataDto
      */
-    public $data;
+    protected $data;
 
     /**
      * Constructor for initializing the DetailDto instance.
@@ -142,11 +142,10 @@ class DetailDto extends ToString
     public function addPrimaryKeyName($primaryKeyName, $primaryKeyDataType)
     {
         if (!isset($this->data->primaryKeyName)) {
-            $this->data->primaryKeyName = array(); // Initialize as an array if not set
-            $this->data->primaryKeyDataType = array(); // Initialize as an array if not set
+            $this->getData()->setPrimaryKeyName([]); // Initialize as an array if not set
+            $this->getData()->setPrimaryKeyDataType([]); // Initialize as an array if not set
         }   
-        $this->data->primaryKeyName[] = $primaryKeyName; // Append the primary key name
-        $this->data->primaryKeyDataType[$primaryKeyName] = $primaryKeyDataType; // Append the primary key data type
+        $this->getData()->addPrimaryKeyName($primaryKeyName, $primaryKeyDataType); // Append the primary key name
         return $this; // Return current instance for method chaining.
     }
 
@@ -158,7 +157,7 @@ class DetailDto extends ToString
      */ 
     public function setMetadata($metadata)
     {
-        $this->data->column->metadata = $metadata;
+        $this->data->getColumn()->setMetadata($metadata);
         return $this; // Return current instance for method chaining.
     }
 }
