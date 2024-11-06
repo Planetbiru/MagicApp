@@ -15,7 +15,7 @@ namespace MagicApp\AppDto\ResponseDto;
 class ButtonFormData extends ToString
 {
     /**
-     * The type of the form element (e.g., 'button', 'submit').
+     * The type of the form element (e.g., 'button', 'input').
      *
      * @var string
      */
@@ -109,7 +109,7 @@ class ButtonFormData extends ToString
     /**
      * Set the element type.
      *
-     * @param string $element The element type (e.g., 'button', 'submit').
+     * @param string $element The element type (e.g., 'button', 'input').
      * @return self The current instance for method chaining.
      */
     public function setElement($element)

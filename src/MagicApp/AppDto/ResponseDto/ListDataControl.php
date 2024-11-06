@@ -168,7 +168,7 @@ class ListDataControl extends ToString
      * @param array $attribute The attributes to set.
      * @return self Returns the current instance for chaining.
      */
-    public function setAttribute(array $attribute)
+    public function setAttribute($attribute)
     {
         $this->attribute = $attribute;
         return $this;
