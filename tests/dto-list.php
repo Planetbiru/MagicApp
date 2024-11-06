@@ -10,7 +10,7 @@ use MagicObject\MagicObject;
 require_once dirname(__DIR__) . "/vendor/autoload.php";
 
 /**
- * @JSON(property-naming-strategy="SNAKE_CASE")
+ * @JSON(property-naming-strategy="KEBAB_CASE")
  */
 class Apa extends MagicObject
 {
@@ -18,7 +18,7 @@ class Apa extends MagicObject
 }
 
 /**
- * @JSON(property-naming-strategy="SNAKE_CASE", prettify=true)
+ * @JSON(property-naming-strategy="KEBAB_CASE", prettify=true)
  */
 class ApaDto extends ListDto
 {

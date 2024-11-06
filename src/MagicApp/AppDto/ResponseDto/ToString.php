@@ -183,8 +183,8 @@ class ToString
                 // Recursively retrieve property values from other ToString objects
                 $formattedProperties->{$formattedKey} = $value->getPropertyValue($namingStrategy);
             } elseif ($value instanceof MagicObject) {
-                // Retrieve value from MagicObject, applying the naming strategy if needed
-                $formattedProperties->{$formattedKey} = $value->value($namingStrategy === 'SNAKE_CASE');
+                // Retrieve value from MagicObject, applying the naming strategy (snake case or camel case)
+                $formattedProperties->{$formattedKey} = $value->value($namingStrategy === self::SNAKE_CASE);
             } elseif (is_array($value)) {
                 // Process arrays recursively, applying the naming strategy to array keys
                 $formattedProperties->{$formattedKey} = $this->processArray($value, $namingStrategy);
@@ -209,20 +209,29 @@ class ToString
      */
     private function processArray($value, $namingStrategy)
     {
+        // Array to store the processed result
         $processedArray = [];
+        
+        // Loop through each element in the array
         foreach ($value as $k => $v) {
-            $formattedKey = $this->convertPropertyName($k, $namingStrategy);
-
-            // Process individual elements (ToString or MagicObject instances)
+            // Format the key according to the given naming strategy
+            $formattedKey = $this->convertPropertyName($k, $namingStrategy);            
             if ($v instanceof ToString) {
+                // Process individual elements if the value is an instance of ToString
+                // If the value is a ToString object, call getPropertyValue to retrieve the formatted value
                 $processedArray[$formattedKey] = $v->getPropertyValue($namingStrategy);
             } elseif ($v instanceof MagicObject) {
-                $processedArray[$formattedKey] = $v->value($namingStrategy === 'CAMEL_CASE');
+                // Process the element if it is an instance of MagicObject
+                // If the value is a MagicObject, call the value method to get the formatted value, 
+                // applying the naming strategy (snake case or camel case)
+                $processedArray[$formattedKey] = $v->value($namingStrategy === self::SNAKE_CASE);
             } else {
+                // If the value is not a special object, store it directly
                 $processedArray[$formattedKey] = $v;
             }
         }
 
+        // Return the processed array
         return $processedArray;
     }
 
@@ -263,9 +272,9 @@ class ToString
     {
         switch ($format) {
             case self::SNAKE_CASE:
-                return strtolower(preg_replace(self::REGEX_NAMING_STRATEGY, '$1_$2', $name)); //NOSONAR
+                return strtolower(preg_replace(self::REGEX_NAMING_STRATEGY, '$1_$2', $name));
             case self::KEBAB_CASE:
-                return strtolower(preg_replace(self::REGEX_NAMING_STRATEGY, '$1-$2', $name)); //NOSONAR
+                return strtolower(preg_replace(self::REGEX_NAMING_STRATEGY, '$1-$2', $name));
             case self::TITLE_CASE:
                 return ucwords(str_replace(['_', '-'], ' ', $this->convertPropertyName($name, self::SNAKE_CASE)));
             case self::CAMEL_CASE:
@@ -273,13 +282,13 @@ class ToString
             case self::PASCAL_CASE:
                 return str_replace(' ', '', ucwords(str_replace(['_', '-'], ' ', $name)));
             case self::CONSTANT_CASE:
-                return strtoupper(preg_replace(self::REGEX_NAMING_STRATEGY, '$1_$2', $name)); //NOSONAR
+                return strtoupper(preg_replace(self::REGEX_NAMING_STRATEGY, '$1_$2', $name));
             case self::FLAT_CASE:
-                return strtolower(preg_replace(self::REGEX_NAMING_STRATEGY, '$1$2', $name)); //NOSONAR
+                return strtolower(preg_replace(self::REGEX_NAMING_STRATEGY, '$1$2', $name));
             case self::DOT_NOTATION:
-                return strtolower(preg_replace(self::REGEX_NAMING_STRATEGY, '$1.$2', $name)); //NOSONAR
+                return strtolower(preg_replace(self::REGEX_NAMING_STRATEGY, '$1.$2', $name));
             case self::TRAIN_CASE:
-                return strtoupper(preg_replace(self::REGEX_NAMING_STRATEGY, '$1-$2', $name)); //NOSONAR
+                return strtoupper(preg_replace(self::REGEX_NAMING_STRATEGY, '$1-$2', $name));
             default:
                 return $name;
         }
