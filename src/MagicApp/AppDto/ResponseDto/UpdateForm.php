@@ -28,6 +28,13 @@ namespace MagicApp\AppDto\ResponseDto;
 class UpdateForm extends ToString
 {
     /**
+     * The namespace where the module is located, such as "/", "/admin", "supervisor", etc.
+     *
+     * @var string
+     */
+    public $namespace;
+    
+    /**
      * The ID of the module associated with the data.
      *
      * @var string
@@ -68,4 +75,158 @@ class UpdateForm extends ToString
      * @var UpdateFormData|null
      */
     public $data;
+
+    /**
+     * Get the namespace where the module is located.
+     *
+     * @return string The namespace.
+     */
+    public function getNamespace()
+    {
+        return $this->namespace;
+    }
+
+    /**
+     * Set the namespace where the module is located.
+     *
+     * @param string $namespace The namespace to set.
+     * @return self The current instance for method chaining.
+     */
+    public function setNamespace($namespace)
+    {
+        $this->namespace = $namespace;
+        return $this; // Return current instance for method chaining.
+    }
+
+    /**
+     * Get the module ID associated with the data.
+     *
+     * @return string The module ID.
+     */
+    public function getModuleId()
+    {
+        return $this->moduleId;
+    }
+
+    /**
+     * Set the module ID associated with the data.
+     *
+     * @param string $moduleId The module ID to set.
+     * @return self The current instance for method chaining.
+     */
+    public function setModuleId($moduleId)
+    {
+        $this->moduleId = $moduleId;
+        return $this; // Return current instance for method chaining.
+    }
+
+    /**
+     * Get the module name associated with the data.
+     *
+     * @return string The module name.
+     */
+    public function getModuleName()
+    {
+        return $this->moduleName;
+    }
+
+    /**
+     * Set the module name associated with the data.
+     *
+     * @param string $moduleName The module name to set.
+     * @return self The current instance for method chaining.
+     */
+    public function setModuleName($moduleName)
+    {
+        $this->moduleName = $moduleName;
+        return $this; // Return current instance for method chaining.
+    }
+
+    /**
+     * Get the module title associated with the data.
+     *
+     * @return string The module title.
+     */
+    public function getModuleTitle()
+    {
+        return $this->moduleTitle;
+    }
+
+    /**
+     * Set the module title associated with the data.
+     *
+     * @param string $moduleTitle The module title to set.
+     * @return self The current instance for method chaining.
+     */
+    public function setModuleTitle($moduleTitle)
+    {
+        $this->moduleTitle = $moduleTitle;
+        return $this; // Return current instance for method chaining.
+    }
+
+    /**
+     * Get the response code indicating the status of the request.
+     *
+     * @return string|null The response code.
+     */
+    public function getResponseCode()
+    {
+        return $this->responseCode;
+    }
+
+    /**
+     * Set the response code indicating the status of the request.
+     *
+     * @param string|null $responseCode The response code to set.
+     * @return self The current instance for method chaining.
+     */
+    public function setResponseCode($responseCode)
+    {
+        $this->responseCode = $responseCode;
+        return $this; // Return current instance for method chaining.
+    }
+
+    /**
+     * Get the response message providing additional information about the response.
+     *
+     * @return string|null The response message.
+     */
+    public function getResponseMessage()
+    {
+        return $this->responseMessage;
+    }
+
+    /**
+     * Set the response message providing additional information about the response.
+     *
+     * @param string|null $responseMessage The response message to set.
+     * @return self The current instance for method chaining.
+     */
+    public function setResponseMessage($responseMessage)
+    {
+        $this->responseMessage = $responseMessage;
+        return $this; // Return current instance for method chaining.
+    }
+
+    /**
+     * Get the main data structure containing the list form.
+     *
+     * @return UpdateFormData|null The data structure for the form.
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * Set the main data structure containing the list form.
+     *
+     * @param UpdateFormData|null $data The data structure to set.
+     * @return self The current instance for method chaining.
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+        return $this; // Return current instance for method chaining.
+    }
 }

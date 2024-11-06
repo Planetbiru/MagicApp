@@ -84,4 +84,114 @@ class MetadataDetailDto extends MetadataDto
         $this->waitingForCode = $waitingForCode;
         $this->waitingForMessage = $waitingForMessage;
     }
+
+    /**
+     * Get the primary key associated with the metadata.
+     *
+     * @return array The primary key.
+     */
+    public function getPrimaryKey()
+    {
+        return $this->primaryKey;
+    }
+
+    /**
+     * Set the primary key associated with the metadata.
+     *
+     * @param array $primaryKey The primary key to set.
+     * @return self The current instance for method chaining.
+     */
+    public function setPrimaryKey($primaryKey)
+    {
+        $this->primaryKey = $primaryKey;
+        return $this; // Return current instance for method chaining.
+    }
+
+    /**
+     * Get the active status of the metadata.
+     *
+     * @return bool The active status.
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Set the active status of the metadata.
+     *
+     * @param bool $active The active status to set.
+     * @return self The current instance for method chaining.
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+        return $this; // Return current instance for method chaining.
+    }
+
+    /**
+     * Get the operation status represented by the waitingFor property.
+     *
+     * @return int The operation status.
+     */
+    public function getWaitingFor()
+    {
+        return $this->waitingFor;
+    }
+
+    /**
+     * Set the operation status represented by the waitingFor property.
+     *
+     * @param int $waitingFor The operation status to set.
+     * @return self The current instance for method chaining.
+     */
+    public function setWaitingFor($waitingFor)
+    {
+        $this->waitingFor = $waitingFor;
+        return $this; // Return current instance for method chaining.
+    }
+
+    /**
+     * Get the code representing the waiting status.
+     *
+     * @return string The waiting status code.
+     */
+    public function getWaitingForCode()
+    {
+        return $this->waitingForCode;
+    }
+
+    /**
+     * Set the code representing the waiting status.
+     *
+     * @param string $waitingForCode The waiting status code to set.
+     * @return self The current instance for method chaining.
+     */
+    public function setWaitingForCode($waitingForCode)
+    {
+        $this->waitingForCode = $waitingForCode;
+        return $this; // Return current instance for method chaining.
+    }
+
+    /**
+     * Get the message associated with the waiting status.
+     *
+     * @return string The waiting status message.
+     */
+    public function getWaitingForMessage()
+    {
+        return $this->waitingForMessage;
+    }
+
+    /**
+     * Set the message associated with the waiting status.
+     *
+     * @param string $waitingForMessage The waiting status message to set.
+     * @return self The current instance for method chaining.
+     */
+    public function setWaitingForMessage($waitingForMessage)
+    {
+        $this->waitingForMessage = $waitingForMessage;
+        return $this; // Return current instance for method chaining.
+    }
 }

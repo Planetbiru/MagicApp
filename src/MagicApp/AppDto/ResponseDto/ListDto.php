@@ -20,6 +20,13 @@ use stdClass;
 class ListDto extends ToString
 {
     /**
+     * The namespace where the module is located, such as "/", "/admin", "supervisor", etc.
+     *
+     * @var string
+     */
+    public $namespace;
+    
+    /**
      * The ID of the module associated with the data.
      *
      * @var string
@@ -73,6 +80,28 @@ class ListDto extends ToString
         $this->responseCode = $responseCode;
         $this->responseMessage = $responseMessage;
         $this->data = $data;
+    }
+
+    /**
+     * Get the namespace where the module is located.
+     *
+     * @return string The namespace.
+     */
+    public function getNamespace()
+    {
+        return $this->namespace;
+    }
+
+    /**
+     * Set the namespace where the module is located.
+     *
+     * @param string $namespace The namespace to set.
+     * @return self The current instance for method chaining.
+     */
+    public function setNamespace($namespace)
+    {
+        $this->namespace = $namespace;
+        return $this; // Return current instance for method chaining.
     }
     
     /**

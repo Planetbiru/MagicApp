@@ -96,7 +96,6 @@ class ButtonFormData extends ToString
         $this->textContent = $textContent;
     }
 
-
     /**
      * Get the element type.
      *

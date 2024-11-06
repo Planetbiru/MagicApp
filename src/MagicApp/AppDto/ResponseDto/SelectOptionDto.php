@@ -29,15 +29,11 @@ class SelectOptionDto extends ToString
     public $source;
 
     /**
-     * The group name or category to which this select option belongs. This can be used for
-     * grouping options under categories based on different paths or criteria.
-     * 
-     * For example, `/admin`, `/user`, `/supervisor` could be groups that represent 
-     * different sections or roles within the application.
+     * The namespace where the module is located, such as "/", "/admin", "supervisor", etc.
      *
      * @var string
      */
-    public $group;
+    public $namespace;
 
     /**
      * The field that this option corresponds to. This could be the name of the property
@@ -65,14 +61,14 @@ class SelectOptionDto extends ToString
      * is provided, an empty `OptionDto` will be created to initialize the option.
      *
      * @param string $source The source from which the option is derived (e.g., API, Database).
-     * @param string $group The group to which this option belongs (e.g., admin, user, supervisor).
+     * @param string $namespace The namespace where the module is located, such as "/", "/admin", "supervisor", etc.
      * @param string $field The field associated with this option (e.g., country_id, product_id).
      * @param OptionDto $option An instance of `OptionDto` that defines the option's metadata.
      */
-    public function __construct($source = '', $group = '', $field = '', $option = null)
+    public function __construct($source = '', $namespace = '', $field = '', $option = null)
     {
         $this->source = $source;
-        $this->group = $group;
+        $this->namespace = $namespace;
         $this->field = $field;
         $this->option = isset($option) ? $option : new OptionDto(); // Default to an empty OptionDto if none provided
     }
@@ -102,25 +98,25 @@ class SelectOptionDto extends ToString
     }
 
     /**
-     * Gets the group to which this option belongs.
+     * Get the namespace where the module is located.
      *
-     * @return string The group name of the option (e.g., admin, user).
+     * @return string The namespace.
      */
-    public function getGroup()
+    public function getNamespace()
     {
-        return $this->group;
+        return $this->namespace;
     }
 
     /**
-     * Sets the group to which this option belongs.
+     * Set the namespace where the module is located.
      *
-     * @param string $group The group name to set (e.g., admin, user).
-     * @return self Returns the current instance for chaining.
+     * @param string $namespace The namespace to set.
+     * @return self The current instance for method chaining.
      */
-    public function setGroup($group)
+    public function setNamespace($namespace)
     {
-        $this->group = $group;
-        return $this;
+        $this->namespace = $namespace;
+        return $this; // Return current instance for method chaining.
     }
 
     /**
