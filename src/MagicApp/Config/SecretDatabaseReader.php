@@ -10,7 +10,7 @@ use MagicObject\SecretObject;
  * This class is responsible for reading and decrypting the configuration details
  * for a database connection. The class extends the `SecretObject` class and 
  * retrieves sensitive database configuration values (such as database driver, 
- * host, port, username, password, etc.) from an encrypted source.
+ * file, host, port, username, password, etc.) from an encrypted source.
  * 
  * The properties of this class represent various database connection settings, 
  * and are marked with the `@DecryptOut` annotation to signify that these values 

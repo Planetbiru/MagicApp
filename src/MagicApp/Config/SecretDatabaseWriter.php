@@ -10,7 +10,7 @@ use MagicObject\SecretObject;
  * This class is responsible for encrypting and writing the configuration details 
  * for a database connection. The class extends the `SecretObject` class and 
  * manages sensitive database configuration values (such as database driver, 
- * host, port, username, password, etc.) before they are stored or transmitted 
+ * file, host, port, username, password, etc.) before they are stored or transmitted 
  * in an encrypted format.
  * 
  * The properties of this class represent various database connection settings, 
