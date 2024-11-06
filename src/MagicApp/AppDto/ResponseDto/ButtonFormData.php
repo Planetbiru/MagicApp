@@ -4,9 +4,22 @@ namespace MagicApp\AppDto\ResponseDto;
 
 /**
  * Class ButtonFormData
- * 
- * A Data Transfer Object (DTO) representing data for a button form element. 
- * This includes typical HTML button attributes, such as `id`, `class`, and `value`.
+ *
+ * A Data Transfer Object (DTO) that represents the data for an HTML button element within a form.
+ * This class encapsulates various attributes commonly used for button elements in HTML forms,
+ * including `id`, `class`, `value`, `type`, and additional custom attributes.
+ * It provides getter and setter methods for manipulating these properties, and supports method chaining.
+ * This DTO can be used to structure button data for rendering forms or handling form submissions.
+ *
+ * Key properties:
+ * - `element`: Specifies the HTML element type (e.g., 'button', 'input').
+ * - `type`: Defines the button type (e.g., 'submit', 'reset', 'button').
+ * - `class`: The CSS class applied to the button.
+ * - `id`: The unique identifier for the button.
+ * - `name`: The name attribute of the button, typically used in form submission.
+ * - `value`: The value attribute of the button, typically used in form submission.
+ * - `textContent`: The text content displayed inside the button.
+ * - `attribute`: Additional custom attributes to be added to the button element (e.g., 'data-*' attributes).
  *
  * @package MagicApp\AppDto\ResponseDto
  * @author Kamshory
