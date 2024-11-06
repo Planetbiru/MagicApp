@@ -66,13 +66,7 @@ class PageDto extends ToString
                 $this->pageSize = $page->getPage()->getPageSize();
                 $this->dataOffset = ($this->pageNumber - 1) * $this->pageSize;
             }
-            else if($page instanceof PicoPage)
-            {
-                $this->pageNumber = $page->getPageNumber();
-                $this->pageSize = $page->getPageSize();
-                $this->dataOffset = ($this->pageNumber - 1) * $this->pageSize;
-            }
-            else if($page instanceof PageDto)
+            else if($page instanceof PicoPage || $page instanceof PageDto)
             {
                 $this->pageNumber = $page->getPageNumber();
                 $this->pageSize = $page->getPageSize();
