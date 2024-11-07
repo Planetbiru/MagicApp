@@ -59,4 +59,4 @@ $listDto->addData(new Apa(['apaId'=>'1243', 'name'=>'Coba', 'gender'=>'M', 'acti
 
 //echo $listDto."\r\n";
 
-echo $listDto->propertyValue(ToString::CAMEL_CASE, true);
+echo $listDto->propertyValue(ToString::SNAKE_CASE, true);

@@ -121,9 +121,6 @@ class DetailDataDto extends ToString
         if (!isset($this->column)) {
             $this->column = new ColumnDto(); // Initialize as an array if not set
         }
-        if (!isset($this->column->data)) {
-            $this->column->setData([]); // Initialize as an array if not set
-        }
 
         $this->column->addData(new ColumnDataDto($field, $value, $type, $label, $readonly, $hidden, $valueDraft));
         return $this; // Return current instance for method chaining.
