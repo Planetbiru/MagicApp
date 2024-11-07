@@ -74,7 +74,7 @@ class OptionDto extends ToString
      * @param string $group The group name to which this option belongs (e.g., 'Countries', 'Payment Methods').
      * @param array $attribute Additional HTML attributes for the option element (e.g., `disabled`, `data-*`).
      */
-    public function __construct($text = '', $value = '', $selected = false, $group = '', $attribute = [])
+    public function __construct($text = '', $value = '', $selected = false, $group = null, $attribute = [])
     {
         $this->text = $text;
         $this->value = $value;
