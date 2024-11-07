@@ -72,7 +72,7 @@ class OptionDto extends ToString
      * @param string $text The text to display for the option (e.g., "Yes", "No").
      * @param string $value The value to associate with the option (e.g., "1", "0").
      * @param bool $selected Whether the option is selected by default. Defaults to `false`.
-     * @param string $group The group name to which this option belongs (e.g., 'Countries', 'Payment Methods').
+     * @param string|null $group The group name to which this option belongs (e.g., 'Countries', 'Payment Methods'). Defaults to `null`.
      * @param array $attribute Additional HTML attributes for the option element (e.g., `disabled`, `data-*`).
      */
     public function __construct($text = '', $value = '', $selected = false, $group = null, $attribute = [])
@@ -82,12 +82,11 @@ class OptionDto extends ToString
         $this->selected = $selected;
         $this->group = $group;
         $this->attribute = [];
-        
-        foreach($attribute as $attr)
-        {
+
+        // Add provided attributes
+        foreach($attribute as $attr) {
             $this->addAttribute($attr);
         }
-        
     }
 
     // Getter and Setter Methods
