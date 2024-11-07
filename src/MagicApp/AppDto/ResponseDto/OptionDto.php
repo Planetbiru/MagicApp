@@ -5,14 +5,15 @@ namespace MagicApp\AppDto\ResponseDto;
 /**
  * Class OptionDto
  *
- * Represents an individual option within a form element, such as a dropdown, select input,
- * or similar selection component. This class stores the metadata for each option, including 
- * the text displayed to the user, the value associated with the option, whether the option 
- * is selected by default, the group to which the option belongs, and any additional HTML 
- * attributes that can be applied to the option element.
- * 
- * This is useful for dynamically generating form controls that require configurable options 
- * with custom attributes, such as dropdown menus or radio buttons.
+ * Represents an individual option within a form element such as a dropdown, select input,
+ * or any other selection component. This class stores the metadata for each option, 
+ * including the text displayed to the user, the value associated with the option, whether 
+ * the option is selected by default, the group to which the option belongs, and any additional 
+ * HTML attributes that can be applied to the option element.
+ *
+ * This class is particularly useful for dynamically generating form controls that require 
+ * configurable options with custom attributes, such as dropdown menus, radio buttons, or 
+ * checkboxes.
  *
  * @package MagicApp\AppDto\ResponseDto
  * @author Kamshory
@@ -80,7 +81,13 @@ class OptionDto extends ToString
         $this->value = $value;
         $this->selected = $selected;
         $this->group = $group;
-        $this->attribute = $attribute;
+        $this->attribute = [];
+        
+        foreach($attribute as $attr)
+        {
+            $this->addAttribute($attr);
+        }
+        
     }
 
     // Getter and Setter Methods
@@ -192,6 +199,20 @@ class OptionDto extends ToString
     public function setAttribute($attribute)
     {
         $this->attribute = $attribute;
+        return $this;
+    }
+    
+    /**
+     * Adds an individual HTML attribute to the option element.
+     *
+     * @param array $attribute An associative array of attribute key-value pairs to add.
+     * @return self Returns the current instance for chaining.
+     */
+    public function addAttribute($attribute)
+    {
+        foreach($attribute as $key => $value) {
+            $this->attribute[] = new NameValueDto($key, $value);
+        }
         return $this;
     }
 }
