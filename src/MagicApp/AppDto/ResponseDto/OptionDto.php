@@ -84,8 +84,11 @@ class OptionDto extends ToString
         $this->attribute = [];
 
         // Add provided attributes
-        foreach($attribute as $attr) {
-            $this->addAttribute($attr);
+        if(isset($attribute) && is_array($attribute) && !empty($attribute))
+        {
+            foreach($attribute as $attr) {
+                $this->addAttribute($attr);
+            }
         }
     }
 
