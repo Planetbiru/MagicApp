@@ -62,6 +62,24 @@ class ListDataDto extends ToString
      * @var RowDto[]
      */
     protected $row;
+    
+    /**
+     * Data control
+     *
+     * @var ButtonFormData[]
+     */
+    protected $dataControl;
+    
+    /**
+     * Initializes the object and sets up the necessary properties.
+     * This constructor initializes the `row` property as an empty array and 
+     * the `dataControl` property as an empty array.
+     */
+    public function __construct()
+    {
+        $this->row = [];
+        $this->dataControl = [];
+    }
 
     /**
      * Get the name of the primary key in the data structure.
@@ -102,7 +120,7 @@ class ListDataDto extends ToString
             $this->primaryKeyDataType = array(); // Initialize as an array if not set
         }   
         $this->primaryKeyName[] = $primaryKeyName; // Append the primary key name
-        $this->primaryKeyDataType[] = ['name'=>$primaryKeyName, 'type'=>$primaryKeyDataType]; // Append the primary key data type
+        $this->primaryKeyDataType[] = [ConstantDto::NAME=>$primaryKeyName, 'type'=>$primaryKeyDataType]; // Append the primary key data type
         return $this; // Return current instance for method chaining.
     }
     
@@ -283,6 +301,19 @@ class ListDataDto extends ToString
     {
         $this->dataMap = $dataMap;
 
+        return $this;
+    }
+    
+    /**
+     * Adds a ButtonFormData object to the internal collection of data controls.
+     * This method stores the given data control for further use or processing.
+     *
+     * @param ButtonFormData $dataControl The ButtonFormData object to be added to the collection.
+     * @return self Returns the current object instance for method chaining.
+     */
+    public function addDataControl($dataControl)
+    {
+        $this->dataControl[] = $dataControl;
         return $this;
     }
 }

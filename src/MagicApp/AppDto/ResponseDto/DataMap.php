@@ -44,7 +44,7 @@ class DataMap extends ToString
         $this->map = [];
         foreach($map as $key=>$value)
         {
-            $this->map[] = ['name'=>$key, 'value'=>$value];
+            $this->map[] = [ConstantDto::NAME=>$key, ConstantDto::VALUE=>$value];
         }
        
     }

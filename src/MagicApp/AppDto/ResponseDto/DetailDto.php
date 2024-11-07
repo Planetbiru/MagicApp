@@ -160,4 +160,18 @@ class DetailDto extends ToString
         $this->data->getColumn()->setMetadata($metadata);
         return $this; // Return current instance for method chaining.
     }
+    
+    /**
+     * Adds a data control to the data object.
+     * This function allows for the addition of a data control to be managed by the current object.
+     *
+     * @param ButtonFormData $dataControl The ButtonFormData object containing the data control to be added.
+     * @return self Returns the current object instance for method chaining.
+     */
+    public function addDataControl($dataControl)
+    {
+        $this->data->addDataControl($dataControl);
+        return $this;
+    }
+
 }

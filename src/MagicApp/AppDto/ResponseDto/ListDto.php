@@ -174,12 +174,12 @@ class ListDto extends ToString
      *
      * This method accepts various types of input to create a column title,
      * including associative arrays, stdClass objects, and instances of
-     * MagicObject, SetterGetter, or PicoGenericObject. It extracts the key
+     * MagicObject, SetterGetter, or PicoGenericObject. It extracts the name
      * and value for the title and appends it to the data structure.
      *
      * @param array|stdClass|MagicObject|SetterGetter|PicoGenericObject $title The title to add, which can be:
-     * - An associative array with 'key' and 'value' elements.
-     * - A stdClass object with 'key' and 'value' properties.
+     * - An associative array with 'name' and 'value' elements.
+     * - A stdClass object with 'name' and 'value' properties.
      * - An instance of MagicObject, SetterGetter, or PicoGenericObject 
      *   that has methods `getKey()` and `getValue()`.
      *
@@ -192,13 +192,13 @@ class ListDto extends ToString
             $this->data->resetTitle();
         }     
         $finalTitle = null;     
-        if($title instanceof stdClass && isset($title->key) && isset($title->value))
+        if($title instanceof stdClass && isset($title->name) && isset($title->value))
         {
-            $finalTitle = new ListDataTitleDto($title->key, $title->value);
+            $finalTitle = new ListDataTitleDto($title->name, $title->value);
         }
-        else if(is_array($title) && isset($title['key']) && isset($title['value']))
+        else if(is_array($title) && isset($title[ConstantDto::NAME]) && isset($title[ConstantDto::VALUE]))
         {
-            $finalTitle = new ListDataTitleDto($title['key'], $title['value']);
+            $finalTitle = new ListDataTitleDto($title[ConstantDto::NAME], $title[ConstantDto::VALUE]);
         }
         else if(($title instanceof MagicObject || $title instanceof SetterGetter || $title instanceof PicoGenericObject) && $title->issetKey() && $title->issetValue())
         {
@@ -307,6 +307,19 @@ class ListDto extends ToString
     public function getData()
     {
         return $this->data;
+    }
+    
+    /**
+     * Adds a data control to the data object.
+     * This function allows for the addition of a data control to be managed by the current object.
+     *
+     * @param ButtonFormData $dataControl The ButtonFormData object containing the data control to be added.
+     * @return self Returns the current object instance for method chaining.
+     */
+    public function addDataControl($dataControl)
+    {
+        $this->data->addDataControl($dataControl);
+        return $this;
     }
 
 }
