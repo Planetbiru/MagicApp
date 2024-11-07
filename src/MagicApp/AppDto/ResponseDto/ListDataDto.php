@@ -120,7 +120,7 @@ class ListDataDto extends ToString
             $this->primaryKeyDataType = array(); // Initialize as an array if not set
         }   
         $this->primaryKeyName[] = $primaryKeyName; // Append the primary key name
-        $this->primaryKeyDataType[] = [ConstantDto::NAME=>$primaryKeyName, 'type'=>$primaryKeyDataType]; // Append the primary key data type
+        $this->primaryKeyDataType[] = new NameValueDto($primaryKeyName, $primaryKeyDataType); // Append the primary key data type
         return $this; // Return current instance for method chaining.
     }
     

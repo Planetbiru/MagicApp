@@ -300,7 +300,7 @@ class ButtonFormData extends ToString
      */
     public function addAttribute($key, $value)
     {
-        $this->attribute[] = [ConstantDto::NAME=>$key, ConstantDto::VALUE=>$value];
+        $this->attribute[] = new NameValueDto($key, $value);
         return $this;
     }
 }

@@ -6,6 +6,7 @@ use MagicApp\AppDto\ResponseDto\ListDataDto;
 use MagicApp\AppDto\ResponseDto\ListDataTitleDto;
 use MagicApp\AppDto\ResponseDto\ListDto;
 use MagicApp\AppDto\ResponseDto\MetadataDto;
+use MagicApp\AppDto\ResponseDto\ToString;
 use MagicObject\MagicObject;
 
 require_once dirname(__DIR__) . "/vendor/autoload.php";
@@ -56,4 +57,6 @@ $listDto->addData(new Apa(['apaId'=>'1241', 'name'=>'Coba', 'gender'=>'M', 'acti
 $listDto->addData(new Apa(['apaId'=>'1242', 'name'=>'Coba', 'gender'=>'M', 'active'=>"Ya"]), new MetadataDto(['apaId'=>'1242'], true, 0));
 $listDto->addData(new Apa(['apaId'=>'1243', 'name'=>'Coba', 'gender'=>'M', 'active'=>"Ya"]), new MetadataDto(['apaId'=>'1243'], true, 0));
 
-echo $listDto."\r\n";
+//echo $listDto."\r\n";
+
+echo $listDto->propertyValue(ToString::CAMEL_CASE, true);

@@ -5,7 +5,6 @@ namespace MagicApp\AppDto\ResponseDto;
 use MagicObject\MagicObject;
 use MagicObject\Util\ClassUtil\PicoAnnotationParser;
 use ReflectionClass;
-use stdClass;
 
 /**
  * Base class that provides a `__toString` method for derived classes.
@@ -149,25 +148,30 @@ class ToString
     private $prettify;
 
     /**
-     * Retrieves the properties of the current instance and formats them according to the specified naming strategy.
+     * Retrieves and formats the properties of the current instance according to the specified naming strategy.
      *
-     * This method retrieves all properties of the current instance, applies the given naming strategy
-     * to format the property names (e.g., camelCase, snake_case), and handles nested objects or arrays.
-     * The formatted properties are returned as an `stdClass` object.
+     * This method extracts all properties of the current object, applies the given naming strategy
+     * (such as `camelCase` or `snake_case`), and processes nested objects or arrays recursively. 
+     * The result is returned as an instance of `StandardClass`, with private properties excluded from 
+     * the output.
      *
-     * If no naming strategy is provided, the strategy will be determined dynamically from the class annotations.
-     * The class annotations can specify the default naming strategy and whether the output should be prettified.
-     *
-     * The method supports nested objects and arrays, and will recursively apply the naming strategy to 
-     * the properties of those objects and array keys.
+     * If no naming strategy is provided, the strategy is derived from class annotations, 
+     * if available, or defaults to the naming convention of the class.
      * 
-     * Private properties defined within the current class are excluded from the formatted result.
+     * The method also supports pretty-printing of the output if the `prettify` flag is set to `true`.
+     * Nested objects and arrays will have their properties or keys recursively formatted with the 
+     * specified naming strategy.
      *
-     * @param string|null $namingStrategy The naming strategy to use for formatting property names. 
-     *                                    If null, the strategy will be derived from class annotations.
-     * @return stdClass An object containing the formatted property values, excluding private properties from the current class.
+     * Private properties from the current class are excluded from the formatted result, 
+     * but public and protected properties will be included, even if they are inherited.
+     *
+     * @param string|null $namingStrategy The naming strategy to apply when formatting property names.
+     *                                    If `null`, the strategy is determined based on class annotations.
+     * @param bool $prettify Whether to pretty-print the resulting JSON output. Default is `false`.
+     * @return StandardClass An object containing the formatted property values with the specified naming strategy.
+     *                       Private properties from the current class are excluded from the result.
      */
-    public function getPropertyValue($namingStrategy = null)
+    public function propertyValue($namingStrategy = null, $prettify = false)
     {
         // Determine the naming strategy from class annotations if not provided
         if ($namingStrategy === null) {
@@ -175,7 +179,8 @@ class ToString
         }
 
         $properties = get_object_vars($this); // Get all properties of the instance
-        $formattedProperties = new stdClass;
+        $formattedProperties = new StandardClass;
+        $formattedProperties->setPrettify($prettify);
 
         // Use ReflectionClass to inspect the current class and its properties
         $reflection = new ReflectionClass($this);
@@ -183,7 +188,6 @@ class ToString
 
         foreach ($allProperties as $property) {
             $key = $property->getName();
-            
 
             // Skip private properties of the current class
             if ($property->isPrivate() && $property->getDeclaringClass()->getName() === get_class($this)) {
@@ -200,7 +204,7 @@ class ToString
                 $formattedProperties->{$formattedKey} = null;
             } elseif ($value instanceof ToString) {
                 // Recursively retrieve property values from other ToString objects
-                $formattedProperties->{$formattedKey} = $value->getPropertyValue($namingStrategy);
+                $formattedProperties->{$formattedKey} = $value->propertyValue($namingStrategy);
             } elseif ($value instanceof MagicObject) {
                 // Retrieve value from MagicObject, applying the naming strategy (snake case or camel case)
                 $formattedProperties->{$formattedKey} = $value->value($namingStrategy === self::SNAKE_CASE);
@@ -226,7 +230,7 @@ class ToString
      * @param string $namingStrategy The naming strategy to apply.
      * @return array The processed array with formatted keys and values.
      */
-    private function processArray($value, $namingStrategy)
+    protected function processArray($value, $namingStrategy)
     {
         // Array to store the processed result
         $processedArray = [];
@@ -237,8 +241,8 @@ class ToString
             $formattedKey = $this->convertPropertyName($k, $namingStrategy);            
             if ($v instanceof ToString) {
                 // Process individual elements if the value is an instance of ToString
-                // If the value is a ToString object, call getPropertyValue to retrieve the formatted value
-                $processedArray[$formattedKey] = $v->getPropertyValue($namingStrategy);
+                // If the value is a ToString object, call propertyValue to retrieve the formatted value
+                $processedArray[$formattedKey] = $v->propertyValue($namingStrategy);
             } elseif ($v instanceof MagicObject) {
                 // Process the element if it is an instance of MagicObject
                 // If the value is a MagicObject, call the value method to get the formatted value, 
@@ -252,21 +256,6 @@ class ToString
 
         // Return the processed array
         return $processedArray;
-    }
-
-    /**
-     * Converts the instance to a JSON string representation based on class annotations.
-     *
-     * This method uses the `getPropertyValue()` method to format the properties of the object 
-     * and returns a JSON string. If the `prettify` annotation is set to true, 
-     * the output will be prettified (formatted with indentation).
-     *
-     * @return string A JSON string representation of the instance.
-     */
-    public function __toString()
-    {
-        $flag = $this->getPrettify(get_class($this)) ? JSON_PRETTY_PRINT : 0;
-        return json_encode($this->getPropertyValue(), $flag);
     }
 
     /**
@@ -287,7 +276,7 @@ class ToString
      * @param string $format The desired naming format.
      * @return string The converted property name.
      */
-    private function convertPropertyName($name, $format) //NOSONAR
+    protected function convertPropertyName($name, $format) //NOSONAR
     {
         switch ($format) {
             case self::SNAKE_CASE:
@@ -371,5 +360,20 @@ class ToString
             $this->parseAnnotation($className);
         }
         return $this->prettify;
+    }
+    
+    /**
+     * Converts the instance to a JSON string representation based on class annotations.
+     *
+     * This method uses the `propertyValue()` method to format the properties of the object 
+     * and returns a JSON string. If the `prettify` annotation is set to true, 
+     * the output will be prettified (formatted with indentation).
+     *
+     * @return string A JSON string representation of the instance.
+     */
+    public function __toString()
+    {
+        $flag = $this->getPrettify(get_class($this)) ? JSON_PRETTY_PRINT : 0;
+        return json_encode($this->propertyValue(), $flag);
     }
 }

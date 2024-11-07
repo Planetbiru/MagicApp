@@ -92,7 +92,7 @@ class MetadataDto extends ToString
         {
             foreach($primaryKey as $key=>$value)
             {
-                $this->primaryKey[] = [ConstantDto::NAME=>$key, ConstantDto::VALUE=>$value];
+                $this->primaryKey[] = new PrimaryKeyValueDto($key, $value);
             }
         }
         $this->active = $active;
