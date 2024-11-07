@@ -94,7 +94,7 @@ class PrimaryKeyValueDto extends ToString
             $value = $properties[$key]; // Get the value of the property
 
             $formattedKey = $this->convertPropertyName($key, $namingStrategy);
-            if($formattedKey == $this->convertPropertyName(ConstantDto::NAME, $namingStrategy) && isset($value))
+            if($formattedKey == $this->convertPropertyName(ConstantDto::NAME, $namingStrategy) && isset($value) && is_string($value))
             {
                 $value = $this->convertPropertyName($value, $namingStrategy);
             }
