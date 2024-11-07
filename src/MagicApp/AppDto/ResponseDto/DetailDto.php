@@ -74,7 +74,7 @@ class DetailDto extends ToString
     {
         $this->responseCode = $responseCode;    
         $this->responseMessage = $responseMessage;    
-        $this->data = $data;    
+        $this->data = $data;   
     }
 
     /**
@@ -125,7 +125,7 @@ class DetailDto extends ToString
      */
     public function addData($field, $value, $type = null, $label = null, $readonly = false, $hidden = false, $valueDraft = null)
     {
-        $this->data->appendData($field, $value, $type, $label, $readonly, $hidden, $valueDraft);
+        $this->data->addData($field, $value, $type, $label, $readonly, $hidden, $valueDraft);
         return $this; // Return current instance for method chaining.
     }
 
@@ -142,10 +142,10 @@ class DetailDto extends ToString
     public function addPrimaryKeyName($primaryKeyName, $primaryKeyDataType)
     {
         if (!isset($this->data->primaryKeyName)) {
-            $this->getData()->setPrimaryKeyName([]); // Initialize as an array if not set
-            $this->getData()->setPrimaryKeyDataType([]); // Initialize as an array if not set
+            $this->data->setPrimaryKeyName([]); // Initialize as an array if not set
+            $this->data->setPrimaryKeyDataType([]); // Initialize as an array if not set
         }   
-        $this->getData()->addPrimaryKeyName($primaryKeyName, $primaryKeyDataType); // Append the primary key name
+        $this->data->addPrimaryKeyName($primaryKeyName, $primaryKeyDataType); // Append the primary key name
         return $this; // Return current instance for method chaining.
     }
 

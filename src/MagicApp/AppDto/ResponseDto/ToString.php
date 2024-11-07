@@ -183,12 +183,14 @@ class ToString
 
         foreach ($allProperties as $property) {
             $key = $property->getName();
-            $value = $properties[$key]; // Get the value of the property
+            
 
             // Skip private properties of the current class
             if ($property->isPrivate() && $property->getDeclaringClass()->getName() === get_class($this)) {
                 continue; // Skip this property if it's private in the current class
             }
+            
+            $value = $properties[$key]; // Get the value of the property
 
             $formattedKey = $this->convertPropertyName($key, $namingStrategy);
 

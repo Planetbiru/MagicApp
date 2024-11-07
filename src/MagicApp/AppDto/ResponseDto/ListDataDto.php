@@ -112,7 +112,7 @@ class ListDataDto extends ToString
      * @param ListDataTitleDto $title The title to append.
      * @return self The current instance for method chaining.
      */
-    public function appendTitle($title)
+    public function addTitle($title)
     {
         if (!isset($this->title)) {
             $this->title = array();
@@ -129,7 +129,7 @@ class ListDataDto extends ToString
      * @param DataMap $dataMap The data map to append.
      * @return self The current instance for method chaining.
      */
-    public function appendDataMap($dataMap)
+    public function addDataMap($dataMap)
     {
         if (!isset($this->dataMap)) {
             $this->dataMap = array();
@@ -150,7 +150,7 @@ class ListDataDto extends ToString
      * @param MetadataDto $metadata The metadata associated with the row data.
      * @return self The current instance for method chaining.
      */
-    public function appendData($data, $metadata)
+    public function addData($data, $metadata)
     {
         if (!isset($this->row)) {
             $this->row = array();

@@ -298,7 +298,7 @@ class ButtonFormData extends ToString
      * @param string $value The attribute value (e.g., 'modal')
      * @return self The current instance for method chaining.
      */
-    public function appendAttribute($key, $value)
+    public function addAttribute($key, $value)
     {
         $this->attribute[$key] = $value;
         return $this;

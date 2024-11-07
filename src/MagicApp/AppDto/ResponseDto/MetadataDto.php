@@ -88,9 +88,12 @@ class MetadataDto extends ToString
     {
         $this->primaryKey = [];
         
-        foreach($primaryKey as $key=>$value)
+        if(isset($primaryKey) && is_array($primaryKey))
         {
-            $this->primaryKey[] = ['name'=>$key, 'value'=>$value];
+            foreach($primaryKey as $key=>$value)
+            {
+                $this->primaryKey[] = ['name'=>$key, 'value'=>$value];
+            }
         }
         $this->active = $active;
         $this->waitingFor = $waitingFor;

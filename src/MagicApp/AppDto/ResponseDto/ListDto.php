@@ -134,14 +134,14 @@ class ListDto extends ToString
      * @param ListDataTitleDto $title The title to append.
      * @return self The current instance for method chaining.
      */
-    public function appendTitle($title)
+    public function addTitle($title)
     {
         if($this->data->getTitle() == null)
         {
             $this->data->resetTitle();
         }
         
-        $this->data->appendTitle($title);
+        $this->data->addTitle($title);
         
         return $this;
     }
@@ -164,7 +164,7 @@ class ListDto extends ToString
         }
         
         // Append the DataMap instance to the data structure
-        $this->data->appendDataMap($dataMap);
+        $this->data->addDataMap($dataMap);
         
         return $this; // Return the current instance for method chaining
     }
@@ -206,25 +206,8 @@ class ListDto extends ToString
         }
         if(isset($finalTitle))
         {
-            $this->data->appendTitle($finalTitle);
+            $this->data->addTitle($finalTitle);
         }
-        return $this;
-    }
-
-    /**
-     * Append a data map to the table.
-     *
-     * @param mixed $dataMap The data map to append.
-     * @return self The current instance for method chaining.
-     */
-    public function appendDataMap($dataMap)
-    {
-        if ($this->data->getDataMap() == null) {
-            $this->data->setDataMap([]);
-        }
-        
-        $this->data->appendDataMap($dataMap);
-        
         return $this;
     }
 
@@ -258,13 +241,13 @@ class ListDto extends ToString
      * @param MetadataDto $metadata The metadata associated with the row data.
      * @return self The current instance for method chaining.
      */
-    public function appendData($data, $metadata)
+    public function addData($data, $metadata)
     {
         if(!isset($this->data))
         {
             $this->data = new ListDataDto();
         }   
-        $this->data->appendData($data, $metadata);
+        $this->data->addData($data, $metadata);
         return $this;
     }
 

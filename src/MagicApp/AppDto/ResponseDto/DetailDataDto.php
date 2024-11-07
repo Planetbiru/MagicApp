@@ -24,21 +24,21 @@ class DetailDataDto extends ToString
      *
      * @var string[]|null
      */
-    private $primaryKeyName;
+    protected $primaryKeyName;
 
     /**
      * An associative array mapping primary key names to their data types.
      *
      * @var string[]
      */
-    private $primaryKeyDataType;
+    protected $primaryKeyDataType;
 
     /**
      * An array of column, each represented as a ColumnDto.
      *
      * @var ColumnDto
      */
-    private $column;
+    protected $column;
 
     public function __construct()
     {
@@ -103,7 +103,7 @@ class DetailDataDto extends ToString
      * @param mixed $valueDraft The draft value associated with the field.
      * @return self The current instance for method chaining.
      */
-    public function appendData($field, $value, $type, $label, $readonly, $hidden, $valueDraft)
+    public function addData($field, $value, $type, $label, $readonly, $hidden, $valueDraft)
     {
         if (!isset($this->column)) {
             $this->column = new ColumnDto(); // Initialize as an array if not set
@@ -111,7 +111,6 @@ class DetailDataDto extends ToString
         if (!isset($this->column->data)) {
             $this->column->setData([]); // Initialize as an array if not set
         }
-
 
         $this->column->addData(new ColumnDataDto($field, $value, $type, $label, $readonly, $hidden, $valueDraft));
         return $this; // Return current instance for method chaining.
@@ -184,7 +183,7 @@ class DetailDataDto extends ToString
      * 
      * @return self Returns the current instance for method chaining.
      */
-    public function appendPrimaryKeyDataType($name, $type)
+    public function addPrimaryKeyDataType($name, $type)
     {
         $this->primaryKeyDataType[$name] = $type;
         return $this;
