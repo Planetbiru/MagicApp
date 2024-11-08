@@ -20,12 +20,12 @@
             'dev_requirement' => false,
         ),
         'planetbiru/magic-object' => array(
-            'pretty_version' => '2.6.0',
-            'version' => '2.6.0.0',
+            'pretty_version' => '2.6.1',
+            'version' => '2.6.1.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../planetbiru/magic-object',
             'aliases' => array(),
-            'reference' => '0ce14141f0fa9c34251ca5d36e60d3c88dd036ce',
+            'reference' => '4731862f964f10937dff92b80e2583250e98be8c',
             'dev_requirement' => false,
         ),
         'symfony/yaml' => array(
