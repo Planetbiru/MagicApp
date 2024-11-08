@@ -74,6 +74,10 @@ class DetailDto extends ToString
     {
         $this->responseCode = $responseCode;    
         $this->responseMessage = $responseMessage;    
+        if(!isset($data))
+        {
+            $data = new DetailDataDto();
+        }
         $this->data = $data;   
     }
 

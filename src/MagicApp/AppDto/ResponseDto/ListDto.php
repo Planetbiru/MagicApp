@@ -73,12 +73,16 @@ class ListDto extends ToString
      *
      * @param string|null $responseCode The response code.
      * @param string|null $responseMessage The response message.
-     * @param mixed $data The associated data.
+     * @param ListDataDto $data The associated data.
      */
     public function __construct($responseCode = null, $responseMessage = null, $data = null)
     {
         $this->responseCode = $responseCode;
         $this->responseMessage = $responseMessage;
+        if(!isset($data))
+        {
+            $data = new ListDataDto();
+        }
         $this->data = $data;
     }
 
@@ -242,11 +246,7 @@ class ListDto extends ToString
      * @return self The current instance for method chaining.
      */
     public function addData($data, $metadata)
-    {
-        if(!isset($this->data))
-        {
-            $this->data = new ListDataDto();
-        }   
+    { 
         $this->data->addData($data, $metadata);
         return $this;
     }
