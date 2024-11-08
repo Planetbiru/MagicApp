@@ -45,6 +45,10 @@ class RowDto extends ToString
     public function __construct($data, $metadata)
     {
         $this->data = $data;
+        if(!isset($metadata))
+        {
+            $metadata = new MetadataDto();
+        }
         $this->metadata = $metadata;
     }
 
