@@ -55,9 +55,9 @@ class XLSXDataType
         "tinytext"      => self::TYPE_STRING,
         "mediumtext"    => self::TYPE_STRING,
         "longtext"      => self::TYPE_STRING,
-        "text"          => self::TYPE_STRING,   
-        "string"        => self::TYPE_STRING,   
-        "enum"          => self::TYPE_STRING,   
+        "text"          => self::TYPE_STRING,
+        "string"        => self::TYPE_STRING,
+        "enum"          => self::TYPE_STRING,
         "blob"          => self::TYPE_STRING,
 
         // Boolean types
