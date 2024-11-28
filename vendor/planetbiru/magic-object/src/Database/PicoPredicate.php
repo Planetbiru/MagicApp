@@ -14,7 +14,7 @@ namespace MagicObject\Database;
  * @package MagicObject\Database
  * @link https://github.com/Planetbiru/MagicObject
  */
-class PicoPredicate //NOSONAR
+class PicoPredicate // NOSONAR
 {
     private $field = "";
     private $value = "";
@@ -405,11 +405,11 @@ class PicoPredicate //NOSONAR
      */
     public function __toString()
     {
-        return json_encode([
+        return json_encode(array(
             'field' => $this->field,
             'value' => $this->value,
             'comparation' => [$this->comparation ? $this->comparation->getComparison() : null],
             'filterLogic' => $this->filterLogic
-        ]);
+        ));
     }
 }

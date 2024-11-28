@@ -3,7 +3,6 @@
 namespace MagicObject;
 
 use MagicObject\Exceptions\InvalidAnnotationException;
-use MagicObject\Exceptions\InvalidQueryInputException;
 use MagicObject\Util\PicoEnvironmentVariable;
 use MagicObject\Secret\PicoSecret;
 use MagicObject\Util\ClassUtil\PicoAnnotationParser;
@@ -18,17 +17,29 @@ use stdClass;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Secret object
- * 
- * This class provides mechanisms for managing properties with encryption 
- * and decryption capabilities, using annotations to specify which properties
- * should be secured.
- * 
+ * SecretObject class
+ *
+ * This class provides mechanisms to manage properties that require encryption 
+ * and decryption during their lifecycle. It uses annotations to specify which 
+ * properties should be encrypted or decrypted when they are set or retrieved. 
+ * These annotations help identify when to apply encryption or decryption, 
+ * either before saving (SET) or before fetching (GET).
+ *
+ * The class supports flexibility in data initialization, allowing data to be 
+ * passed as an array, an object, or even left empty. Additionally, a secure 
+ * callback function can be provided to handle key generation for encryption 
+ * and decryption operations.
+ *
+ * Key features:
+ * - Encryption and decryption of object properties based on annotations.
+ * - Support for customizing property naming strategies.
+ * - Option to provide a secure function for key generation.
+ *
  * @author Kamshory
  * @package MagicObject
  * @link https://github.com/Planetbiru/MagicObject
  */
-class SecretObject extends stdClass //NOSONAR
+class SecretObject extends stdClass // NOSONAR
 {
     const JSON = 'JSON';
     const YAML = 'Yaml';
@@ -44,59 +55,84 @@ class SecretObject extends stdClass //NOSONAR
 
     /**
      * List of properties to be encrypted when calling SET.
+     * 
+     * The property name starts with an underscore to prevent child classes 
+     * from overriding its value.
      *
      * @var string[]
      */
-    private $_encryptInProperties = array(); //NOSONAR
+    private $_encryptInProperties = array(); // NOSONAR
 
     /**
      * Class parameters.
+     * 
+     * The property name starts with an underscore to prevent child classes 
+     * from overriding its value.
      *
      * @var array
      */
-    protected $_classParams = array(); //NOSONAR
+    protected $_classParams = array(); // NOSONAR
 
     /**
      * NULL properties.
+     * 
+     * The property name starts with an underscore to prevent child classes 
+     * from overriding its value.
      *
      * @var array
      */
-    protected $_nullProperties = array(); //NOSONAR
+    protected $_nullProperties = array(); // NOSONAR
 
     /**
      * List of properties to be decrypted when calling GET.
+     * 
+     * The property name starts with an underscore to prevent child classes 
+     * from overriding its value.
      *
      * @var string[]
      */
-    private $_decryptOutProperties = array(); //NOSONAR
+    private $_decryptOutProperties = array(); // NOSONAR
 
     /**
      * List of properties to be encrypted when calling GET.
+     * 
+     * The property name starts with an underscore to prevent child classes 
+     * from overriding its value.
      *
      * @var string[]
      */
-    private $_encryptOutProperties = array(); //NOSONAR
+    private $_encryptOutProperties = array(); // NOSONAR
 
     /**
      * List of properties to be decrypted when calling SET.
+     * 
+     * The property name starts with an underscore to prevent child classes 
+     * from overriding its value.
      *
      * @var string[]
      */
-    private $_decryptInProperties = array(); //NOSONAR
+    private $_decryptInProperties = array(); // NOSONAR
 
     /**
      * Indicates if the object is read-only.
+     * 
+     * The property name starts with an underscore to prevent child classes 
+     * from overriding its value.
      *
      * @var boolean
      */
-    private $_readonly = false; //NOSONAR
+    private $_readonly = false; // NOSONAR
 
     /**
-     * Secure function to get encryption key
+     * Secure function to get encryption key.
+     * 
+     * The property name starts with an underscore to prevent child classes 
+     * from overriding its value.
      *
      * @var callable
      */
-    private $_secureFunction = null; //NOSONAR
+    private $_secureFunction = null; // NOSONAR
+
 
     /**
      * Constructor for initializing the object with data.
@@ -129,17 +165,18 @@ class SecretObject extends stdClass //NOSONAR
     }
 
     /**
-     * Processes object information to determine encryption and decryption requirements.
+     * Analyzes the class's parameters and properties to determine which should be 
+     * encrypted or decrypted based on annotations.
      *
-     * This method retrieves the class parameters and properties using reflection, 
-     * parsing annotations to identify which properties should be encrypted or 
-     * decrypted. It populates the respective lists of properties based on the 
-     * annotations found.
+     * This method uses reflection to retrieve the class's parameters and properties. 
+     * It then parses annotations associated with these members to identify which 
+     * properties should undergo encryption or decryption during specific stages 
+     * (before storage or before retrieval). The appropriate lists of properties 
+     * are populated accordingly.
      *
      * @return void
      *
-     * @throws InvalidAnnotationException If an invalid annotation is encountered 
-     *                                    while processing class parameters.
+     * @throws InvalidAnnotationException If the annotations are invalid or cannot be parsed.
      */
     private function _objectInfo()
     {
@@ -148,42 +185,34 @@ class SecretObject extends stdClass //NOSONAR
         $params = $reflexClass->getParameters();
         $props = $reflexClass->getProperties();
 
-        foreach($params as $paramName=>$paramValue)
-        {
-            try
-            {
+        // Process each class parameter
+        foreach ($params as $paramName => $paramValue) {
+            try {
                 $vals = $reflexClass->parseKeyValue($paramValue);
                 $this->_classParams[$paramName] = $vals;
-            }
-            catch(InvalidQueryInputException $e)
-            {
-                throw new InvalidAnnotationException("Invalid annotation @".$paramName);
+            } catch (InvalidAnnotationException $e) {
+                throw new InvalidAnnotationException("Invalid annotation @" . $paramName);
             }
         }
 
-        // iterate each properties of the class
-        foreach($props as $prop)
-        {
+        // Process each class property
+        foreach ($props as $prop) {
             $reflexProp = new PicoAnnotationParser($className, $prop->name, 'property');
             $parameters = $reflexProp->getParameters();
 
-            // add property list to be encryped or decrypted
-            foreach($parameters as $param=>$val)
-            {
-                if(strcasecmp($param, self::ANNOTATION_ENCRYPT_IN) == 0)
-                {
+            // Check each property for encryption/decryption annotations
+            foreach ($parameters as $param => $val) {
+                if (strcasecmp($param, self::ANNOTATION_ENCRYPT_IN) == 0) {
+                    // Property should be encrypted before storing
                     $this->_encryptInProperties[] = $prop->name;
-                }
-                else if(strcasecmp($param, self::ANNOTATION_DECRYPT_OUT) == 0)
-                {
+                } else if (strcasecmp($param, self::ANNOTATION_DECRYPT_OUT) == 0) {
+                    // Property should be decrypted before retrieval
                     $this->_decryptOutProperties[] = $prop->name;
-                }
-                else if(strcasecmp($param, self::ANNOTATION_ENCRYPT_OUT) == 0)
-                {
+                } else if (strcasecmp($param, self::ANNOTATION_ENCRYPT_OUT) == 0) {
+                    // Property should be encrypted before retrieval
                     $this->_encryptOutProperties[] = $prop->name;
-                }
-                else if(strcasecmp($param, self::ANNOTATION_DECRYPT_IN) == 0)
-                {
+                } else if (strcasecmp($param, self::ANNOTATION_DECRYPT_IN) == 0) {
+                    // Property should be decrypted before storing
                     $this->_decryptInProperties[] = $prop->name;
                 }
             }
@@ -521,7 +550,7 @@ class SecretObject extends stdClass //NOSONAR
         $iv = substr($ivHashCiphertext, 0, 16);
         $hash = substr($ivHashCiphertext, 16, 32);
         $ciphertext = substr($ivHashCiphertext, 48);
-        if (!hash_equals(hash_hmac('sha256', $ciphertext . $iv, $key, true), $hash))
+        if (!$hash || !hash_equals(hash_hmac('sha256', $ciphertext . $iv, $key, true), $hash))
         {
             return null;
         }

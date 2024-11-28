@@ -182,11 +182,11 @@ class PicoObjectParser
         {
             foreach($data as $val)
             {
-                if (self::isObject($val))
+                if(self::isObject($val))
                 {
                     $result[] = self::parseRecursiveObject($val);
                 }
-                else if (is_array($val))
+                else if(is_array($val))
                 {
                     if(self::hasStringKeys($val))
                     {
@@ -236,7 +236,7 @@ class PicoObjectParser
      * @param mixed $data The JSON data to parse, which can be a string, array, or object.
      * @return MagicObject|null The resulting MagicObject or null if the data is not valid.
      */
-    public static function parseJsonRecursive($data) //NOSONAR
+    public static function parseJsonRecursive($data) // NOSONAR
     {
         if($data == null)
         {
@@ -262,7 +262,7 @@ class PicoObjectParser
      * @param string $data The string data to parse.
      * @return mixed The parsed value, which may be null, boolean, or string.
      */
-    public static function parseString($data) //NOSONAR
+    public static function parseString($data) // NOSONAR
     {
         if($data == 'null')
         {

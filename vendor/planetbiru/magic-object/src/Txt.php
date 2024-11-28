@@ -9,6 +9,8 @@ namespace MagicObject;
  * This class allows for flexible interaction by returning the names of methods and properties 
  * that are called statically or accessed dynamically but are not explicitly defined within the class.
  * It can be useful for implementing dynamic behavior or creating a fluent interface.
+ * 
+ * @final
  */
 class Txt
 {
@@ -23,7 +25,7 @@ class Txt
      * @param array $arguments An array of arguments passed to the method.
      * @return string The name of the called method.
      */
-    public static function __callStatic($name, $arguments) //NOSONAR
+    public static function __callStatic($name, $arguments) // NOSONAR
     {
         return $name;
     }

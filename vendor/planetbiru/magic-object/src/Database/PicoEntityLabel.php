@@ -3,7 +3,6 @@
 namespace MagicObject\Database;
 
 use MagicObject\Exceptions\InvalidAnnotationException;
-use MagicObject\Exceptions\InvalidQueryInputException;
 use MagicObject\MagicObject;
 use MagicObject\Util\ClassUtil\PicoAnnotationParser;
 use stdClass;
@@ -135,13 +134,13 @@ class PicoEntityLabel
      * @param string $queryString The query string to parse.
      * @param string $parameter The parameter name.
      * @return array The parsed key-value pairs.
-     * @throws InvalidAnnotationException If the query input is invalid.
+     * @throws InvalidAnnotationException If the annotations are invalid or cannot be parsed.
      */
     private function parseKeyValue(PicoAnnotationParser $reflexClass, $queryString, $parameter)
     {
         try {
             return $reflexClass->parseKeyValue($queryString);
-        } catch (InvalidQueryInputException $e) {
+        } catch (InvalidAnnotationException $e) {
             throw new InvalidAnnotationException("Invalid annotation @" . $parameter);
         }
     }
@@ -224,7 +223,7 @@ class PicoEntityLabel
             // List primary keys
             foreach ($parameters as $param => $val) {
                 if (strcasecmp($param, self::ANNOTATION_ID) === 0 && isset($columns[$prop->name])) {
-                    $primaryKeys[$prop->name] = [self::KEY_NAME => $columns[$prop->name][self::KEY_NAME]];
+                    $primaryKeys[$prop->name] = array(self::KEY_NAME => $columns[$prop->name][self::KEY_NAME]);
                 }
             }
 
@@ -263,7 +262,7 @@ class PicoEntityLabel
             // List not null columns
             foreach ($parameters as $param => $val) {
                 if (strcasecmp($param, self::ANNOTATION_NOT_NULL) === 0 && isset($columns[$prop->name])) {
-                    $notNullColumns[$prop->name] = [self::KEY_NAME => $columns[$prop->name][self::KEY_NAME]];
+                    $notNullColumns[$prop->name] = array(self::KEY_NAME => $columns[$prop->name][self::KEY_NAME]);
                 }
             }
         }

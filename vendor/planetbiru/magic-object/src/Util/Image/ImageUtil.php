@@ -140,7 +140,7 @@ class ImageUtil
             $this->retainTransparency();
             $this->fileName = sys_get_temp_dir() . '/img_' . uniqid() . '.png';
 
-            return ['mime' => 'image/png'];
+            return array('mime' => 'image/png');
         }
         throw new ImageUtilException('Is not valid resource');
     }
@@ -507,14 +507,14 @@ class ImageUtil
      * @param int $textAlignment The alignment of the text (left, center, right).
      * @throws ImageUtilException If the specified font is not found or if an error occurs.
      */
-    public function writeText($text, $point, $size, $angle, $font, $maxwidth = 0, $rgbAr = null, $textAlignment = 1) //NOSONAR
+    public function writeText($text, $point, $size, $angle, $font, $maxwidth = 0, $rgbAr = null, $textAlignment = 1) // NOSONAR
     {
         if (!is_readable($font)) {
             throw new ImageUtilException('Error: The specified font not found');
         }
 
         if (!is_array($rgbAr)) {
-            $rgbAr = [0, 0, 0];
+            $rgbAr = array(0, 0, 0);
         }
 
         $color = imagecolorallocate($this->image, $rgbAr[0], $rgbAr[1], $rgbAr[2]);
@@ -522,7 +522,7 @@ class ImageUtil
         // Determine the line break if required.
         if (($maxwidth > 0) && ($angle == 0)) {
             $words = explode(' ', $text);
-            $lines = [$words[0]];
+            $lines = array($words[0]);
             $currentLine = 0;
 
             $numberOfWords = count($words);
@@ -536,7 +536,7 @@ class ImageUtil
                 }
             }
         } else {
-            $lines = [$text];
+            $lines = array($text);
         }
 
         $curX = $point[0];

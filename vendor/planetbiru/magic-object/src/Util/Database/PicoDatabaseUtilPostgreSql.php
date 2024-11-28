@@ -2,12 +2,11 @@
 
 namespace MagicObject\Util\Database;
 
-use ErrorException;
 use Exception;
 use MagicObject\Database\PicoDatabase;
 use MagicObject\Database\PicoDatabaseQueryBuilder;
 use MagicObject\Database\PicoDatabaseType;
-use MagicObject\Database\PicoTableInfo;
+use MagicObject\Database\PicoTableInfoExtended;
 use MagicObject\Exceptions\ErrorConnectionException;
 use MagicObject\MagicObject;
 use MagicObject\SecretObject;
@@ -45,7 +44,7 @@ use PDO;
  * @package MagicObject\Util\Database
  * @link https://github.com/Planetbiru/MagicObject
  */
-class PicoDatabaseUtilPostgreSql extends PicoDatabaseUtilBase implements PicoDatabaseUtilInterface //NOSONAR
+class PicoDatabaseUtilPostgreSql extends PicoDatabaseUtilBase implements PicoDatabaseUtilInterface // NOSONAR
 {
 
     /**
@@ -78,21 +77,22 @@ class PicoDatabaseUtilPostgreSql extends PicoDatabaseUtilBase implements PicoDat
     /**
      * Dumps the structure of a table as a SQL statement.
      *
-     * This method generates a SQL CREATE TABLE statement based on the provided table information,
-     * including the option to include or exclude specific clauses such as "IF NOT EXISTS" and 
+     * This method generates a SQL `CREATE TABLE` statement based on the provided table information,
+     * including options to add or omit specific clauses such as "IF NOT EXISTS" and 
      * "DROP TABLE IF EXISTS". It also handles the definition of primary keys if present.
      *
-     * @param PicoTableInfo $tableInfo     The information about the table, including column details and primary keys.
-     * @param string        $tableName  The name of the table for which the structure is being generated.
-     * @param bool         $createIfNotExists Whether to add "IF NOT EXISTS" in the CREATE statement (default is false).
-     * @param bool         $dropIfExists      Whether to add "DROP TABLE IF EXISTS" before the CREATE statement (default is false).
-     * @param string|null  $engine            The storage engine to use for the table (optional, default is null).
-     * @param string|null  $charset           The character set to use for the table (optional, default is null).
-     * @return string                           The SQL statement to create the table, including column definitions and primary keys.
+     * @param PicoTableInfoExtended $tableInfo         The information about the table, including column details and primary keys.
+     * @param string                $tableName         The name of the table for which the structure is being generated.
+     * @param bool                  $createIfNotExists Whether to include "IF NOT EXISTS" in the `CREATE` statement (default is false).
+     * @param bool                  $dropIfExists      Whether to include "DROP TABLE IF EXISTS" before the `CREATE` statement (default is false).
+     * @param string|null           $engine            The storage engine to use for the table (optional, default is null).
+     * @param string|null           $charset           The character set to use for the table (optional, default is null).
+     *
+     * @return string                                  The SQL statement to create the table, including column definitions and primary keys.
      */
     public function dumpStructure($tableInfo, $tableName, $createIfNotExists = false, $dropIfExists = false, $engine = null, $charset = null)
     {
-        $query = [];
+        $query = array();
         if ($dropIfExists) {
             $query[] = "-- DROP TABLE IF EXISTS \"$tableName\";";
             $query[] = "";
@@ -107,9 +107,16 @@ class PicoDatabaseUtilPostgreSql extends PicoDatabaseUtilBase implements PicoDat
 
         $query[] = "$createStatement \"$tableName\" (";
 
-        foreach ($tableInfo->getColumns() as $column) {
-            $query[] = $this->createColumnPostgre($column, $autoIncrementKeys);
+        $cols = $tableInfo->getColumns();
+        
+        foreach($tableInfo->getSortedColumnName() as $columnName)
+        {
+            if(isset($cols[$columnName]))
+            {
+                $query[] = $this->createColumnPostgre($cols[$columnName], $autoIncrementKeys);
+            }
         }
+
         $query[] = implode(",\r\n", $query);
         $query[] = ");";
 
@@ -143,7 +150,7 @@ class PicoDatabaseUtilPostgreSql extends PicoDatabaseUtilBase implements PicoDat
      */
     public function createColumn($column, $autoIncrementKeys = null)
     {
-        $col = [];
+        $col = array();
         $col[] = "\t";
         $col[] = "\"" . $column[parent::KEY_NAME] . "\"";
         
@@ -228,7 +235,7 @@ class PicoDatabaseUtilPostgreSql extends PicoDatabaseUtilBase implements PicoDat
      */
     public function createColumnPostgre($column, $autoIncrementKeys = null)
     {
-        $col = [];
+        $col = array();
         $col[] = "\t";
         $col[] = "\"" . $column[parent::KEY_NAME] . "\"";
 
@@ -311,14 +318,14 @@ class PicoDatabaseUtilPostgreSql extends PicoDatabaseUtilBase implements PicoDat
     public function dumpRecord($columns, $tableName, $record)
     {
         $value = $record->valueArray();
-        $rec = [];
+        $rec = array();
         foreach ($value as $key => $val) {
             if (isset($columns[$key])) {
                 $rec[$columns[$key][parent::KEY_NAME]] = $val;
             }
         }
 
-        $queryBuilder = new PicoDatabaseQueryBuilder(PicoDatabaseType::DATABASE_TYPE_POSTGRESQL);
+        $queryBuilder = new PicoDatabaseQueryBuilder(PicoDatabaseType::DATABASE_TYPE_PGSQL);
         $queryBuilder->newQuery()
             ->insert()
             ->into($tableName)
@@ -351,7 +358,7 @@ class PicoDatabaseUtilPostgreSql extends PicoDatabaseUtilBase implements PicoDat
                 WHERE table_schema = '$schema' AND table_name = '$tableName'";
         $result = $database->fetchAll($sql, PDO::FETCH_ASSOC);
 
-        $columns = [];
+        $columns = array();
         foreach ($result as $row) {
             $columns[$row['column_name']] = $row['data_type'];
         }
@@ -391,7 +398,7 @@ class PicoDatabaseUtilPostgreSql extends PicoDatabaseUtilBase implements PicoDat
             $databaseTarget->connect();
             $tables = $config->getTable();
 
-            $existingTables = [];
+            $existingTables = array();
             foreach ($tables as $tb) {
                 $existingTables[] = $tb->getTarget();
             }

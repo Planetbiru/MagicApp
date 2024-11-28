@@ -12,6 +12,7 @@ use MagicObject\MagicObject;
 use MagicObject\Util\Database\PicoDatabaseUtil;
 use MagicObject\Util\Database\PicoDatabaseUtilMySql;
 use MagicObject\Util\Database\PicoDatabaseUtilPostgreSql;
+use MagicObject\Util\Database\PicoDatabaseUtilSqlite;
 
 /**
  * Database dump class for managing and generating SQL statements
@@ -66,7 +67,7 @@ class PicoDatabaseDump
             $tool = new PicoDatabaseUtilMySql();
             return $tool->dumpStructure($tableInfo, $picoTableName, $createIfNotExists, $dropIfExists, $engine, $charset);
         } 
-        else if($databaseType == PicoDatabaseType::DATABASE_TYPE_POSTGRESQL) 
+        else if($databaseType == PicoDatabaseType::DATABASE_TYPE_PGSQL) 
         {
             $tool = new PicoDatabaseUtilPostgreSql();
             return $tool->dumpStructure($tableInfo, $picoTableName, $createIfNotExists, $dropIfExists, $engine, $charset);
@@ -92,9 +93,14 @@ class PicoDatabaseDump
             $tool = new PicoDatabaseUtilMySql();
             return $tool->dumpStructure($tableInfo, $picoTableName, $createIfNotExists, $dropIfExists, $engine, $charset);
         } 
-        else if($databaseType == PicoDatabaseType::DATABASE_TYPE_POSTGRESQL) 
+        else if($databaseType == PicoDatabaseType::DATABASE_TYPE_PGSQL) 
         {
             $tool = new PicoDatabaseUtilPostgreSql();
+            return $tool->dumpStructure($tableInfo, $picoTableName, $createIfNotExists, $dropIfExists, $engine, $charset);
+        }
+        else if($databaseType == PicoDatabaseType::DATABASE_TYPE_SQLITE) 
+        {
+            $tool = new PicoDatabaseUtilSqlite();
             return $tool->dumpStructure($tableInfo, $picoTableName, $createIfNotExists, $dropIfExists, $engine, $charset);
         }
     }
@@ -243,16 +249,18 @@ class PicoDatabaseDump
     public function createAlterTableAddFromEntities($entities, $tableName = null, $database = null)
     {
         $tableInfo = $this->getMergedTableInfo($entities);
+        $clumnNameList = $this->getColumnNameList($entities);
+        $tableInfo->setSortedColumnName($clumnNameList);
         $tableName = $this->getTableName($tableName, $tableInfo);
         $database = $this->getDatabase($database, $entities);
 
-        $queryAlter = [];
+        $queryAlter = array();
         $numberOfColumn = count($tableInfo->getColumns());
 
         if (!empty($tableInfo->getColumns())) {
-            $dbColumnNames = [];
+            $dbColumnNames = array();
             $rows = PicoColumnGenerator::getColumnList($database, $tableInfo->getTableName());
-            $createdColumns = [];
+            $createdColumns = array();
             if (is_array($rows) && !empty($rows)) {
                 foreach ($rows as $row) {
                     $dbColumnNames[] = $row['Field'];
@@ -279,6 +287,27 @@ class PicoDatabaseDump
     }
 
     /**
+     * Get a list of column names from multiple entities.
+     *
+     * This method retrieves the table information for each entity, extracts the columns,
+     * and merges them into a single list.
+     *
+     * @param MagicObject[] $entities Array of entities to process.
+     * @return string[] List of column names from all entities.
+     */
+    public function getColumnNameList($entities)
+    {
+        $res = array();
+        foreach ($entities as $entity) {
+            $tableInfo = $this->getTableInfo($entity);
+            $columns = $tableInfo->getColumns();
+            $res = array_merge($res, array_keys($columns));
+        }
+        $res = array_unique($res);
+        return $res;
+    }
+
+    /**
      * Create a list of ALTER TABLE ADD COLUMN queries from a single entity.
      *
      * @param MagicObject $entity Entity
@@ -290,13 +319,13 @@ class PicoDatabaseDump
         $tableName = $tableInfo->getTableName();
         $database = $entity->currentDatabase();
 
-        $queryAlter = [];
+        $queryAlter = array();
         $numberOfColumn = count($tableInfo->getColumns());
 
         if (!empty($tableInfo->getColumns())) {
-            $dbColumnNames = [];
+            $dbColumnNames = array();
             $rows = PicoColumnGenerator::getColumnList($database, $tableInfo->getTableName());
-            $createdColumns = [];
+            $createdColumns = array();
             if (is_array($rows) && !empty($rows)) {
                 foreach ($rows as $row) {
                     $dbColumnNames[] = $row['Field'];
@@ -334,7 +363,7 @@ class PicoDatabaseDump
     private function addPrimaryKey($queryAlter, $tableInfo, $tableName, $createdColumns)
     {
         $pk = $tableInfo->getPrimaryKeys();
-        $queries = [];
+        $queries = array();
         if (isset($pk) && is_array($pk) && !empty($pk)) {
             foreach ($pk as $primaryKey) {
                 if (in_array($primaryKey['name'], $createdColumns)) {
@@ -361,7 +390,7 @@ class PicoDatabaseDump
      */
     private function addAutoIncrement($queryAlter, $tableInfo, $tableName, $createdColumns, $databaseType)
     {
-        $queries = [];
+        $queries = array();
         $aik = $this->getAutoIncrementKey($tableInfo);
         
         foreach ($tableInfo->getColumns() as $entityColumn) {
@@ -370,7 +399,7 @@ class PicoDatabaseDump
                 $query = $this->updateQueryAlterTableNullable($query, $entityColumn);
                 $query = $this->updateQueryAlterTableDefaultValue($query, $entityColumn);
 
-                if ($databaseType == PicoDatabaseType::DATABASE_TYPE_POSTGRESQL) {
+                if ($databaseType == PicoDatabaseType::DATABASE_TYPE_PGSQL) {
                     $columnName = $entityColumn['name'];
                     $sequenceName = $tableName . "_" . $columnName;
                     $queries[] = "";
@@ -399,7 +428,7 @@ class PicoDatabaseDump
     public function getAutoIncrementKey($tableInfo)
     {
         $autoIncrement = $tableInfo->getAutoIncrementKeys();
-        $autoIncrementKeys = [];
+        $autoIncrementKeys = array();
         
         if (is_array($autoIncrement) && !empty($autoIncrement)) {
             foreach ($autoIncrement as $col) {

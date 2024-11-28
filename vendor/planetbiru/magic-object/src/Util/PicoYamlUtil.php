@@ -5,6 +5,7 @@ namespace MagicObject\Util;
 use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml\Exception\InvalidTypeException;
     
 /**
  * Class PicoYamlUtil
@@ -53,7 +54,7 @@ class PicoYamlUtil
         $depth = 0;
         $iteIte = new RecursiveIteratorIterator(new RecursiveArrayIterator($array));
 
-        foreach ($iteIte as $ite) //NOSONAR
+        foreach ($iteIte as $ite) // NOSONAR
         {
             $d = $iteIte->getDepth();
             $depth = $d > $depth ? $d : $depth;
@@ -85,7 +86,7 @@ class PicoYamlUtil
      * @param int $flags A bit field of DUMP_* constants to customize the dumped YAML string.
      * 
      * @return string A YAML string representing the original PHP value.
-     * @throws \Symfony\Component\Yaml\Exception\InvalidTypeException If the input is an unsupported type.
+     * @throws InvalidTypeException If the input is an unsupported type.
      */
     public static function dump($input, $inline, $indent, $flags)
     {

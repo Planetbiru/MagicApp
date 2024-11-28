@@ -30,7 +30,7 @@ class Area
      *
      * @var float[]
      */
-    public $coords = [];
+    public $coords = array();
 
     /**
      * Hyperlink reference associated with the area.
@@ -64,7 +64,7 @@ class Area
     public function __construct($object, $zoom = 1, $href = null, $attributes = null)
     {
         $this->href = $href;
-        $this->attributes = is_array($attributes) ? $attributes : [];
+        $this->attributes = is_array($attributes) ? $attributes : array();
         $this->zoom = $zoom;
 
         if ($object instanceof Rectangle) {
@@ -90,12 +90,12 @@ class Area
      */
     public function coordsFromRectangle($object)
     {
-        return [
+        return array(
             $object->a->x,
             $object->a->y,
             $object->b->x,
             $object->b->y
-        ];
+        );
     }
 
     /**
@@ -106,14 +106,14 @@ class Area
      */
     public function coordsFromTriangle($object)
     {
-        return [
+        return array(
             $object->a->x,
             $object->a->y,
             $object->b->x,
             $object->b->y,
             $object->c->x,
             $object->c->y
-        ];
+        );
     }
 
     /**
@@ -125,7 +125,7 @@ class Area
     public function coordsFromPolygon($object)
     {
         $points = $object->getPoints();
-        $coords = [];
+        $coords = array();
         foreach ($points as $point) {
             $coords[] = $point->x;
             $coords[] = $point->y;
@@ -141,7 +141,7 @@ class Area
      */
     public function coordsFromCircle($object)
     {
-        return [$object->x, $object->y, $object->r];
+        return array($object->x, $object->y, $object->r);
     }
 
     /**
@@ -167,7 +167,7 @@ class Area
      */
     public function getHTML()
     {
-        $attrs = [];
+        $attrs = array();
         $attrs[] = 'shape="' . $this->shape . '"';
         $attrs[] = 'coords="' . implode(", ", $this->getCoords($this->zoom)) . '"';
 

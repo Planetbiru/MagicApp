@@ -342,6 +342,36 @@ class PicoDatabaseUtil
 		$random = sprintf('%06x', mt_rand(0, 16777215));
 		return sprintf('%s%s', $uuid, $random);
     }
+    
+    /**
+     * Filters out empty lines, comments (lines starting with "-- "), and lines that are exactly "--".
+     *
+     * This function is commonly used in contexts where a list of lines or strings needs to be processed
+     * and filtered by excluding empty lines, comment lines (starting with "-- "), and lines with only
+     * the string "--".
+     *
+     * @param string $line The line to be checked.
+     * @return bool Returns `true` if the line should be included, `false` otherwise.
+     */
+    private static function arrayFilterFunction($line)
+    {
+        return !(empty($line) || stripos($line, "-- ") === 0 || $line == "--");
+    }
+    
+    /**
+     * Determines the delimiter based on the second part of a trimmed line.
+     *
+     * This function splits the given line by spaces and checks the second part. If the second part exists,
+     * it returns a semicolon (`;`) as the delimiter. Otherwise, it returns `null`.
+     *
+     * @param string $line The line to be analyzed, which is trimmed and split by spaces.
+     * @return string|null Returns `';'` if there is a second part after splitting the line, otherwise `null`.
+     */
+    private static function getDelimiter($line)
+    {
+        $parts = explode(' ', trim($line));
+        return $parts[1] != null ? ';' : null;
+    }
 
     /**
      * Split a SQL string into separate queries.
@@ -352,100 +382,64 @@ class PicoDatabaseUtil
      * @param string $sqlText The raw SQL string containing one or more queries.
      * @return array An array of queries with their respective delimiters.
      */
-    public function splitSql($sqlText) //NOSONAR
+    public static function splitSql($sqlText)
     {
-        $sqlText = str_replace("\n", "\r\n", $sqlText);
-        $sqlText = str_replace("\r\r\n", "\r\n", $sqlText);
-        $arr = explode("\r\n", $sqlText);
-        $arr2 = array();
-        foreach($arr as $key=>$val)
-        {
-            $arr[$key] = ltrim($val);
-            if(stripos($arr[$key], "-- ") !== 0 && $arr[$key] != "--" && $arr[$key] != "")
-            {
-                $arr2[] = $arr[$key];
-            }
-        }
-        $arr = $arr2;
-        unset($arr2);
+        // Normalize newlines and clean up any redundant line breaks
+        $sqlText = str_replace("\r\r\n", "\r\n", str_replace("\n", "\r\n", $sqlText));
+        
+        // Split the SQL text by newlines
+        $lines = explode("\r\n", $sqlText);
+        
+        // Clean up lines, remove comments, and empty lines
+        $cleanedLines = array_filter(array_map('ltrim', $lines), function ($line) {
+            return self::arrayFilterFUnction($line);
+        });
+        
+        // Initialize state variables
+        $queries = array();
+        $currentQuery = '';
+        $isAppending = false;
+        $delimiter = ';';
+        $skip = false;
 
-        $append = 0;
-        $skip = 0;
-        $start = 1;
-        $nquery = -1;
-        $delimiter = ";";
-        $queryArray = array();
-        $delimiterArray = array();
+        foreach ($cleanedLines as $line) {
+            // Skip lines if needed
+            if ($skip) {
+                $skip = false;
+                continue;
+            }
 
-        foreach($arr as $line=>$text)
-        {
-            if($text == "" && $append == 1)
-            {
-                $queryArray[$nquery] .= "\r\n";
+            // Handle "delimiter" statements
+            if (stripos(trim($line), 'delimiter ') === 0) {
+                $delimiter = self::getDelimiter($line);
+                continue;
             }
-            if($append == 0)
-            {
-                if(stripos(ltrim($text, " \t "), "--") === 0)
-                {
-                    $skip = 1;
-                    $nquery++;
-                    $start = 1;
-                    $append = 0;
+
+            // Start a new query if necessary
+            if (!$isAppending) {
+                if (!empty($currentQuery)) {
+                    // Store the previous query and reset for the next one
+                    $queries[] = array('query' => rtrim($currentQuery, self::INLINE_TRIM), 'delimiter' => $delimiter);
                 }
-                else
-                {
-                    $skip = 0;
-                }
+                $currentQuery = '';
+                $isAppending = true;
             }
-            if($skip == 0)
-            {
-                if($start == 1)
-                {
-                    $nquery++;
-                    $queryArray[$nquery] = "";
-                    $delimiterArray[$nquery] = $delimiter;
-                    $start = 0;
-                }
-                $queryArray[$nquery] .= $text."\r\n";
-                $delimiterArray[$nquery] = $delimiter;
-                $text = ltrim($text, " \t ");
-                $start = strlen($text)-strlen($delimiter)-1;
-                if(stripos(substr($text, $start), $delimiter) !== false || $text == $delimiter)
-                {
-                    $nquery++;
-                    $start = 1;
-                    $append = 0;
-                }
-                else
-                {
-                    $start = 0;
-                    $append = 1;
-                }
-                $delimiterArray[$nquery] = $delimiter;
-                if(stripos($text, "delimiter ") !== false)
-                {
-                    $text = trim(preg_replace("/\s+/"," ",$text));
-                    $arr2 = explode(" ", $text);
-                    $delimiter = $arr2[1];
-                    $nquery++;
-                    $delimiterArray[$nquery] = $delimiter;
-                    $start = 1;
-                    $append = 0;
-                }
+
+            // Append current line to the current query
+            $currentQuery .= $line . "\r\n";
+
+            // Check if the query ends with the delimiter
+            if (substr(rtrim($line), -strlen($delimiter)) === $delimiter) {
+                $isAppending = false; // End of query, so we stop appending
             }
         }
-        $result = array();
-        foreach($queryArray as $line=>$sql)
-        {
-            $delimiter = $delimiterArray[$line];
-            if(stripos($sql, "delimiter ") !== 0)
-            {
-                $sql = rtrim($sql, self::INLINE_TRIM);
-                $sql = substr($sql, 0, strlen($sql)-strlen($delimiter));
-                $result[] = array("query"=> $sql, "delimiter"=>$delimiter);
-            }
+
+        // Add the last query if any
+        if (!empty($currentQuery)) {
+            $queries[] = array('query' => rtrim($currentQuery, self::INLINE_TRIM), 'delimiter' => $delimiter);
         }
-        return $result;
+
+        return $queries;
     }
 
     /**

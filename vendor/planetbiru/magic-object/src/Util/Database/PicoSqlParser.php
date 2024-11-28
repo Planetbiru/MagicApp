@@ -5,46 +5,53 @@ namespace MagicObject\Util\Database;
 /**
  * Class PicoSqlParser
  * 
- * This class is used to parse SQL table definitions and extract information about columns,
- * data types, primary keys, and other attributes from SQL CREATE TABLE statements.
+ * This class parses SQL `CREATE TABLE` statements to extract table information such as:
+ * - Table name
+ * - Column names
+ * - Data types
+ * - Column attributes (nullable, default value, etc.)
+ * - Primary keys and other constraints
+ *
+ * This class is useful for generating database documentation, creating Entity Relationship Diagrams (ERDs), or analyzing database structures from SQL DDL scripts.
  * 
- * Usage example:
+ * Example usage:
+ * ```php
  * $parser = new PicoSqlParser($sql);
  * $result = $parser->getResult();
+ * ```
  * 
- * @property array $typeList List of valid SQL data types supported for parsing.
- * @property array $tableInfo Information about the parsed tables, including 
- * columns and primary keys.
+ * @package MagicObject\Util\Database
  * @link https://github.com/Planetbiru/ERD-Maker
  */
 class PicoSqlParser
 {
-    const KEY_COLUMN_NAME = 'Column Name';
-    const KEY_PRIMARY_KEY = 'Primary Key';
-    const KEY_TYPE = 'Type';
-    const KEY_LENGTH = 'Length';
-    const KEY_NULLABLE = 'Nullable';
-    const KEY_DEFAULT = 'Default';
+    // Constant definitions for keys in the parsed table information
+    const KEY_COLUMN_NAME = 'Field';
+    const KEY_PRIMARY_KEY = 'Key';
+    const KEY_TYPE        = 'Type';
+    const KEY_LENGTH      = 'Length';
+    const KEY_NULLABLE    = 'Nullable';
+    const KEY_DEFAULT     = 'Default';
+    
     /**
-     * Type list
+     * List of valid SQL data types supported by this parser.
      *
      * @var array
      */
-    private $typeList = [];
+    private $typeList = array();
 
     /**
-     * Table info
+     * Information about the parsed tables, including columns, data types, and primary keys.
      *
      * @var array
      */
-    private $tableInfo = [];
+    private $tableInfo = array();
 
     /**
-     * PicoSqlParser constructor.
-     *
-     * Initializes the parser and optionally parses the provided SQL statement.
-     *
-     * @param string|null $sql SQL statement to be parsed (optional).
+     * Constructor to initialize the parser.
+     * Optionally parses an SQL statement immediately upon instantiation.
+     * 
+     * @param string|null $sql The SQL statement to parse (optional).
      */
     public function __construct($sql = null)
     {
@@ -79,23 +86,23 @@ class PicoSqlParser
         $sql = $arr[0];
         
         $rg_tb = '/(create\s+table\s+if\s+not\s+exists|create\s+table)\s+(?<tb>.*)\s+\(/i';
-        $rg_fld = '/(\w+\s+key.*|\w+\s+bigserial|\w+\s+serial4|\w+\s+tinyint.*|\w+\s+bigint.*|\w+\s+text.*|\w+\s+varchar.*|\w+\s+char.*|\w+\s+real.*|\w+\s+float.*|\w+\s+integer.*|\w+\s+int.*|\w+\s+datetime.*|\w+\s+date.*|\w+\s+double.*|\w+\s+bigserial.*|\w+\s+serial.*|\w+\s+timestamp .*)/i'; //NOSONAR
+        $rg_fld = '/(\w+\s+key.*|\w+\s+bigserial|\w+\s+serial4|\w+\s+tinyint.*|\w+\s+bigint.*|\w+\s+text.*|\w+\s+varchar.*|\w+\s+char.*|\w+\s+real.*|\w+\s+float.*|\w+\s+integer.*|\w+\s+int.*|\w+\s+datetime.*|\w+\s+date.*|\w+\s+double.*|\w+\s+bigserial.*|\w+\s+serial.*|\w+\s+timestamp .*)/i'; // NOSONAR
         $rg_fld2 = '/(?<fname>\w+)\s+(?<ftype>\w+)(?<fattr>.*)/i';
         $rg_not_null = '/not\s+null/i';
         $rg_pk = '/primary\s+key/i';
         $rg_fld_def = '/default\s+(.+)/i';
-        $rg_pk2 = '/(PRIMARY|UNIQUE) KEY\s+[a-zA-Z_0-9\s]+\(([a-zA-Z_0-9,\s]+)\)/i'; //NOSONAR
+        $rg_pk2 = '/(PRIMARY|UNIQUE) KEY\s+[a-zA-Z_0-9\s]+\(([a-zA-Z_0-9,\s]+)\)/i'; // NOSONAR
 
         preg_match($rg_tb, $sql, $result);
         $tableName = $result['tb'];
 
-        $fld_list = [];
+        $fldList = array();
         $primaryKey = null;
-        $columnList = [];
+        $columnList = array();
 
         preg_match_all($rg_fld, $sql, $matches);
         foreach ($matches[0] as $f) {
-            $rg_fld2_result = [];
+            $rg_fld2_result = array();
             preg_match($rg_fld2, $f, $rg_fld2_result);
             $dataType = $rg_fld2_result[2];
             $is_pk = false;
@@ -108,7 +115,7 @@ class PicoSqlParser
 
                 $def = null;
                 preg_match($rg_fld_def, $attr2, $def);
-                $comment = null; //NOSONAR
+                $comment = null; // NOSONAR
 
                 if ($def) {
                     $def = trim($def[1]);
@@ -125,14 +132,14 @@ class PicoSqlParser
                     {
                         $def = null;
                     }
-                    $fld_list[] = [
+                    $fldList[] = array(
                         self::KEY_COLUMN_NAME => $columnName,
                         self::KEY_TYPE => trim($rg_fld2_result['ftype']),
                         self::KEY_LENGTH => $length,
                         self::KEY_PRIMARY_KEY => $is_pk,
                         self::KEY_NULLABLE => $nullable,
                         self::KEY_DEFAULT => $def
-                    ];
+                    );
                     $columnList[] = $columnName;
                 }
             } elseif (stripos($f, 'primary') !== false && stripos($f, 'key') !== false) {
@@ -141,7 +148,7 @@ class PicoSqlParser
             }
 
             if ($primaryKey !== null) {
-                foreach ($fld_list as &$column) //NOSONAR
+                foreach ($fldList as &$column) // NOSONAR
                 {
                     if ($column[self::KEY_COLUMN_NAME] === $primaryKey) {
                         $column[self::KEY_PRIMARY_KEY] = true;
@@ -151,27 +158,28 @@ class PicoSqlParser
 
             if (preg_match($rg_pk2, $f) && preg_match($rg_pk, $f)) {
                 $x = preg_replace('/(PRIMARY|UNIQUE) KEY\s+[a-zA-Z_0-9\s]+/', '', $f);
-                $x = str_replace(['(', ')'], '', $x);
+                $x = str_replace(array('(', ')'), '', $x);
                 $pkeys = array_map('trim', explode(',', $x));
-                foreach ($fld_list as &$column) {
+                foreach ($fldList as &$column) {
                     if ($this->inArray($pkeys, $column[self::KEY_COLUMN_NAME])) {
                         $column[self::KEY_PRIMARY_KEY] = true;
                     }
                 }
             }
         }
-        return [
+        return array(
             'tableName' => $tableName, 
-            'columns' => $fld_list, 
+            'columns' => $fldList, 
             'primaryKey' => $primaryKey
-        ];
+        );
     }
 
     /**
-     * Gets the length of the column data type if there is a length definition.
+     * Extracts the length of a data type if it is defined in the SQL (e.g., `VARCHAR(100)`).
      * 
-     * @param string $text Text containing the data type definition.
-     * @return string|null Length of the data type or null if not present.
+     * @param string $text The data type definition, e.g., `VARCHAR(100)`.
+     * 
+     * @return string|null Returns the length if defined (e.g., `100` for `VARCHAR(100)`), or `null` if not.
      */
     private function getLength($text)
     {
@@ -183,10 +191,11 @@ class PicoSqlParser
     }
 
     /**
-     * Checks if the data type is valid.
+     * Validates whether the provided data type is in the list of supported types.
      * 
-     * @param string $dataType Data type to check.
-     * @return bool True if the data type is valid, false otherwise.
+     * @param string $dataType The data type to check (e.g., `int`, `varchar`).
+     * 
+     * @return bool Returns `true` if the data type is valid, `false` otherwise.
      */
     private function isValidType($dataType)
     {
@@ -194,9 +203,9 @@ class PicoSqlParser
     }
 
     /**
-     * Returns the result of the table parsing.
+     * Returns the result of the most recent table parsing.
      * 
-     * @return array Information about the parsed table.
+     * @return array The parsed table information (name, columns, primary keys).
      */
     public function getResult()
     {
@@ -204,23 +213,35 @@ class PicoSqlParser
     }
 
     /**
-     * Initializes the list of valid data types.
+     * Initializes the list of valid SQL data types supported by the parser.
+     *
+     * This method sets the list of data types that the parser recognizes, such as `varchar`, `int`, `timestamp`, `boolean`, 
+     * `json`, `uuid`, etc. These data types correspond to common column types in various SQL-based databases like PostgreSQL, 
+     * MySQL, and SQLite. The list may be used to validate or process SQL statements when parsing or generating SQL.
+     *
+     * @return void
      */
     public function init()
     {
-        $typeList = 'timestamp,serial4,bigserial,int2,int4,int8,tinyint,bigint,text,varchar,char,real,float,integer,int,datetime,date,double';
+        // List of valid SQL data types that the parser will recognize
+        $typeList = 'timestamp,serial4,bigserial,int2,int4,int8,tinyint,bigint,text,varchar,char,real,float,integer,int,datetime,date,double,boolean,json,uuid,bytea,money,decimal,numeric,blob,clob';
+        
+        // Splitting the string into an array of data types
         $this->typeList = explode(',', $typeList);
     }
 
+
     /**
-     * Parses all CREATE TABLE statements in the SQL text.
+     * Parses all `CREATE TABLE` statements in the provided SQL text.
      * 
-     * @param string $sql SQL statement to be parsed.
-     * @return array
+     * @param string $sql The SQL statements to parse (can contain multiple `CREATE TABLE` statements).
+     * 
+     * @return array An array of parsed tables with their columns and primary keys.
      */
     public function parseAll($sql)
     {
-        $inf = [];
+        $sql = str_replace("`", "", $sql);
+        $inf = array();
         $rg_tb = '/(create\s+table\s+if\s+not\s+exists|create\s+table)\s+(?<tb>.*)\s+\(/i';
         
         preg_match_all($rg_tb, $sql, $matches);
@@ -235,8 +256,8 @@ class PicoSqlParser
     }
 
     /**
-     * Gets the list of valid data types.
-     *
+     * Returns the list of valid SQL data types that the parser recognizes.
+     * 
      * @return array An array of valid SQL data types.
      */
     public function getTypeList()
@@ -245,12 +266,13 @@ class PicoSqlParser
     }
 
     /**
-     * Gets information about the parsed tables.
-     *
-     * @return array An array containing information about all parsed tables.
+     * Retrieves information about all the tables parsed.
+     * 
+     * @return array An array containing parsed information for all tables.
      */
     public function getTableInfo()
     {
         return $this->tableInfo;
     }
+
 }

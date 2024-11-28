@@ -16,58 +16,58 @@ class LatLngBounds
     /**
      * @var LatBounds The latitude bounds of the bounding box.
      */
-    protected $_LatBounds; // NOSONAR
+    protected $_latBounds; // NOSONAR
 
     /**
      * @var LngBounds The longitude bounds of the bounding box.
      */
-    protected $_LngBounds; // NOSONAR
+    protected $_lngBounds; // NOSONAR
 
     /**
      * LatLngBounds constructor.
      *
-     * @param LatLng|null $LatLngSw The southwestern LatLng object.
-     * @param LatLng|null $LatLngNe The northeastern LatLng object.
+     * @param LatLng|null $latLngSw The southwestern LatLng object.
+     * @param LatLng|null $tatLngNe The northeastern LatLng object.
      *
      * @throws E_USER_ERROR If the provided LatLng objects are invalid.
      */
-    public function __construct($LatLngSw = null, $LatLngNe = null) 
+    public function __construct($latLngSw = null, $tatLngNe = null) 
     {   
-        if ((!is_null($LatLngSw) && !($LatLngSw instanceof LatLng))
-            || (!is_null($LatLngNe) && !($LatLngNe instanceof LatLng)))
+        if ((!is_null($latLngSw) && !($latLngSw instanceof LatLng))
+            || (!is_null($tatLngNe) && !($tatLngNe instanceof LatLng)))
         {
             trigger_error('LatLngBounds class -> Invalid LatLng object.', E_USER_ERROR);
         }
 
-        if ($LatLngSw && !$LatLngNe) 
+        if ($latLngSw && !$tatLngNe) 
         {
-            $LatLngNe = $LatLngSw;
+            $tatLngNe = $latLngSw;
         }
 
-        if ($LatLngSw)
+        if ($latLngSw)
         {
-            $sw = SphericalGeometry::clampLatitude($LatLngSw->getLat());
-            $ne = SphericalGeometry::clampLatitude($LatLngNe->getLat());
-            $this->_LatBounds = new LatBounds($sw, $ne);
+            $sw = SphericalGeometry::clampLatitude($latLngSw->getLat());
+            $ne = SphericalGeometry::clampLatitude($tatLngNe->getLat());
+            $this->_latBounds = new LatBounds($sw, $ne);
 
-            $sw = $LatLngSw->getLng();
-            $ne = $LatLngNe->getLng();
+            $sw = $latLngSw->getLng();
+            $ne = $tatLngNe->getLng();
 
             if ($ne - $sw >= 360) 
             {
-                $this->_LngBounds = new LngBounds(-180, 180);
+                $this->_lngBounds = new LngBounds(-180, 180);
             }
             else 
             {
-                $sw = SphericalGeometry::wrapLongitude($LatLngSw->getLng());
-                $ne = SphericalGeometry::wrapLongitude($LatLngNe->getLng());
-                $this->_LngBounds = new LngBounds($sw, $ne);
+                $sw = SphericalGeometry::wrapLongitude($latLngSw->getLng());
+                $ne = SphericalGeometry::wrapLongitude($tatLngNe->getLng());
+                $this->_lngBounds = new LngBounds($sw, $ne);
             }
         } 
         else 
         {
-            $this->_LatBounds = new LatBounds(1, -1);
-            $this->_LngBounds = new LngBounds(180, -180);
+            $this->_latBounds = new LatBounds(1, -1);
+            $this->_lngBounds = new LngBounds(180, -180);
         }
     }
 
@@ -78,7 +78,7 @@ class LatLngBounds
      */
     public function getLatBounds()
     {
-        return $this->_LatBounds;
+        return $this->_latBounds;
     }
 
     /**
@@ -88,7 +88,7 @@ class LatLngBounds
      */
     public function getLngBounds()
     {
-        return $this->_LngBounds;
+        return $this->_lngBounds;
     }
 
     /**
@@ -98,7 +98,7 @@ class LatLngBounds
      */
     public function getCenter()
     {
-        return new LatLng($this->_LatBounds->getMidpoint(), $this->_LngBounds->getMidpoint());
+        return new LatLng($this->_latBounds->getMidpoint(), $this->_lngBounds->getMidpoint());
     }
 
     /**
@@ -108,7 +108,7 @@ class LatLngBounds
      */
     public function isEmpty()
     {
-        return $this->_LatBounds->isEmpty() || $this->_LngBounds->isEmpty();
+        return $this->_latBounds->isEmpty() || $this->_lngBounds->isEmpty();
     }
 
     /**
@@ -118,7 +118,7 @@ class LatLngBounds
      */
     public function getSouthWest()
     {
-        return new LatLng($this->_LatBounds->getSw(), $this->_LngBounds->getSw(), true);
+        return new LatLng($this->_latBounds->getSw(), $this->_lngBounds->getSw(), true);
     }
 
     /**
@@ -128,7 +128,7 @@ class LatLngBounds
      */
     public function getNorthEast()
     {
-        return new LatLng($this->_LatBounds->getNe(), $this->_LngBounds->getNe(), true);
+        return new LatLng($this->_latBounds->getNe(), $this->_lngBounds->getNe(), true);
     }
 
     /**
@@ -138,19 +138,19 @@ class LatLngBounds
      */
     public function toSpan()
     {
-        if ($this->_LatBounds->isEmpty()) {
+        if ($this->_latBounds->isEmpty()) {
             $lat = 0;
         } else {
-            $lat = $this->_LatBounds->getNe() - $this->_LatBounds->getSw();
+            $lat = $this->_latBounds->getNe() - $this->_latBounds->getSw();
         }
 
-        if ($this->_LngBounds->isEmpty()) {
+        if ($this->_lngBounds->isEmpty()) {
             $lng = 0;
         } else {
-            if ($this->_LngBounds->getSw() > $this->_LngBounds->getNe()) {
-                $lng = 360 - ($this->_LngBounds->getSw() - $this->_LngBounds->getNe());
+            if ($this->_lngBounds->getSw() > $this->_lngBounds->getNe()) {
+                $lng = 360 - ($this->_lngBounds->getSw() - $this->_lngBounds->getNe());
             } else {
-                $lng = $this->_LngBounds->getNe() - $this->_LngBounds->getSw();
+                $lng = $this->_lngBounds->getNe() - $this->_lngBounds->getSw();
             }
         }
 
@@ -183,64 +183,64 @@ class LatLngBounds
     /**
      * Check if this LatLngBounds is equal to another LatLngBounds object.
      *
-     * @param LatLngBounds $LatLngBounds The LatLngBounds object to compare.
+     * @param LatLngBounds $latLngBounds The LatLngBounds object to compare.
      * @return bool True if they are equal, false otherwise.
      */
-    public function equals($LatLngBounds)
+    public function equals($latLngBounds)
     {
-        return !$LatLngBounds 
+        return !$latLngBounds 
             ? false 
-            : $this->_LatBounds->equals($LatLngBounds->getLatBounds()) 
-                && $this->_LngBounds->equals($LatLngBounds->getLngBounds());
+            : $this->_latBounds->equals($latLngBounds->getLatBounds()) 
+                && $this->_lngBounds->equals($latLngBounds->getLngBounds());
     }
 
     /**
      * Check if this LatLngBounds intersects with another LatLngBounds.
      *
-     * @param LatLngBounds $LatLngBounds The LatLngBounds to check for intersection.
+     * @param LatLngBounds $latLngBounds The LatLngBounds to check for intersection.
      * @return bool True if they intersect, false otherwise.
      */
-    public function intersects($LatLngBounds)
+    public function intersects($latLngBounds)
     {
-        return $this->_LatBounds->intersects($LatLngBounds->getLatBounds()) 
-            && $this->_LngBounds->intersects($LatLngBounds->getLngBounds());
+        return $this->_latBounds->intersects($latLngBounds->getLatBounds()) 
+            && $this->_lngBounds->intersects($latLngBounds->getLngBounds());
     }
 
     /**
      * Extend this bounding box to include another LatLngBounds.
      *
-     * @param LatLngBounds $LatLngBounds The LatLngBounds to extend with.
+     * @param LatLngBounds $latLngBounds The LatLngBounds to extend with.
      * @return $this The current instance for method chaining.
      */
-    public function union($LatLngBounds)
+    public function union($latLngBounds)
     {
-        $this->extend($LatLngBounds->getSouthWest());
-        $this->extend($LatLngBounds->getNorthEast());
+        $this->extend($latLngBounds->getSouthWest());
+        $this->extend($latLngBounds->getNorthEast());
         return $this;
     }
 
     /**
      * Check if this LatLngBounds contains a specific LatLng point.
      *
-     * @param LatLng $LatLng The LatLng point to check for containment.
+     * @param LatLng $latLng The LatLng point to check for containment.
      * @return bool True if the point is contained, false otherwise.
      */
-    public function contains($LatLng)
+    public function contains($latLng)
     {
-        return $this->_LatBounds->contains($LatLng->getLat()) 
-            && $this->_LngBounds->contains($LatLng->getLng());
+        return $this->_latBounds->contains($latLng->getLat()) 
+            && $this->_lngBounds->contains($latLng->getLng());
     }
 
     /**
      * Extend the bounding box to include a new LatLng point.
      *
-     * @param LatLng $LatLng The LatLng point to extend with.
+     * @param LatLng $latLng The LatLng point to extend with.
      * @return $this The current instance for method chaining.
      */
-    public function extend($LatLng)
+    public function extend($latLng)
     {
-        $this->_LatBounds->extend($LatLng->getLat());
-        $this->_LngBounds->extend($LatLng->getLng());
+        $this->_latBounds->extend($latLng->getLat());
+        $this->_lngBounds->extend($latLng->getLng());
         return $this;    
     }
 }

@@ -21,14 +21,14 @@ class Polygon
      *
      * @var Point[]
      */
-    private $points = [];
+    private $points = array();
 
     /**
      * Constructor to initialize the Polygon with an array of Points.
      *
      * @param Point[] $points Initial points for the polygon.
      */
-    public function __construct($points = [])
+    public function __construct($points = array())
     {
         $this->points = $points;
     }
@@ -54,7 +54,7 @@ class Polygon
      */
     public function clearPolygon()
     {
-        $this->points = [];
+        $this->points = array();
         return $this;
     }
 
