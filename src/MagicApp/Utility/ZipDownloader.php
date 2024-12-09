@@ -66,14 +66,14 @@ class ZipDownloader
     public static function downloadFolderAsZip($folderPath, $zipFileName)
     {
         if (empty($folderPath) || !is_dir($folderPath)) {
-            throw new Exception(self::FOLDER_NOT_FOUND . $folderPath);
+            throw new ZipDownloadException(self::FOLDER_NOT_FOUND . $folderPath);
         }
 
         $zip = new ZipArchive();
         $zipFilePath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $zipFileName;
 
         if ($zip->open($zipFilePath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
-            throw new Exception(self::CANNOT_CREATE_ZIP_FILE . $zipFilePath);
+            throw new ZipDownloadException(self::CANNOT_CREATE_ZIP_FILE . $zipFilePath);
         }
 
         // Add folder contents to ZIP
@@ -95,20 +95,20 @@ class ZipDownloader
     public static function downloadFilesAsZip($filePaths, $zipFileName)
     {
         if (empty($filePaths) || !is_array($filePaths)) {
-            throw new Exception('Invalid file paths provided.');
+            throw new ZipDownloadException('Invalid file paths provided.');
         }
 
         $zip = new ZipArchive();
         $zipFilePath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $zipFileName;
 
         if ($zip->open($zipFilePath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
-            throw new Exception(self::CANNOT_CREATE_ZIP_FILE . $zipFilePath);
+            throw new ZipDownloadException(self::CANNOT_CREATE_ZIP_FILE . $zipFilePath);
         }
 
         // Add each file to the ZIP
         foreach ($filePaths as $filePath) {
             if (!file_exists($filePath)) {
-                throw new Exception(self::FILE_NOT_FOUND . $filePath);
+                throw new ZipDownloadException(self::FILE_NOT_FOUND . $filePath);
             }
 
             $zip->addFile($filePath, basename($filePath));
@@ -131,20 +131,20 @@ class ZipDownloader
     public static function downloadFilesAsNamedZip($filePaths, $zipFileName)
     {
         if (empty($filePaths) || !is_array($filePaths)) {
-            throw new Exception('Invalid file paths provided.');
+            throw new ZipDownloadException('Invalid file paths provided.');
         }
 
         $zip = new ZipArchive();
         $zipFilePath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $zipFileName;
 
         if ($zip->open($zipFilePath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
-            throw new Exception(self::CANNOT_CREATE_ZIP_FILE . $zipFilePath);
+            throw new ZipDownloadException(self::CANNOT_CREATE_ZIP_FILE . $zipFilePath);
         }
 
         // Add each file to the ZIP with the specified name
         foreach ($filePaths as $filePath => $humanReadableName) {
             if (!file_exists($filePath)) {
-                throw new Exception(self::FILE_NOT_FOUND . $filePath);
+                throw new ZipDownloadException(self::FILE_NOT_FOUND . $filePath);
             }
 
             $zip->addFile($filePath, $humanReadableName);
@@ -197,7 +197,7 @@ class ZipDownloader
     private static function downloadZipFile($zipFilePath, $zipFileName)
     {
         if (empty($zipFilePath) || !file_exists($zipFilePath)) {
-            throw new Exception(self::FILE_NOT_FOUND . $zipFilePath);
+            throw new ZipDownloadException(self::FILE_NOT_FOUND . $zipFilePath);
         }
 
         header('Content-Type: application/zip');
