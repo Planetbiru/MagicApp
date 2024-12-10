@@ -8,12 +8,11 @@ use Throwable;
 /**
  * Class ZipDownloadException
  *
- * Custom exception class for handling errors related to cURL operations.
- * This exception is typically thrown when there is an issue with a cURL request,
- * such as network failure, timeouts, or invalid responses from the server.
+ * Custom exception class for handling errors related to ZIP download operations.
+ * This exception is thrown when there is an issue with ZIP file creation or downloading.
  * 
  * The `ZipDownloadException` class allows you to capture and manage errors related to
- * cURL requests, providing detailed information about the error message, code,
+ * ZIP file handling, providing detailed information about the error message, code,
  * and the previous exception if any. It extends the built-in `Exception` class,
  * and can be caught and handled just like any other exception in PHP.
  * 
@@ -24,7 +23,7 @@ use Throwable;
 class ZipDownloadException extends Exception
 {
     /**
-     * Previous exception
+     * Previos exception
      *
      * @var Throwable|null
      */
@@ -37,16 +36,23 @@ class ZipDownloadException extends Exception
      * @param int $code        Exception code
      * @param Throwable|null $previous Previous exception
      */
-    public function __construct($message, $code = 0, Throwable $previous = null)
+    public function __construct($message, $code = 0, $previous = null)
     {
-        parent::__construct($message, $code, $previous);
-        $this->previous = $previous;
+        // Manually passing the previous exception to the parent constructor
+        parent::__construct($message, $code);
+
+        // Manually setting the previous exception if one was provided
+        if ($previous instanceof Exception) {
+            $this->previous = $previous;
+        } else {
+            $this->previous = null;
+        }
     }
 
     /**
      * Get the previous exception.
      *
-     * @return Throwable|null
+     * @return Exception|null
      */
     public function getPreviousException()
     {
