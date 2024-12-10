@@ -24,7 +24,7 @@ class PicoDatabaseUtilBase // NOSONAR
     {
         $autoIncrement = $tableInfo->getAutoIncrementKeys();
         $autoIncrementKeys = array();
-        if(is_array($autoIncrement) && !empty($autoIncrement))
+        if(self::isArray($autoIncrement) && !empty($autoIncrement))
         {
             foreach($autoIncrement as $col)
             {
@@ -68,7 +68,7 @@ class PicoDatabaseUtilBase // NOSONAR
      */
     private function isArrayMagicObject($data)
     {
-        return is_array($data) && isset($data[0]) && $data[0] instanceof MagicObject;
+        return self::isArray($data) && isset($data[0]) && $data[0] instanceof MagicObject;
     }
     
     /**
@@ -247,7 +247,7 @@ class PicoDatabaseUtilBase // NOSONAR
     public function processDataMapping($data, $columns, $maps = null)
     {
         // Check if mappings are provided and are in array format
-        if(isset($maps) && is_array($maps))
+        if(self::isArray($maps))
         {
             foreach($maps as $map)
             {
@@ -337,19 +337,6 @@ class PicoDatabaseUtilBase // NOSONAR
             $tables[] = $tableInfo;
         }
         return $tables;
-    }
-
-    /**
-     * Checks if the provided array is not empty.
-     *
-     * This method verifies that the input is an array and contains at least one element.
-     *
-     * @param array $array The array to be checked.
-     * @return bool True if the array is not empty; otherwise, false.
-     */
-    public function isNotEmpty($array)
-    {
-        return $array != null && is_array($array) && !empty($array);
     }
 
     /**
@@ -695,39 +682,45 @@ class PicoDatabaseUtilBase // NOSONAR
     }
 
     /**
-     * Converts a MariaDB CREATE TABLE query to a PostgreSQL compatible query.
+     * Converts a MySQL CREATE TABLE query to a PostgreSQL compatible query.
      *
-     * This function takes a SQL CREATE TABLE statement written for MariaDB 
+     * This function takes a SQL CREATE TABLE statement written for MySQL 
      * and transforms it into a format compatible with PostgreSQL. It handles 
-     * common data types and syntax differences between the two databases.
+     * common data types, constraints, and syntax differences between the two databases, 
+     * such as converting data types, removing unsupported clauses (e.g., AUTO_INCREMENT, ENGINE), 
+     * and adjusting default values and column types.
      *
-     * @param string $mariadbQuery The MariaDB CREATE TABLE query to be converted.
-     * @return string The converted PostgreSQL CREATE TABLE query.
+     * @param string $mysqlQuery The MySQL CREATE TABLE query to be converted.
+     * 
+     * @return string The converted PostgreSQL CREATE TABLE query, with MySQL-specific syntax 
+     *         replaced by PostgreSQL equivalents, including type conversions and other adjustments.
+     *
+     * @throws InvalidArgumentException If the input query is not a valid MySQL CREATE TABLE query.
      */
-    public function convertMariaDbToPostgreSql($mariadbQuery) {
+    public function convertMySqlToPostgreSql($mysqlQuery) {
         // Remove comments
-        $query = preg_replace('/--.*?\n|\/\*.*?\*\//s', '', $mariadbQuery); // NOSONAR
+        $query = preg_replace('/--.*?\n|\/\*.*?\*\//s', '', $mysqlQuery); // NOSONAR
         
-        // Replace MariaDB data types with PostgreSQL data types
+        // Replace MySQL data types with PostgreSQL data types
         $replacements = array(
-            'int' => 'INTEGER',
-            'tinyint(1)' => 'BOOLEAN', // MariaDB TINYINT(1) as BOOLEAN
-            'tinyint' => 'SMALLINT',
-            'smallint' => 'SMALLINT',
+            'tinyint(1)' => 'BOOLEAN', // MySQL TINYINT(1) as BOOLEAN
+            'tinyint' => 'INTEGER',
+            'smallint' => 'INTEGER',
             'mediumint' => 'INTEGER', // No direct equivalent, use INTEGER
-            'bigint' => 'BIGINT',
+            'bigint' => 'INTEGER',
+            'int' => 'INTEGER',
             'float' => 'REAL',
             'double' => 'DOUBLE PRECISION',
             'decimal' => 'NUMERIC', // Decimal types
+            'datetime' => 'TIMESTAMP', // Use TIMESTAMP for datetime
+            'timestamp' => 'TIMESTAMP WITH TIME ZONE',
             'date' => 'DATE',
             'time' => 'TIME',
-            'datetime' => 'TIMESTAMP', // Use TIMESTAMP for datetime
-            'timestamp' => 'TIMESTAMP',
             'varchar' => 'VARCHAR', // Variable-length string
-            'text' => 'TEXT',
             'blob' => 'BYTEA', // Binary data
             'mediumtext' => 'TEXT', // No direct equivalent
             'longtext' => 'TEXT', // No direct equivalent
+            'text' => 'TEXT',
             'json' => 'JSONB', // Use JSONB for better performance in PostgreSQL
             // Add more type conversions as needed
         );
@@ -758,11 +751,17 @@ class PicoDatabaseUtilBase // NOSONAR
      *
      * This function takes a SQL CREATE TABLE statement written for PostgreSQL 
      * and transforms it into a format compatible with MySQL. It handles common 
-     * data types and syntax differences between the two databases.
+     * data types, constraints, and syntax differences between the two databases.
+     * The function adjusts data types, removes PostgreSQL-specific clauses, 
+     * and makes necessary adjustments for MySQL compatibility.
      *
      * @param string $postgresqlQuery The PostgreSQL CREATE TABLE query to be converted.
-     * @return string The converted MySQL CREATE TABLE query.
-     */ 
+     * 
+     * @return string The converted MySQL CREATE TABLE query, with PostgreSQL-specific syntax 
+     *         replaced by MySQL equivalents, including type conversions and other adjustments.
+     *
+     * @throws InvalidArgumentException If the input query is not a valid PostgreSQL CREATE TABLE query.
+     */
     public function convertPostgreSqlToMySql($postgresqlQuery) {
         // Remove comments
         $query = preg_replace('/--.*?\n|\/\*.*?\*\//s', '', $postgresqlQuery); // NOSONAR
@@ -788,24 +787,120 @@ class PicoDatabaseUtilBase // NOSONAR
             'bytea' => 'BLOB', // Added handling for bytea
             // Add more type conversions as needed
         );
-    
+        
         $query = str_ireplace(array_keys($replacements), array_values($replacements), $query);
-    
+        
         // Replace DEFAULT on columns with strings to NULL in MySQL
         $query = preg_replace('/DEFAULT (\'[^\']*\')/', 'DEFAULT $1', $query);
-    
+        
         // Replace SERIAL with INT AUTO_INCREMENT
         $query = preg_replace('/\bSERIAL\b/', 'INT AUTO_INCREMENT', $query);
         
         // Modify "IF NOT EXISTS" for MySQL
         $query = preg_replace('/CREATE TABLE IF NOT EXISTS/', 'CREATE TABLE IF NOT EXISTS', $query); // NOSONAR
-    
+        
         // Remove UNIQUE constraints if necessary (optional)
         $query = preg_replace('/UNIQUE\s*\(.*?\),?\s*/i', '', $query); // NOSONAR
         
         // Remove 'USING BTREE' if present
         $query = preg_replace('/USING BTREE/', '', $query); // NOSONAR
-    
+        
         return $query;
+    }
+    
+    /**
+     * Checks if the given value is a native value (true, false, or null).
+     *
+     * This function checks if the provided `$defaultValue` is a string representing
+     * one of the native values: "true", "false", or "null".
+     *
+     * @param string $defaultValue The value to check.
+     * @return bool True if the value is "true", "false", or "null", false otherwise.
+     */
+    public static function isNativeValue($defaultValue)
+    {
+        return strtolower($defaultValue) == 'true' || strtolower($defaultValue) == 'false' || strtolower($defaultValue) == 'null';
+    }
+
+    /**
+     * Checks if the given type is a boolean type.
+     *
+     * This function checks if the provided `$type` contains the word "bool", 
+     * indicating it is a boolean type (e.g., bool, boolean).
+     *
+     * @param string $type The type to check.
+     * @return bool True if the type contains "bool", false otherwise.
+     */
+    public static function isTypeBoolean($type)
+    {
+        return stripos($type, 'bool') !== false;
+    }
+
+    /**
+     * Checks if the given type is a text-based type.
+     *
+     * This function checks if the provided `$type` contains the word "enum", "varchar", 
+     * "char", or "text", indicating it is a text-based type (e.g., enum, varchar, char, text).
+     *
+     * @param string $type The type to check.
+     * @return bool True if the type contains "enum", "varchar", "char", or "text", false otherwise.
+     */
+    public static function isTypeText($type)
+    {
+        return stripos($type, 'enum') !== false || stripos($type, 'varchar') !== false || stripos($type, 'char') !== false || stripos($type, 'text') !== false;
+    }
+
+    /**
+     * Checks if the given type is an integer type.
+     *
+     * This function checks if the provided `$type` contains the word "int",
+     * indicating it is an integer type (e.g., int, integer).
+     *
+     * @param string $type The type to check.
+     * @return bool True if the type contains "int", false otherwise.
+     */
+    public static function isTypeInteger($type)
+    {
+        return stripos($type, 'int') !== false;
+    }
+
+    /**
+     * Checks if the given type is a float type.
+     *
+     * This function checks if the provided `$type` contains any of the words
+     * "decimal", "float", "double", or "real", indicating it is a floating-point type.
+     *
+     * @param string $type The type to check.
+     * @return bool True if the type contains "decimal", "float", "double", or "real", false otherwise.
+     */
+    public static function isTypeFloat($type)
+    {
+        return stripos($type, 'decimal') !== false || stripos($type, 'float') !== false || stripos($type, 'double') !== false || stripos($type, 'real') !== false;
+    }
+
+    /**
+     * Checks if the given value is an array.
+     *
+     * This function checks if the provided `$value` is set and is an array.
+     *
+     * @param mixed $value The value to check.
+     * @return bool True if the value is an array, false otherwise.
+     */
+    public static function isArray($value)
+    {
+        return isset($value) && is_array($value);
+    }
+
+    /**
+     * Checks if the provided array is not empty.
+     *
+     * This method verifies that the input is an array and contains at least one element.
+     *
+     * @param array $array The array to be checked.
+     * @return bool True if the array is not empty; otherwise, false.
+     */
+    public function isNotEmpty($array)
+    {
+        return self::isArray($array) && !empty($array);
     }
 }

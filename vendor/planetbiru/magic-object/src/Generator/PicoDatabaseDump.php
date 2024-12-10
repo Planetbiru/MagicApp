@@ -72,6 +72,12 @@ class PicoDatabaseDump
             $tool = new PicoDatabaseUtilPostgreSql();
             return $tool->dumpStructure($tableInfo, $picoTableName, $createIfNotExists, $dropIfExists, $engine, $charset);
         }
+        else if($databaseType == PicoDatabaseType::DATABASE_TYPE_SQLITE) 
+        {
+            $tool = new PicoDatabaseUtilSqlite();
+            return $tool->dumpStructure($tableInfo, $picoTableName, $createIfNotExists, $dropIfExists, $engine, $charset);
+        }
+        return "";
     }
 
     /**
@@ -103,6 +109,7 @@ class PicoDatabaseDump
             $tool = new PicoDatabaseUtilSqlite();
             return $tool->dumpStructure($tableInfo, $picoTableName, $createIfNotExists, $dropIfExists, $engine, $charset);
         }
+        return "";
     }
 
     /**
@@ -249,8 +256,8 @@ class PicoDatabaseDump
     public function createAlterTableAddFromEntities($entities, $tableName = null, $database = null)
     {
         $tableInfo = $this->getMergedTableInfo($entities);
-        $clumnNameList = $this->getColumnNameList($entities);
-        $tableInfo->setSortedColumnName($clumnNameList);
+        $columnNameList = $this->getColumnNameList($entities);
+        $tableInfo->setSortedColumnName($columnNameList);
         $tableName = $this->getTableName($tableName, $tableInfo);
         $database = $this->getDatabase($database, $entities);
 
