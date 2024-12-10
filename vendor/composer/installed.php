@@ -20,8 +20,8 @@
             'dev_requirement' => false,
         ),
         'planetbiru/magic-object' => array(
-            'pretty_version' => '2.10.1',
-            'version' => '2.10.1.0',
+            'pretty_version' => '2.10.2',
+            'version' => '2.10.2.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../planetbiru/magic-object',
             'aliases' => array(),

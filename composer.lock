@@ -8,7 +8,7 @@
     "packages": [
         {
             "name": "planetbiru/magic-object",
-            "version": "2.10.1",
+            "version": "2.10.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Planetbiru/MagicObject.git",
@@ -42,7 +42,7 @@
             "description": "Magic object",
             "support": {
                 "issues": "https://github.com/Planetbiru/MagicObject/issues",
-                "source": "https://github.com/Planetbiru/MagicObject/tree/2.10.1"
+                "source": "https://github.com/Planetbiru/MagicObject/tree/2.10.2"
             },
             "time": "2024-12-10T05:57:00+00:00"
         },

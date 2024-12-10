@@ -2,8 +2,8 @@
     "packages": [
         {
             "name": "planetbiru/magic-object",
-            "version": "2.10.1",
-            "version_normalized": "2.10.1.0",
+            "version": "2.10.2",
+            "version_normalized": "2.10.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Planetbiru/MagicObject.git",
@@ -39,7 +39,7 @@
             "description": "Magic object",
             "support": {
                 "issues": "https://github.com/Planetbiru/MagicObject/issues",
-                "source": "https://github.com/Planetbiru/MagicObject/tree/2.10.1"
+                "source": "https://github.com/Planetbiru/MagicObject/tree/2.10.2"
             },
             "install-path": "../planetbiru/magic-object"
         },
