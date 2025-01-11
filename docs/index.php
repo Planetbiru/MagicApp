@@ -1026,7 +1026,7 @@ class PhpDocumentCreator // NOSONAR
         foreach ($structure as $item) {
             if ($item->type == "file") {
                 // Generate relative path for file and display as <li>
-                $relativePath = "#" . str_replace(["\\", "/", ".php"], ["-", "-", ""], $this->getRelativePath($item->pathname, $baseDir));
+                $relativePath = "#MagicApp-" . str_replace(["\\", "/", ".php"], ["-", "-", ""], $this->getRelativePath($item->pathname, $baseDir));
                 $html .= "<li><a href=\"$relativePath\">" . basename($item->filename, ".php") . "</a></li>";
             } elseif ($item->type == "dir") {
                 // Display directory as <li> with nested <ul> for contents
@@ -1087,7 +1087,7 @@ class PhpDocumentCreator // NOSONAR
 
 <?php
 
-$srcDir = dirname(__DIR__) . '/src';
+$srcDir = dirname(__DIR__) . '/src/MagicApp';
 
 if (is_dir($srcDir)) {
     $docCreator = new PhpDocumentCreator();
