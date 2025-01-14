@@ -2,24 +2,24 @@
     "packages": [
         {
             "name": "planetbiru/magic-object",
-            "version": "2.14.1",
-            "version_normalized": "2.14.1.0",
+            "version": "2.14.2",
+            "version_normalized": "2.14.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Planetbiru/MagicObject.git",
-                "reference": "32bc0b829a889f1e669e83df6afa89ffe838a2d0"
+                "reference": "7a4edefd62791d44a678dcc789c412a1820efc44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Planetbiru/MagicObject/zipball/32bc0b829a889f1e669e83df6afa89ffe838a2d0",
-                "reference": "32bc0b829a889f1e669e83df6afa89ffe838a2d0",
+                "url": "https://api.github.com/repos/Planetbiru/MagicObject/zipball/7a4edefd62791d44a678dcc789c412a1820efc44",
+                "reference": "7a4edefd62791d44a678dcc789c412a1820efc44",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4",
                 "symfony/yaml": "^3.4"
             },
-            "time": "2025-01-11T17:14:30+00:00",
+            "time": "2025-01-14T16:18:57+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -36,10 +36,10 @@
                     "name": "Kamshory"
                 }
             ],
-            "description": "Magic object",
+            "description": "MagicObject",
             "support": {
                 "issues": "https://github.com/Planetbiru/MagicObject/issues",
-                "source": "https://github.com/Planetbiru/MagicObject/tree/2.14.1"
+                "source": "https://github.com/Planetbiru/MagicObject/tree/2.14.2"
             },
             "install-path": "../planetbiru/magic-object"
         },
