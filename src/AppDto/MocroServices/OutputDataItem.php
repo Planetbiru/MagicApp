@@ -24,6 +24,13 @@ class OutputDataItem extends ObjectToString
     protected $data;
 
     /**
+     * Primary key value
+     *
+     * @var PrimaryKeyValue[]
+     */
+    protected $primaryKeyValue;
+
+    /**
      * The current status of the data item, typically used to indicate 
      * whether the item is waiting for a specific action, such as approval, 
      * update, or another process. This status is represented by a `FieldWaitingFor` object.
@@ -75,5 +82,21 @@ class OutputDataItem extends ObjectToString
         if ($draft !== null) {
             $this->draft = $draft;
         }
+    }
+
+    /**
+     * Adds a primary key value to the collection.
+     *
+     * This method adds a primary key value to the internal array of primary key values.
+     * If the collection is not initialized, it initializes it as an empty array before adding the value.
+     *
+     * @param PrimaryKeyValue $primaryKeyValue The primary key value to add to the collection
+     */
+    public function addPrimaryKeyValue($primaryKeyValue)
+    {
+        if (!isset($this->primaryKeyValue)) {
+            $this->primaryKeyValue = [];
+        }
+        $this->primaryKeyValue[] = $primaryKeyValue;
     }
 }
