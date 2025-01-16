@@ -11,7 +11,7 @@ namespace MagicApp\AppDto\MocroServices;
  * (e.g., `approve`, `reject`, `update`) that define the possible operations that can be performed on the form fields, 
  * as well as the current status of the field, such as whether it is waiting for an action like approval.
  *
- * @package AppBuilder\Generator\MocroServices
+ * @package MagicApp\AppDto\MocroServices
  */
 class UserFormOutputApproval extends ObjectToString
 {

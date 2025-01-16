@@ -13,7 +13,7 @@ use MagicObject\MagicObject;
  * are used to convert this response object into a JSON string or an associative array. 
  * This class is designed to help format the response into a structured and readable format.
  * 
- * @package AppBuilder\Generator\MocroServices
+ * @package MagicApp\AppDto\MocroServices
  */
 class ResponseBody extends ObjectToString
 {

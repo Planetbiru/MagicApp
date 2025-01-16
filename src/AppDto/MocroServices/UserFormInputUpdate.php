@@ -11,7 +11,7 @@ namespace MagicApp\AppDto\MocroServices;
  * `update`, `activate`, `deactivate`, `delete`, `approve`, `reject`) that define 
  * the possible operations that can be performed on the form fields.
  *
- * @package AppBuilder\Generator\MocroServices
+ * @package MagicApp\AppDto\MocroServices
  */
 class UserFormInputUpdate extends ObjectToString
 {
