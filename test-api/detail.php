@@ -162,9 +162,10 @@ class EntityModule extends MagicObject
 
 }
 
+$entity = new EntityModule();
 $data = new PicoUserFormOutputDetail();
 
-$data->addOutput(new PicoOutputFieldDetail(new PicoInputField("userId", "User ID"), "string", new PicoInputField(1, "1")));
+$data->addOutput(new PicoOutputFieldDetail(new PicoInputField("userId", $entity->label("userId")), "string", new PicoInputField($entity->get("userId"), $entity->get("userId"))));
 $data->addOutput(new PicoOutputFieldDetail(new PicoInputField("admin", "Admin"), "string", new PicoInputField(2, "Didi")));
 
 
@@ -186,6 +187,7 @@ $body = PicoResponseBody::getInstance()
     ->switchCaseTo("camelCase")
     ->setResponseCode("000")
     ->setResponseText("Success")
+	->switchCaseTo("snake_case")
     ;
 	
 PicoResponse::sendResponse($body);

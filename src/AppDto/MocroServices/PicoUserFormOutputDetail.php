@@ -30,7 +30,7 @@ class PicoUserFormOutputDetail extends PicoEntityData
      *
      * @var FieldWaitingFor
      */
-    protected $waitingfor;
+    protected $waitingFor;
     
     /**
      * Add an allowed action to the output detail.
@@ -54,19 +54,19 @@ class PicoUserFormOutputDetail extends PicoEntityData
      */ 
     public function getWaitingfor()
     {
-        return $this->waitingfor;
+        return $this->waitingFor;
     }
 
     /**
      * Set examples include `update`, `activate`, `deactivate`, `delete`, `approve`, `reject`.
      *
-     * @param FieldWaitingFor  $waitingfor  Examples include `update`, `activate`, `deactivate`, `delete`, `approve`, `reject`.
+     * @param FieldWaitingFor  $waitingFor  Examples include `update`, `activate`, `deactivate`, `delete`, `approve`, `reject`.
      *
      * @return self The current instance for method chaining.
      */ 
-    public function setWaitingfor($waitingfor)
+    public function setWaitingfor($waitingFor)
     {
-        $this->waitingfor = $waitingfor;
+        $this->waitingFor = $waitingFor;
 
         return $this;
     }
