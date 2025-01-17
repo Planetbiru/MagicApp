@@ -293,7 +293,7 @@ class ListDataDto extends ToString
     /**
      * Set an array of data maps for the data table.
      *
-     * @param  DataMap[]  $dataMap  An array of data maps for the data table.
+     * @param DataMap[]  $dataMap  An array of data maps for the data table.
      *
      * @return  self
      */ 

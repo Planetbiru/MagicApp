@@ -34,7 +34,7 @@ class InputField extends ValueLabelConstructor
     /**
      * Get this can be of any type, depending on the context of the field (e.g., string, integer, etc.).
      *
-     * @return  mixed
+     * @return mixed
      */ 
     public function getValue()
     {
@@ -44,9 +44,9 @@ class InputField extends ValueLabelConstructor
     /**
      * Set this can be of any type, depending on the context of the field (e.g., string, integer, etc.).
      *
-     * @param  mixed  $value  This can be of any type, depending on the context of the field (e.g., string, integer, etc.).
+     * @param mixed $value This can be of any type, depending on the context of the field (e.g., string, integer, etc.).
      *
-     * @return  self
+     * @return self
      */ 
     public function setValue($value)
     {
@@ -58,7 +58,7 @@ class InputField extends ValueLabelConstructor
     /**
      * Get this is a string used for displaying a label to the user for the input field.
      *
-     * @return  string
+     * @return string
      */ 
     public function getLabel()
     {
@@ -68,9 +68,9 @@ class InputField extends ValueLabelConstructor
     /**
      * Set this is a string used for displaying a label to the user for the input field.
      *
-     * @param  string  $label  This is a string used for displaying a label to the user for the input field.
+     * @param string $label This is a string used for displaying a label to the user for the input field.
      *
-     * @return  self
+     * @return self
      */ 
     public function setLabel($label)
     {

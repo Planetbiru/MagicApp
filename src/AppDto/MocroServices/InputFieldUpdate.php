@@ -47,7 +47,7 @@ class InputFieldUpdate extends InputFieldInsert
     /**
      * Get the current value of the input field, typically used when editing or updating a record.
      *
-     * @return  InputFieldValue
+     * @return InputFieldValue
      */ 
     public function getCurrentValue()
     {
@@ -57,7 +57,7 @@ class InputFieldUpdate extends InputFieldInsert
     /**
      * Set the current value of the input field, typically used when editing or updating a record.
      *
-     * @param  InputFieldValue  $currentValue  The current value of the input field, typically used when editing or updating a record.
+     * @param InputFieldValue  $currentValue  The current value of the input field, typically used when editing or updating a record.
      *
      * @return  self
      */ 

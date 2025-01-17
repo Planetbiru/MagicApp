@@ -187,7 +187,7 @@ class InputFieldOption extends ObjectToString
     /**
      * Set indicates whether the option is selected by default.
      *
-     * @param  bool|null  $selected  Indicates whether the option is selected by default.
+     * @param bool|null  $selected  Indicates whether the option is selected by default.
      *
      * @return  self
      */ 

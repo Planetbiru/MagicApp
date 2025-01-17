@@ -53,7 +53,7 @@ class ValueLabelConstructor extends ObjectToString
     /**
      * Set the value assigned to the object.
      *
-     * @param  mixed  $value  The value assigned to the object.
+     * @param mixed  $value  The value assigned to the object.
      *
      * @return  self
      */ 

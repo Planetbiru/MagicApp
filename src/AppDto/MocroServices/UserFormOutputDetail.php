@@ -84,7 +84,7 @@ class UserFormOutputDetail extends EntityData
     /**
      * Set examples include `update`, `activate`, `deactivate`, `delete`, `approve`, `reject`.
      *
-     * @param  FieldWaitingFor  $waitingfor  Examples include `update`, `activate`, `deactivate`, `delete`, `approve`, `reject`.
+     * @param FieldWaitingFor  $waitingfor  Examples include `update`, `activate`, `deactivate`, `delete`, `approve`, `reject`.
      *
      * @return  self
      */ 
