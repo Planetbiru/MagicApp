@@ -184,16 +184,20 @@ class PicoResponseBody extends PicoObjectToString
      * This method sets the primary key based on the table information from the provided entity.
      *
      * @param MagicObject $entity The entity object that contains table information.
+     * @param bool $setValue
      * @return self The current instance for method chaining.
      */
-    public function setEntity($entity)
+    public function setEntity($entity, $setValue = false)
     {
         $tableInfo = $entity->tableInfo();
         $primaryKeys = array_keys($tableInfo->getPrimaryKeys());
         foreach($primaryKeys as $primaryKey)
         {
             $this->addPrimaryKey($primaryKey);
-            $this->addPrimaryKeyValue($primaryKey, $entity->get($primaryKey));
+            if($setValue)
+            {
+                $this->addPrimaryKeyValue($primaryKey, $entity->get($primaryKey));
+            }
         }
         return $this;
     }
