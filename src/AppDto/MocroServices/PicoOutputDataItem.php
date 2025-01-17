@@ -3,7 +3,7 @@
 namespace MagicApp\AppDto\MocroServices;
 
 /**
- * Class OutputDataItem
+ * Class PicoOutputDataItem
  *
  * Represents an item of output data, typically used in the context of displaying or processing data 
  * in a list or table. This class stores and manages the associated data for the item, where each key 
@@ -13,7 +13,7 @@ namespace MagicApp\AppDto\MocroServices;
  *
  * @package MagicApp\AppDto\MocroServices
  */
-class OutputDataItem extends EntityData
+class PicoOutputDataItem extends PicoEntityData
 {
     /**
      * Associated data for the item. Each key represents a field name, 
@@ -57,7 +57,7 @@ class OutputDataItem extends EntityData
     protected $draft;
     
     /**
-     * Constructor for the OutputDataItem class.
+     * Constructor for the PicoOutputDataItem class.
      * Initializes the properties with provided values. If a value is not provided for a property,
      * it will remain uninitialized (null).
      *

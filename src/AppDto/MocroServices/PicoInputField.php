@@ -3,7 +3,7 @@
 namespace MagicApp\AppDto\MocroServices;
 
 /**
- * Class InputField
+ * Class PicoInputField
  *
  * This class represents an input field, which includes a value and a label. It is used to model 
  * the structure of form fields or input elements, where each field has a value (which can be of any type)
@@ -11,7 +11,7 @@ namespace MagicApp\AppDto\MocroServices;
  *
  * @package MagicApp\AppDto\MocroServices
  */
-class InputField extends ValueLabelConstructor
+class PicoInputField extends PicoValueLabelConstructor
 {
     /**
      * The value associated with the input field.

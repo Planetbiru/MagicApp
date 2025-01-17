@@ -1,11 +1,10 @@
 <?php
 
-use MagicApp\AppDto\MocroServices\InputField;
-use MagicApp\AppDto\MocroServices\InputFieldUpdate;
-use MagicApp\AppDto\MocroServices\InputFieldOption;
-use MagicApp\AppDto\MocroServices\InputFieldValue;
-use MagicApp\AppDto\MocroServices\ResponseBody;
-use MagicApp\AppDto\MocroServices\UserFormInputUpdate;
+use MagicApp\AppDto\MocroServices\PicoInputField;
+use MagicApp\AppDto\MocroServices\PicoInputFieldOption;
+use MagicApp\AppDto\MocroServices\PicoResponseBody;
+use MagicApp\AppDto\MocroServices\PicoInputFieldUpdate;
+use MagicApp\AppDto\MocroServices\PicoUserFormInputUpdate;
 use MagicObject\MagicObject;
 
 require_once dirname(__DIR__) . "/vendor/autoload.php";
@@ -158,24 +157,24 @@ class EntityModule extends MagicObject
 
 }
 
-$data = new UserFormInputUpdate();
+$data = new PicoUserFormInputUpdate();
 
-$data->addInput(new InputFieldUpdate(
-    new InputField("gender", "Gender"), // Field
+$data->addInput(new PicoInputFieldUpdate(
+    new PicoInputField("gender", "Gender"), // Field
     "select.multiple",                 // Input type
     "string[]",                         // Data type
     "map",                              // Option source
-    [InputFieldOption::getInstance()->setValue("M")->setLabel("Man")->setSelected(true), new InputFieldOption("W", "Woman")], // Option value
+    [PicoInputFieldOption::getInstance()->setValue("M")->setLabel("Man")->setSelected(true), new PicoInputFieldOption("W", "Woman")], // Option value
     null,                               // Pattern
-    new InputFieldValue("val", "Label") // Current value
+    new PicoInputField("val", "Label") // Current value
 )
 );
 
-$data->addInput(new InputFieldUpdate(new InputField("gender", "Gender"), "text", "string"));
+$data->addInput(new PicoInputFieldUpdate(new PicoInputField("gender", "Gender"), "text", "string"));
 
 $appModule = new EntityModule();
 $appModule->setModuleId("123");
-echo ResponseBody::getInstance()
+echo PicoResponseBody::getInstance()
     ->setData($data)
     ->setEntity($appModule)
     ->switchCaseTo("camelCase")

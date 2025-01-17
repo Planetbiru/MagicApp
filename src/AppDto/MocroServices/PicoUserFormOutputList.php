@@ -12,7 +12,7 @@ namespace MagicApp\AppDto\MocroServices;
  *
  * @package MagicApp\AppDto\MocroServices
  */
-class UserFormOutputList extends ObjectToString
+class PicoUserFormOutputList extends PicoEntityData
 {
     /**
      * An array of `DataHeader` objects representing the headers of the output list.
@@ -36,15 +36,6 @@ class UserFormOutputList extends ObjectToString
      * @var OutputDataItem[]
      */
     protected $list;
-    
-    /**
-     * A list of allowed actions that can be performed on the form fields.
-     * Examples include `update`, `activate`, `deactivate`, `delete`, `approve`, and `reject`.
-     * These actions are represented by `AllowedAction` objects.
-     *
-     * @var AllowedAction[]
-     */
-    protected $allowedActions;
     
     /**
      * Add a header to the output list.
@@ -76,22 +67,6 @@ class UserFormOutputList extends ObjectToString
             $this->list = [];
         }
         $this->list[] = $dataItem;
-    }
-    
-    /**
-     * Add an allowed action to the output list.
-     *
-     * This method adds an `AllowedAction` object to the list of actions that can be performed on the form fields. 
-     * These actions could include operations like updating, activating, or deleting records.
-     *
-     * @param AllowedAction $allowedAction The `AllowedAction` object to be added.
-     */
-    public function addAllowedAction($allowedAction)
-    {
-        if (!isset($this->allowedActions)) {
-            $this->allowedActions = [];
-        }
-        $this->allowedActions[] = $allowedAction;
     }
 
     /**

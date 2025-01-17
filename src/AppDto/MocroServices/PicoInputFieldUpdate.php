@@ -3,15 +3,15 @@
 namespace MagicApp\AppDto\MocroServices;
 
 /**
- * Class InputFieldUpdate
+ * Class PicoInputFieldUpdate
  *
- * Extends the InputFieldInsert class, adding functionality for managing and updating the 
+ * Extends the PicoInputFieldInsert class, adding functionality for managing and updating the 
  * current value of an input field. This class is useful for cases where input fields
  * need to reflect an existing value, such as in form edit scenarios.
  *
  * @package MagicApp\AppDto\MocroServices
  */
-class InputFieldUpdate extends InputFieldInsert
+class PicoInputFieldUpdate extends PicoInputFieldInsert
 {
     /**
      * The current value of the input field, typically used when editing or updating a record.
@@ -21,7 +21,7 @@ class InputFieldUpdate extends InputFieldInsert
     protected $currentValue;
 
     /**
-     * Constructor for InputFieldUpdate.
+     * Constructor for PicoInputFieldUpdate.
      * Initializes the input field properties with provided values.
      *
      * @param InputField $inputField Input field

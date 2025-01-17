@@ -12,7 +12,7 @@ namespace MagicApp\AppDto\MocroServices;
  *
  * @package MagicApp\AppDto\MocroServices
  */
-class ValueLabelConstructor extends ObjectToString
+class PicoValueLabelConstructor extends PicoObjectToString
 {
     /**
      * The value assigned to the object.

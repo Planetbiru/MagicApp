@@ -1,12 +1,14 @@
 <?php
 
-use MagicApp\AppDto\MocroServices\AllowedAction;
-use MagicApp\AppDto\MocroServices\FieldWaitingFor;
-use MagicApp\AppDto\MocroServices\InputField;
-use MagicApp\AppDto\MocroServices\InputFieldValue;
-use MagicApp\AppDto\MocroServices\OutputFieldDetail;
+use MagicApp\AppDto\MocroServices\PicoAllowedAction;
+use MagicApp\AppDto\MocroServices\PicoFieldWaitingFor;
+use MagicApp\AppDto\MocroServices\PicoInputField;
+use MagicApp\AppDto\MocroServices\PicoInputFieldValue;
+use MagicApp\AppDto\MocroServices\PicoModuleInfo;
+use MagicApp\AppDto\MocroServices\PicoOutputFieldDetail;
+use MagicApp\AppDto\MocroServices\PicoResponseBody;
 use MagicApp\AppDto\MocroServices\ResponseBody;
-use MagicApp\AppDto\MocroServices\UserFormOutputDetail;
+use MagicApp\AppDto\MocroServices\PicoUserFormOutputDetail;
 use MagicObject\MagicObject;
 
 require_once dirname(__DIR__) . "/vendor/autoload.php";
@@ -159,22 +161,27 @@ class EntityModule extends MagicObject
 
 }
 
-$data = new UserFormOutputDetail();
+$data = new PicoUserFormOutputDetail();
 
-$data->addOutput(new OutputFieldDetail(new InputField("userId", "User ID"), "string", new InputFieldValue(1, "1")));
-$data->addOutput(new OutputFieldDetail(new InputField("admin", "Admin"), "string", new InputFieldValue(2, "Didi")));
+$data->addOutput(new PicoOutputFieldDetail(new PicoInputField("userId", "User ID"), "string", new PicoInputField(1, "1")));
+$data->addOutput(new PicoOutputFieldDetail(new PicoInputField("admin", "Admin"), "string", new PicoInputField(2, "Didi")));
 
 
-$data->addAllowedAction(new AllowedAction("delete", "Delete"));
-$data->addAllowedAction(new AllowedAction("approve", "Approve"));
-$data->setWaitingfor(new FieldWaitingFor("new", "new"));
+$data->setWaitingfor(new PicoFieldWaitingFor("new", "new"));
+
+$picoModule = new PicoModuleInfo("any", "Any", "detail");
+
+$picoModule->addAllowedAction(new PicoAllowedAction("delete", "Delete"))
+->addAllowedAction(new PicoAllowedAction("approve", "Approve"));
 
 $appModule = new EntityModule();
 $appModule->setModuleId("123");
-echo ResponseBody::getInstance()
+echo PicoResponseBody::getInstance()
+  ->setModule($picoModule)
     ->setData($data)
     ->setEntity($appModule)
     ->switchCaseTo("camelCase")
     ->setResponseCode("000")
     ->setResponseText("Success")
+
     ;

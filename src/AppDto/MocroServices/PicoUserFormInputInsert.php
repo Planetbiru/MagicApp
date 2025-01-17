@@ -3,7 +3,7 @@
 namespace MagicApp\AppDto\MocroServices;
 
 /**
- * Class UserFormInputInsert
+ * Class PicoUserFormInputInsert
  *
  * Represents a collection of input fields for a user form during an insert operation. 
  * This class is used to manage multiple `InputFieldInsert` objects, allowing 
@@ -11,7 +11,7 @@ namespace MagicApp\AppDto\MocroServices;
  *
  * @package MagicApp\AppDto\MocroServices
  */
-class UserFormInputInsert extends EntityData
+class PicoUserFormInputInsert extends PicoEntityData
 {
     
     /**

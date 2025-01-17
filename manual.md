@@ -104,3 +104,4 @@ The format in which the response is sent is typically determined by the `Accept`
 
 5. **`array`**  
    An associative array of strings. The array can have string indices, with each index storing a value that is a string. Arrays are useful for organizing data in a structured way, where each element can be referenced by a unique key.
+   

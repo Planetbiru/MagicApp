@@ -3,7 +3,7 @@
 namespace MagicApp\AppDto\MocroServices;
 
 /**
- * Class FieldWaitingFor
+ * Class PicoFieldWaitingFor
  *
  * Represents the status of a field waiting for an action to be performed.
  * This class is used to manage the actions that are pending on a field. 
@@ -20,7 +20,7 @@ namespace MagicApp\AppDto\MocroServices;
  *
  * @package MagicApp\AppDto\MocroServices
  */
-class FieldWaitingFor extends ValueLabelConstructor
+class PicoFieldWaitingFor extends PicoValueLabelConstructor
 {
     /**
      * The numeric value representing the action waiting for the field.

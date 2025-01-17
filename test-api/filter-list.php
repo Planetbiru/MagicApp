@@ -1,42 +1,72 @@
 <?php
 
-use MagicApp\AppDto\MocroServices\InputField;
-use MagicApp\AppDto\MocroServices\InputFieldFilter;
-use MagicApp\AppDto\MocroServices\InputFieldOption;
-use MagicApp\AppDto\MocroServices\InputFieldValue;
-use MagicApp\AppDto\MocroServices\ResponseBody;
-use MagicApp\AppDto\MocroServices\UserFormFilterList;
+use MagicApp\AppDto\MocroServices\PicoInputField;
+use MagicApp\AppDto\MocroServices\PicoInputFieldFilter;
+use MagicApp\AppDto\MocroServices\PicoInputFieldOption;
+use MagicApp\AppDto\MocroServices\PicoInputFieldValue;
+use MagicApp\AppDto\MocroServices\PicoResponseBody;
+use MagicApp\AppDto\MocroServices\PicoUserFormFilterList;
+use MagicApp\AppUserPermission;
+use MagicApp\PicoModule;
 
 require_once dirname(__DIR__) . "/vendor/autoload.php";
 
 
-$data = new UserFormFilterList();
+$data = new PicoUserFormFilterList();
 
 $data->addFilter(
-    new InputFieldFilter(
-        new InputField("adminId", "Admin"), 
+    new PicoInputFieldFilter(
+        new PicoInputField("adminId", "Admin"), 
         "select", 
         "string", 
         "map", 
         [
-            new InputFieldOption("admin", "Administrator")
+            new PicoInputFieldOption("admin", "Administrator")
         ], 
         null, 
-        new InputFieldValue("admin", "Administrator")
+        new PicoInputField("admin", "Administrator")
     )
 );
 
 $data->addFilter(
-    new InputFieldFilter(
-        new InputField("name", "Name"), 
-        "text", 
+    new PicoInputFieldFilter(
+        new PicoInputField("adminId", "Admin"), 
+        "select", 
         "string", 
+        "url", 
+        "workspace.php?user_action=show-option&field=adminId", 
         null, 
-        new InputFieldValue("Administrator", "Administrator")
+        new PicoInputField("admin", "Administrator")
     )
 );
 
-echo ResponseBody::getInstance()
+$data->addFilter(
+    new PicoInputFieldFilter(
+        new PicoInputField("name", "Name"), 
+        "text", 
+        "string", 
+        null, 
+        new PicoInputField("Administrator", "Administrator")
+    )
+);
+
+$data->addFilter(
+    new PicoInputFieldFilter(
+        new PicoInputField("active", "Aktif"), 
+        "checkbox", 
+        "boolean", 
+        null, 
+        new PicoInputField(true, "Ya")
+    )
+);
+
+$currentModule = new PicoModule($appConfig, $database, $appModule, "/", "umk", "Umk");
+$userPermission = new AppUserPermission(null, null, null, null, null);
+
+$section = "filter-list";
+echo PicoResponseBody::getInstance()
+    ->setModule($currentModule, $section)
+    ->setPermission($userPermission)
     ->setData($data)
     ->switchCaseTo("camelCase")
     ->setResponseCode("000")

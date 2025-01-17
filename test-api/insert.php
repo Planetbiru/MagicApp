@@ -1,9 +1,9 @@
 <?php
 
-use MagicApp\AppDto\MocroServices\InputFieldInsert;
-use MagicApp\AppDto\MocroServices\InputFieldOption;
-use MagicApp\AppDto\MocroServices\ResponseBody;
-use MagicApp\AppDto\MocroServices\UserFormInputInsert;
+use MagicApp\AppDto\MocroServices\PicoInputFieldInsert;
+use MagicApp\AppDto\MocroServices\PicoInputFieldOption;
+use MagicApp\AppDto\MocroServices\PicoResponseBody;
+use MagicApp\AppDto\MocroServices\PicoUserFormInputInsert;
 use MagicObject\MagicObject;
 
 require_once dirname(__DIR__) . "/vendor/autoload.php";
@@ -156,15 +156,15 @@ class EntityModule extends MagicObject
 
 }
 
-$data = new UserFormInputInsert();
+$data = new PicoUserFormInputInsert();
 
-$data->addInput(new InputFieldInsert("gender", "Gender", "select[multiple]", "string[]", "map", [new InputFieldOption("M", "Man"), new InputFieldOption("W", "Woman")]));
-$data->addInput(new InputFieldInsert("admin", "Admin", "text", "string"));
+$data->addInput(new PicoInputFieldInsert("gender", "Gender", "select[multiple]", "string[]", "map", [new PicoInputFieldOption("M", "Man"), new PicoInputFieldOption("W", "Woman")]));
+$data->addInput(new PicoInputFieldInsert("admin", "Admin", "text", "string"));
 
 
 $appModule = new EntityModule();
 $appModule->setModuleId("123");
-echo ResponseBody::getInstance()
+echo PicoResponseBody::getInstance()
     ->setData($data)
     ->setEntity($appModule)
     ->switchCaseTo("camelCase")
