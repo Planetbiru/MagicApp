@@ -58,7 +58,7 @@ class UserFormInputInsert extends ObjectToString
      *
      * @param string[]  $primaryKey  Primary key
      *
-     * @return  self
+     * @return self The current instance for method chaining.
      */ 
     public function setPrimaryKey($primaryKey)
     {

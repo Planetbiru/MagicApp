@@ -189,7 +189,7 @@ class InputFieldOption extends ObjectToString
      *
      * @param bool|null  $selected  Indicates whether the option is selected by default.
      *
-     * @return  self
+     * @return self The current instance for method chaining.
      */ 
     public function setSelected($selected)
     {

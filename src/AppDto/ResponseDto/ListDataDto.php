@@ -257,7 +257,7 @@ class ListDataDto extends ToString
      *
      * @param PageDto $page Current page
      *
-     * @return  self
+     * @return self The current instance for method chaining.
      */ 
     public function setPage($page)
     {
@@ -295,7 +295,7 @@ class ListDataDto extends ToString
      *
      * @param DataMap[]  $dataMap  An array of data maps for the data table.
      *
-     * @return  self
+     * @return self The current instance for method chaining.
      */ 
     public function setDataMap($dataMap)
     {

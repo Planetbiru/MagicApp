@@ -55,7 +55,7 @@ class ValueLabelConstructor extends ObjectToString
      *
      * @param mixed  $value  The value assigned to the object.
      *
-     * @return  self
+     * @return self The current instance for method chaining.
      */ 
     public function setValue($value)
     {
@@ -79,7 +79,7 @@ class ValueLabelConstructor extends ObjectToString
      *
      * @param string $label The label associated with the value.
      *
-     * @return  self
+     * @return self The current instance for method chaining.
      */ 
     public function setLabel($label)
     {

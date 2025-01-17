@@ -59,7 +59,7 @@ class InputFieldUpdate extends InputFieldInsert
      *
      * @param InputFieldValue  $currentValue  The current value of the input field, typically used when editing or updating a record.
      *
-     * @return  self
+     * @return self The current instance for method chaining.
      */ 
     public function setCurrentValue($currentValue)
     {

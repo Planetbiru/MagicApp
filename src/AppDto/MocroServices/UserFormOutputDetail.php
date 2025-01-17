@@ -86,7 +86,7 @@ class UserFormOutputDetail extends EntityData
      *
      * @param FieldWaitingFor  $waitingfor  Examples include `update`, `activate`, `deactivate`, `delete`, `approve`, `reject`.
      *
-     * @return  self
+     * @return self The current instance for method chaining.
      */ 
     public function setWaitingfor($waitingfor)
     {
