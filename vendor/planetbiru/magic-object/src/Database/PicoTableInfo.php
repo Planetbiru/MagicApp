@@ -367,9 +367,9 @@ class PicoTableInfo // NOSONAR
     /**
      * Set flag to disable cache when any entities join with this entity
      *
-     * @param boolean  $noCache  Flag to disable cache when any entities join with this entity
+     * @param  boolean  $noCache  Flag to disable cache when any entities join with this entity
      *
-     * @return self The current instance for method chaining.
+     * @return  self
      */ 
     public function setNoCache($noCache)
     {
@@ -391,9 +391,9 @@ class PicoTableInfo // NOSONAR
     /**
      * Set the package name or namespace.
      *
-     * @param string  $package  The package name or namespace.
+     * @param  string  $package  The package name or namespace.
      *
-     * @return self The current instance for method chaining.
+     * @return  self
      */ 
     public function setPackage($package)
     {

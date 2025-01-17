@@ -10,6 +10,7 @@ use MagicApp\AppDto\MocroServices\PicoResponseBody;
 use MagicApp\AppDto\MocroServices\ResponseBody;
 use MagicApp\AppDto\MocroServices\PicoUserFormOutputDetail;
 use MagicObject\MagicObject;
+use MagicObject\Response\PicoResponse;
 
 require_once dirname(__DIR__) . "/vendor/autoload.php";
 
@@ -171,17 +172,20 @@ $data->setWaitingfor(new PicoFieldWaitingFor("new", "new"));
 
 $picoModule = new PicoModuleInfo("any", "Any", "detail");
 
-$picoModule->addAllowedAction(new PicoAllowedAction("delete", "Delete"))
-->addAllowedAction(new PicoAllowedAction("approve", "Approve"));
+$picoModule
+->addAllowedAction(new PicoAllowedAction("delete", "Delete"))
+->addAllowedAction(new PicoAllowedAction("approve", "Approve"))
+;
 
 $appModule = new EntityModule();
 $appModule->setModuleId("123");
-echo PicoResponseBody::getInstance()
-  ->setModule($picoModule)
+$body = PicoResponseBody::getInstance()
+  	->setModule($picoModule)
     ->setData($data)
     ->setEntity($appModule)
     ->switchCaseTo("camelCase")
     ->setResponseCode("000")
     ->setResponseText("Success")
-
     ;
+	
+PicoResponse::sendResponse($body);
