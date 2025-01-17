@@ -1,5 +1,65 @@
 # Manual
 
+## Request
+
+### GET
+
+MagicAppBuilder accepts GET requests with **URLEncoded** parameters. This is typically used for retrieving data or querying resources from the server. The request body is generally empty, and all parameters are passed as part of the URL.
+
+### POST
+
+MagicAppBuilder accepts POST requests in two formats:
+
+1.  **URLEncoded** - When the request `Content-Type` header is set to `application/x-www-form-urlencoded`, the request body contains form data in URL-encoded format.
+2.  **JSON** - When the request `Content-Type` header is set to `application/json`, the request body contains JSON-formatted data.
+
+The choice of format should be specified in the `Content-Type` header of the request, and MagicAppBuilder will handle the data accordingly.
+
+### PUT
+
+MagicAppBuilder accepts PUT requests in two formats:
+
+1.  **URLEncoded** - When the request `Content-Type` header is set to `application/x-www-form-urlencoded`, the request body contains form data in URL-encoded format.
+2.  **JSON** - When the request `Content-Type` header is set to `application/json`, the request body contains JSON-formatted data.
+
+Similar to POST requests, the `Content-Type` header will determine how the request data is parsed and processed.
+
+## Response
+
+MagicAppBuilder typically responds with **JSON** as the default format for API responses. This format is ideal for structured data and easy parsing in various programming environments.
+
+However, there are exceptions based on the nature of the request:
+
+1.  **Report Generation**  
+    For certain report generation requests, MagicAppBuilder can send responses in either **CSV** or **XLSX** formats. This is commonly used for exporting large datasets or tabular information.
+    
+2.  **Other Content Types**  
+    MagicAppBuilder can also return data in a variety of other formats, including but not limited to:
+    
+    -   **Plain Text** (`text/plain`)
+    -   **HTML** (`text/html`)
+    -   **XML** (`application/xml`)
+    -   **Images** (e.g., **JPEG** (`image/jpeg`), **PNG** (`image/png`))
+    -   **Audio** (e.g., **MP3** (`audio/mpeg`))
+
+The format in which the response is sent is typically determined by the `Accept` header in the request or by specific request parameters.
+
+## Request
+
+### GET
+
+MagicAppBuilder accept request URLEncoded
+
+### POST
+MagicAppBuilder accept request both URLEncoded or JSON depend on `Content-type` in header. 
+
+### PUT
+MagicAppBuilder accept request both URLEncoded or JSON depend on `Content-type` in header. 
+
+## Response
+
+MagicAppBuilder will send response as JSON as default except on report generation which can be CSV or XLSX. User can use others type like plain text, HTML, XML, JPEG, PNG, MP3, etc.
+
 ## Input Types
 
 1. **`string`**  
