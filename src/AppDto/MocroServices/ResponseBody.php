@@ -137,7 +137,7 @@ class ResponseBody extends ObjectToString
      */
     public function addPrimaryKey($primaryKey)
     {
-        if ($this->getData() != null) {
+        if ($this->data != null) {
             if($this->data->getPrimaryKey() == null)
             {
                 $this->getData()->setPrimaryKey([]);
@@ -194,7 +194,7 @@ class ResponseBody extends ObjectToString
      *
      * This method returns the data associated with the response, which can be of any type.
      * 
-     * @return mixed The data returned in the response.
+     * @return EntityData The data returned in the response.
      */
     public function getData()
     {
@@ -206,7 +206,7 @@ class ResponseBody extends ObjectToString
      *
      * This method sets the data associated with the response, which can be of any type.
      * 
-     * @param mixed $data The data to set for the response.
+     * @param EntityData $data The data to set for the response.
      * 
      * @return self The current instance for method chaining.
      */

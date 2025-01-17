@@ -21,7 +21,7 @@ class InputFieldUpdate extends InputFieldInsert
     protected $currentValue;
 
     /**
-     * Constructor for InputFieldInsert.
+     * Constructor for InputFieldUpdate.
      * Initializes the input field properties with provided values.
      *
      * @param InputField $inputField Input field

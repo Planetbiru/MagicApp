@@ -11,14 +11,8 @@ namespace MagicApp\AppDto\MocroServices;
  *
  * @package MagicApp\AppDto\MocroServices
  */
-class UserFormInputInsert extends ObjectToString
+class UserFormInputInsert extends EntityData
 {
-    /**
-     * Primary key
-     *
-     * @var string[]
-     */
-    protected $primaryKey;
     
     /**
      * An array of input fields to be inserted into the form.

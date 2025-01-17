@@ -1,5 +1,7 @@
 <?php
 
+namespace MagicApp\AppDto\MocroServices;
+
 /**
  * Class UserFormFilterList
  *
@@ -10,7 +12,7 @@
  *
  * @package MagicApp\AppDto\MocroServices
  */
-class UserFormFilterList
+class UserFormFilterList extends ObjectToString
 {
     /**
      * An array of filter fields to be applied to the data list.

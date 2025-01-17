@@ -13,21 +13,8 @@ namespace MagicApp\AppDto\MocroServices;
  *
  * @package MagicApp\AppDto\MocroServices
  */
-class UserFormInputUpdate extends ObjectToString
+class UserFormInputUpdate extends EntityData
 {
-    /**
-     * Primary key
-     *
-     * @var string[]
-     */
-    protected $primaryKey;
-
-    /**
-     * Primary key value
-     *
-     * @var PrimaryKeyValue[]
-     */
-    protected $primaryKeyValue;
     
     /**
      * An array of input fields to be updated into the form.

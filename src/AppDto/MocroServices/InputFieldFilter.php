@@ -23,6 +23,30 @@ class InputFieldFilter extends InputFieldInsert
     protected $currentValue;
     
     /**
+     * Constructor for InputFieldFilter.
+     * Initializes the input field properties with provided values.
+     *
+     * @param InputField $inputField Input field
+     * @param string $inputType The type of the input field.
+     * @param string $dataType The data type of the input field.
+     * @param string|null $optionSource Optional source for options (e.g., for a select dropdown).
+     * @param InputFieldOption[]|null $map Optional array of available options for the input field.
+     * @param string|null $pattern Optional regular expression pattern for validation.
+     */
+    public function __construct(
+        $inputField,
+        $inputType,
+        $dataType,
+        $optionSource = null,
+        $map = null,
+        $pattern = null,
+        $currentValue = null
+    ) {
+        parent::__construct($inputField, $inputType, $dataType, $optionSource, $map, $pattern);
+        $this->setCurrentValue($currentValue);
+    }
+    
+    /**
      * Get the current value of the input field.
      *
      * @return InputFieldValue The current value of the input field.
