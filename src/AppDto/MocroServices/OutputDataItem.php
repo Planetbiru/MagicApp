@@ -13,7 +13,7 @@ namespace MagicApp\AppDto\MocroServices;
  *
  * @package MagicApp\AppDto\MocroServices
  */
-class OutputDataItem extends ObjectToString
+class OutputDataItem extends EntityData
 {
     /**
      * Associated data for the item. Each key represents a field name, 
@@ -82,21 +82,5 @@ class OutputDataItem extends ObjectToString
         if ($draft !== null) {
             $this->draft = $draft;
         }
-    }
-
-    /**
-     * Adds a primary key value to the collection.
-     *
-     * This method adds a primary key value to the internal array of primary key values.
-     * If the collection is not initialized, it initializes it as an empty array before adding the value.
-     *
-     * @param PrimaryKeyValue $primaryKeyValue The primary key value to add to the collection
-     */
-    public function addPrimaryKeyValue($primaryKeyValue)
-    {
-        if (!isset($this->primaryKeyValue)) {
-            $this->primaryKeyValue = [];
-        }
-        $this->primaryKeyValue[] = $primaryKeyValue;
     }
 }

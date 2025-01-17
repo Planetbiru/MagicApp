@@ -13,22 +13,8 @@ namespace MagicApp\AppDto\MocroServices;
  *
  * @package MagicApp\AppDto\MocroServices
  */
-class UserFormOutputApproval extends ObjectToString
+class UserFormOutputApproval extends EntityData
 {
-    /**
-     * Primary key
-     *
-     * @var string[]
-     */
-    protected $primaryKey;
-
-    /**
-     * Primary key value
-     *
-     * @var PrimaryKeyValue[]
-     */
-    protected $primaryKeyValue;
-
     /**
      * An array of output fields to be displayed in the form for approval.
      * Each field is represented by an `OutputFieldApproval` object.
@@ -107,61 +93,5 @@ class UserFormOutputApproval extends ObjectToString
         $this->waitingfor = $waitingfor;
 
         return $this;
-    }
-
-    /**
-     * Get primary key
-     *
-     * @return  string[]
-     */ 
-    public function getPrimaryKey()
-    {
-        return $this->primaryKey;
-    }
-
-    /**
-     * Set primary key
-     *
-     * @param  string[]  $primaryKey  Primary key
-     *
-     * @return  self
-     */ 
-    public function setPrimaryKey($primaryKey)
-    {
-        $this->primaryKey = $primaryKey;
-
-        return $this;
-    }
-
-    /**
-     * Adds a primary key to the collection.
-     *
-     * This method adds a primary key to the internal array of primary keys.
-     * If the collection is not initialized, it initializes it as an empty array before adding the key.
-     *
-     * @param mixed $primaryKey The primary key to add to the collection
-     */
-    public function addPrimaryKey($primaryKey)
-    {
-        if (!isset($this->primaryKey)) {
-            $this->primaryKey = [];
-        }
-        $this->primaryKey[] = $primaryKey;
-    }
-
-    /**
-     * Adds a primary key value to the collection.
-     *
-     * This method adds a primary key value to the internal array of primary key values.
-     * If the collection is not initialized, it initializes it as an empty array before adding the value.
-     *
-     * @param PrimaryKeyValue $primaryKeyValue The primary key value to add to the collection
-     */
-    public function addPrimaryKeyValue($primaryKeyValue)
-    {
-        if (!isset($this->primaryKeyValue)) {
-            $this->primaryKeyValue = [];
-        }
-        $this->primaryKeyValue[] = $primaryKeyValue;
     }
 }

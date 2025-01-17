@@ -1,13 +1,13 @@
 <?php
 
-namespace MagicApp\AppDto\MicroServices;
+namespace MagicApp\AppDto\MocroServices;
 
 /**
  * Class PrimaryKeyValue
  *
  * Represents a primary key and its value for an entity.
  *
- * @package MagicApp\AppDto\MicroServices
+ * @package MagicApp\AppDto\MocroServices
  */
 class PrimaryKeyValue
 {
