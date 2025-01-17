@@ -2,7 +2,6 @@
 
 namespace MagicApp\AppDto\MocroServices;
 
-use MagicApp\AppDto\MicroServices\PrimaryKeyValue;
 use MagicObject\MagicObject;
 
 /**
@@ -181,8 +180,8 @@ class ResponseBody extends ObjectToString
     public function setEntity($entity)
     {
         $tableInfo = $entity->tableInfo();
-        $pk = array_keys($tableInfo->getPrimaryKeys());
-        foreach($pk as $primaryKey)
+        $primaryKeys = array_keys($tableInfo->getPrimaryKeys());
+        foreach($primaryKeys as $primaryKey)
         {
             $this->addPrimaryKey($primaryKey);
             $this->addPrimaryKeyValue($primaryKey, $entity->get($primaryKey));
