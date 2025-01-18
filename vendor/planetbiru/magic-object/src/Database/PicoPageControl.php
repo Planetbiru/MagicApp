@@ -166,18 +166,11 @@ class PicoPageControl
      */
     public function setMargin($margin)
     {
-        $this->pageData->generatePagination($margin);
+        if(isset($margin) && $margin > 0)
+        {
+            $this->pageData->generatePagination($margin);
+        }
         return $this;
-    }
-
-    /**
-     * Converts the pagination control to HTML format.
-     *
-     * @return string HTML representation of the pagination controls.
-     */
-    public function toHTML()
-    {
-        return $this->__toString();
     }
 
     /**
@@ -202,7 +195,7 @@ class PicoPageControl
      * - `%s`: URL for the link (`href` attribute).
      * - `%s`: Text content of the link (usually the page number).
      *
-     * Example:
+     * **Example:**
      * ```html
      * <span class="page-selector page-selector-number%s" data-page-number="%d"><a href="%s">%s</a></span>
      * ```
@@ -218,7 +211,10 @@ class PicoPageControl
      */
     public function setFormatPageNumber($formatPageNumber)
     {
-        $this->formatPageNumber = $formatPageNumber;
+        if(isset($formatPageNumber) && !empty($formatPageNumber))
+        {
+            $this->formatPageNumber = $formatPageNumber;
+        }
         return $this;
     }
 
@@ -244,7 +240,7 @@ class PicoPageControl
      * - `%s`: URL for the link (`href` attribute).
      * - `%s`: Symbol or text for the button (e.g., "Next" or "Prev").
      *
-     * Example:
+     * **Example:**
      * ```html
      * <span class="page-selector page-selector-step-one%s" data-page-number="%d"><a href="%s">%s</a></span>
      * ```
@@ -260,7 +256,10 @@ class PicoPageControl
      */
     public function setFormatStepOne($formatStepOne)
     {
-        $this->formatStepOne = $formatStepOne;
+        if(isset($formatStepOne) && !empty($formatStepOne))
+        {
+            $this->formatStepOne = $formatStepOne;
+        }
         return $this;
     }
 
@@ -287,7 +286,7 @@ class PicoPageControl
      * - `%s`: URL for the link (`href` attribute).
      * - `%s`: Symbol or text for the button (e.g., "Start" or "End").
      *
-     * Example:
+     * **Example:**
      * ```html
      * <span class="page-selector page-selector-end%s" data-page-number="%d"><a href="%s">%s</a></span>
      * ```
@@ -303,7 +302,10 @@ class PicoPageControl
      */
     public function setFormatStartEnd($formatStartEnd)
     {
-        $this->formatStartEnd = $formatStartEnd;
+        if(isset($formatStartEnd) && !empty($formatStartEnd))
+        {
+            $this->formatStartEnd = $formatStartEnd;
+        }
         return $this;
     }
 
@@ -315,19 +317,19 @@ class PicoPageControl
      *
      * @param string $pageNumberFormat The format template for rendering page numbers.
      * 
-     * Example:
+     * **Example:**
      * ```html
      * <span class="page-selector page-selector-number%s" data-page-number="%d"><a href="%s">%s</a></span>
      * ```
      * @param string $stepOneFormat The format template for rendering step buttons.
      * 
-     * Example:
+     * **Example:**
      * ```html
      * <span class="page-selector page-selector-step-one%s" data-page-number="%d"><a href="%s">%s</a></span>
      * ```
      * @param string $startEndFormat The format template for rendering start and end buttons.
      * 
-     * Example:
+     * **Example:**
      * ```html
      * <span class="page-selector page-selector-end%s" data-page-number="%d"><a href="%s">%s</a></span>
      * ```
@@ -372,6 +374,16 @@ class PicoPageControl
                 $paginationConfig->getTemplateStepOne(),
                 $paginationConfig->getTemplateStartEnd()
             );
+    }
+
+    /**
+     * Converts the pagination control to HTML format.
+     *
+     * @return string HTML representation of the pagination controls.
+     */
+    public function toHTML()
+    {
+        return $this->__toString();
     }
 
     /**
