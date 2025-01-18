@@ -24,7 +24,7 @@ class PicoOutputDataItem extends PicoEntityData
     protected $data;
 
     /**
-     * Primary key value
+     * Primary key values for the data item.
      *
      * @var PrimaryKeyValue[]
      */
@@ -47,7 +47,7 @@ class PicoOutputDataItem extends PicoEntityData
      * @var bool|null
      */
     protected $active;
-    
+
     /**
      * Flag indicating whether the data item is in draft status. 
      * If `null`, the draft flag is not used by the front-end application.
@@ -55,7 +55,14 @@ class PicoOutputDataItem extends PicoEntityData
      * @var bool|null
      */
     protected $draft;
-    
+
+    /**
+     * The approval ID associated with the data item, if any.
+     *
+     * @var string|null
+     */
+    protected $approvalId;
+
     /**
      * Constructor for the PicoOutputDataItem class.
      * Initializes the properties with provided values. If a value is not provided for a property,
@@ -63,24 +70,58 @@ class PicoOutputDataItem extends PicoEntityData
      *
      * @param array|null $data The associated data for the item. Each key represents a field, 
      *                          and the value corresponds to the field's data.
-     * @param FieldWaitingFor|null $waitingFor The current status of the data item, 
-     *                                          typically representing a process awaiting an action.
-     * @param bool|null $active Flag indicating if the item is active or inactive.
-     * @param bool|null $draft Flag indicating if the item is a draft or final version.
+     * @param MagicObject|null $entity Original data entity.
+     * @param string[]|null $primaryKey List of primary keys for the data item.
+     * @param PicoEntityInfo|null $entityInfo Object containing flags that indicate whether the item is a draft, final version, or has other status.
      */
-    public function __construct($data = null, $waitingFor = null, $active = null, $draft = null)
+    public function __construct($data, $entity = null, $primaryKey = null, $entityInfo = null)
     {
         if ($data !== null) {
             $this->data = $data;
         }
-        if ($waitingFor !== null) {
-            $this->waitingFor = $waitingFor;
+
+        if ($entity !== null) {
+            $this->setPrimaryKeyValueFromEntity($entity, $primaryKey);
+
+            // Set active status if provided in entity info
+            if ($entityInfo->getActive() !== null) {
+                $this->active = $entity->get($entityInfo->getActive());
+            }
+
+            // Set draft status if provided in entity info
+            if ($entityInfo->getDraft() !== null) {
+                $this->draft = $entity->get($entityInfo->getDraft());
+            }
+
+            // Set waitingFor status if provided in entity info
+            if ($entityInfo->getWaitingFor() !== null) {
+                $this->waitingFor = $entity->get($entityInfo->getWaitingFor());
+            }
+
+            // Set approval ID if provided in entity info
+            if ($entityInfo->getApprovalId() !== null) {
+                $this->approvalId = $entity->get($entityInfo->getApprovalId());
+            }
         }
-        if ($active !== null) {
-            $this->active = $active;
+    }
+
+    /**
+     * Sets the primary key values from the provided entity.
+     *
+     * @param MagicObject $entity The entity from which to extract primary key values.
+     * @param string[] $primaryKey List of primary keys.
+     * @return self
+     */
+    private function setPrimaryKeyValueFromEntity($entity, $primaryKey)
+    {
+        if (isset($primaryKey) && is_array($primaryKey)) {
+            $this->primaryKeyValue = [];
+            foreach ($primaryKey as $pk) {
+                if ($entity->get($pk) !== null) {
+                    $this->primaryKeyValue[] = $entity->get($pk);
+                }
+            }
         }
-        if ($draft !== null) {
-            $this->draft = $draft;
-        }
+        return $this;
     }
 }

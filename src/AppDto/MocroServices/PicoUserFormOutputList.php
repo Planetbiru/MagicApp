@@ -30,12 +30,12 @@ class PicoUserFormOutputList extends PicoEntityData
     protected $primaryKey;
     
     /**
-     * An array of `OutputDataItem` objects representing the items in the output list.
-     * Each item contains associated data for the fields in the list.
+     * An array of `PicoOutputDataItem` objects representing the items in the output row.
+     * Each item contains associated data for the fields in the row.
      *
-     * @var OutputDataItem[]
+     * @var PicoOutputDataItem[]
      */
-    protected $list;
+    protected $row;
     
     /**
      * Add a header to the output list.
@@ -56,17 +56,17 @@ class PicoUserFormOutputList extends PicoEntityData
     /**
      * Add a data item to the output list.
      *
-     * This method adds an `OutputDataItem` object to the list of data items. Each data item represents an individual 
+     * This method adds an `PicoOutputDataItem` object to the list of data items. Each data item represents an individual 
      * item in the list or table, containing the data for each field.
      *
-     * @param OutputDataItem $dataItem The `OutputDataItem` object to be added.
+     * @param PicoOutputDataItem $dataItem The `PicoOutputDataItem` object to be added.
      */
     public function addDataItem($dataItem)
     {
-        if (!isset($this->list)) {
-            $this->list = [];
+        if (!isset($this->row)) {
+            $this->row = [];
         }
-        $this->list[] = $dataItem;
+        $this->row[] = $dataItem;
     }
 
     /**

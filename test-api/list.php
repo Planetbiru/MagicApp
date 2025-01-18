@@ -161,6 +161,7 @@ class EntityModule extends MagicObject
 	protected $ipEdit;
 
 }
+$appModule = new EntityModule();
 
 $picoEntityInfo = new PicoEntityInfo("active");
 $picoModule = new PicoModuleInfo("any", "Any", "detail");
@@ -176,22 +177,20 @@ $data->addHeader(new PicoDataHeader("userId", "User ID", "ASC"));
 
 $data->addDataItem(
 	new PicoOutputDataItem(
-		["userId"=>"1", "adminCreate"=>"123"], 
-		new PicoFieldWaitingFor(1, "new", "New"), 
-		true, 
-		true
+		$appModule,
+		$picoEntityInfo,
+		["userId"=>"1", "adminCreate"=>"123"]
 	)
 );
 $data->addDataItem(
 	new PicoOutputDataItem(
-		[], 
-		new PicoFieldWaitingFor(1, "new", "New"), 
-		true
+		$appModule,
+		$picoEntityInfo,
+		[]
 	)
 );
 
 
-$appModule = new EntityModule();
 
 
 $currentModule = new PicoModule($appConfig, $database, $appModule, "/", "umk", "Umk");
