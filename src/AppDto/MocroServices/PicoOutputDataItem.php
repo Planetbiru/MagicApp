@@ -2,6 +2,8 @@
 
 namespace MagicApp\AppDto\MocroServices;
 
+use MagicObject\MagicObject;
+
 /**
  * Class PicoOutputDataItem
  *
