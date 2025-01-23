@@ -19,56 +19,56 @@ class AppFormOption
      *
      * @var string
      */
-    private $textNode;
+    public $textNode;
 
     /**
      * Value associated with the option.
      *
      * @var string
      */
-    private $value;
+    public $value;
 
     /**
      * Indicates whether the option is selected.
      *
      * @var boolean
      */
-    private $selected;
-
-    /**
-     * Format for the text node, allowing dynamic content.
-     *
-     * @var string
-     */
-    private $format;
-
-    /**
-     * Parameters for dynamic formatting of the text node.
-     *
-     * @var string[]
-     */
-    private $params;
-
-    /**
-     * Data associated with the option, typically from a MagicObject.
-     *
-     * @var MagicObject
-     */
-    private $data;
+    public $selected;
 
     /**
      * Additional attributes for the option.
      *
      * @var string[]
      */
-    private $attributes;
+    public $attributes;
+
+    /**
+     * Format for the text node, allowing dynamic content.
+     *
+     * @var string
+     */
+    protected $format;
+
+    /**
+     * Parameters for dynamic formatting of the text node.
+     *
+     * @var string[]
+     */
+    protected $params;
+
+    /**
+     * Data associated with the option, typically from a MagicObject.
+     *
+     * @var MagicObject
+     */
+    protected $data;
 
     /**
      * Padding to format the output, e.g., for nested options.
      *
      * @var string
      */
-    private $pad = "";
+    protected $pad = "";
 
     /**
      * Constructor to initialize the option with text, value, selected state, attributes, and data.
@@ -259,4 +259,34 @@ class AppFormOption
     {
         return $this->data;
     }
+
+    /**
+     * Get additional attributes for the option.
+     *
+     * This method returns the additional attributes that are associated with the option. 
+     * These attributes could be HTML attributes or any custom metadata assigned to the option.
+     *
+     * @return array|null An associative array of attributes, or null if no attributes are set.
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * Set additional attributes for the option.
+     *
+     * This method allows you to assign additional attributes to the option. 
+     * These can be any valid HTML attributes or custom data attributes you wish to associate with the option.
+     *
+     * @param array|null $attributes An associative array of attributes to set, or null to clear attributes.
+     *
+     * @return self The current instance of the class, allowing for method chaining.
+     */
+    public function setAttributes($attributes)
+    {
+        $this->attributes = $attributes;
+        return $this;
+    }
+
 }
