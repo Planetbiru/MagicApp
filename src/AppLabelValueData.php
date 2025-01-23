@@ -5,9 +5,24 @@ namespace MagicApp;
 use MagicApp\AppFormOption;
 use stdClass;
 
+/**
+ * Class AppLabelValueData
+ *
+ * This class represents an option element for a form, encapsulating the logic to generate 
+ * its HTML representation and convert it to JSON format. It extends the `AppFormOption` class 
+ * and allows customization of the option's label, value, selected state, and additional attributes.
+ *
+ * It provides methods to generate HTML for the option, as well as to convert the option into a JSON 
+ * object that includes the label, value, selection state, and attributes.
+ *
+ * Methods:
+ * - toJson(): Generates a JSON object representing the option, including label, value, selected state, 
+ *   and attributes.
+ *
+ * @package MagicApp
+ */
 class AppLabelValueData extends AppFormOption
 {
-
     /**
      * Get the HTML representation of the option as a string.
      *
@@ -32,18 +47,5 @@ class AppLabelValueData extends AppFormOption
         $option->selected = $this->selected;
         $option->attributes = $attributes;
         return $option;
-    }
-
-    /**
-     * Alias for the __toString() method.
-     *
-     * This method is an alias for `__toString()` to provide a more intuitive 
-     * method name for rendering the option as a string.
-     *
-     * @return string The HTML option element
-     */
-    public function toString()
-    {
-        return $this->__toString();
     }
 }
