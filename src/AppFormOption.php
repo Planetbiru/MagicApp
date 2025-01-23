@@ -19,7 +19,7 @@ class AppFormOption
      *
      * @var string
      */
-    public $textNode;
+    public $label;
 
     /**
      * Value associated with the option.
@@ -73,15 +73,15 @@ class AppFormOption
     /**
      * Constructor to initialize the option with text, value, selected state, attributes, and data.
      *
-     * @param string $textNode The display text for the option
+     * @param string $label The display text for the option
      * @param string|null $value The value of the option
      * @param boolean $selected Indicates if the option is selected
      * @param string[]|null $attributes Additional HTML attributes for the option
      * @param MagicObject|null $data Associated data for dynamic value retrieval
      */
-    public function __construct($textNode, $value = null, $selected = false, $attributes = null, $data = null)
+    public function __construct($label, $value = null, $selected = false, $attributes = null, $data = null)
     {
-        $this->textNode = $textNode;
+        $this->label = $label;
         $this->value = $value;
         $this->selected = $selected;
         $this->attributes = $attributes;
@@ -201,10 +201,10 @@ class AppFormOption
         $attrs = $this->createAttributes();
         if (isset($this->format) && isset($this->params)) {
             $values = $this->getValues();
-            $textNode = vsprintf($this->format, $values);
-            return $this->pad . '<option value="' . htmlspecialchars($this->value) . '"' . $attrs . $selected . '>' . $textNode . '</option>';
+            $label = vsprintf($this->format, $values);
+            return $this->pad . '<option value="' . htmlspecialchars($this->value) . '"' . $attrs . $selected . '>' . $label . '</option>';
         } else {
-            return $this->pad . '<option value="' . htmlspecialchars($this->value) . '"' . $attrs . $selected . '>' . htmlspecialchars($this->textNode) . '</option>';
+            return $this->pad . '<option value="' . htmlspecialchars($this->value) . '"' . $attrs . $selected . '>' . htmlspecialchars($this->label) . '</option>';
         }
     }
 
@@ -230,7 +230,7 @@ class AppFormOption
      */ 
     public function getTextNode()
     {
-        return $this->textNode;
+        return $this->label;
     }
 
     /**
@@ -238,12 +238,12 @@ class AppFormOption
      *
      * This method allows setting a new text value for the option.
      *
-     * @param string $textNode The text node to set
+     * @param string $label The text node to set
      * @return self The current instance, allowing method chaining
      */ 
-    public function setTextNode($textNode)
+    public function setTextNode($label)
     {
-        $this->textNode = $textNode;
+        $this->label = $label;
         return $this;
     }
 

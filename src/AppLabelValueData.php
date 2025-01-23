@@ -40,7 +40,7 @@ class AppLabelValueData extends AppFormOption
 
             $option->label = vsprintf($this->format, $values);
         } else {
-            $option->label = htmlspecialchars($this->textNode);
+            $option->label = htmlspecialchars($this->label);
         }
 
         $option->value = $this->value;

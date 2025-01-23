@@ -29,7 +29,7 @@ class AppJsonLabelValue
      * This method creates a new AppLabelValueData object with the provided parameters
      * and adds it to the options array. The new option represents a single item in the select dropdown.
      *
-     * @param string $textNode The label text to be displayed for the option.
+     * @param string $label The label text to be displayed for the option.
      * @param mixed|null $value The value associated with the option.
      * @param bool $selected Whether the option should be marked as selected.
      * @param mixed|null $attributes Additional attributes for the option.
@@ -37,9 +37,9 @@ class AppJsonLabelValue
      *
      * @return self The current instance of the class to allow method chaining.
      */
-    public function add($textNode, $value = null, $selected = false, $attributes = null, $data = null)
+    public function add($label, $value = null, $selected = false, $attributes = null, $data = null)
     {
-        $this->options[] = new AppLabelValueData($textNode, $value, $selected, $attributes, $data);
+        $this->options[] = new AppLabelValueData($label, $value, $selected, $attributes, $data);
         return $this;
     }
 
