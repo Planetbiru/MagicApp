@@ -138,7 +138,7 @@ class PicoSelectOption
                 $optAttributes = $this->createAttributes($row, 'value', $value);
                 $this->rows[] = array(
                     'attribute'=>$optAttributes,
-                    'label'=>$label
+                    'textNode'=>$label
                 );
             }
         }
@@ -179,7 +179,7 @@ class PicoSelectOption
         foreach($this->rows as $row)
         {
             $optAttributes = $this->attributeToString($row['attribute']);
-            $texts[] = "<option".$optAttributes.">".htmlspecialchars($row['label'])."</option>";
+            $texts[] = "<option".$optAttributes.">".htmlspecialchars($row['textNode'])."</option>";
         }
         return implode("\r\n", $texts);
     }
