@@ -21,7 +21,7 @@ class PicoUserFormOutputApproval extends PicoEntityData
      *
      * @var OutputFieldApproval[]
      */
-    protected $output;
+    protected $fields;
 
     /**
      * The current status of the field, typically used to indicate whether the field
@@ -41,10 +41,10 @@ class PicoUserFormOutputApproval extends PicoEntityData
      */
     public function addOutput($output)
     {
-        if (!isset($this->output)) {
-            $this->output = [];
+        if (!isset($this->fields)) {
+            $this->fields = [];
         }
-        $this->output[] = $output;
+        $this->fields[] = $output;
     }
 
     
@@ -63,7 +63,7 @@ class PicoUserFormOutputApproval extends PicoEntityData
      *
      * @param FieldWaitingFor  $waitingfor  Examples include `update`, `activate`, `deactivate`, `delete`, `approve`, `reject`.
      *
-     * @return self The current instance for method chaining.
+     * @return self Returns the current instance for method chaining.
      */ 
     public function setWaitingfor($waitingfor)
     {

@@ -22,7 +22,7 @@ class PicoUserFormOutputDetail extends PicoEntityData
      *
      * @var OutputFieldDetail[]
      */
-    protected $output;
+    protected $fields;
     
     /**
      * A list of allowed actions that can be performed on the form fields.
@@ -41,10 +41,10 @@ class PicoUserFormOutputDetail extends PicoEntityData
      */
     public function addOutput($output)
     {
-        if (!isset($this->output)) {
-            $this->output = [];
+        if (!isset($this->fields)) {
+            $this->fields = [];
         }
-        $this->output[] = $output;
+        $this->fields[] = $output;
     }
 
     /**
@@ -62,7 +62,7 @@ class PicoUserFormOutputDetail extends PicoEntityData
      *
      * @param FieldWaitingFor  $waitingFor  Examples include `update`, `activate`, `deactivate`, `delete`, `approve`, `reject`.
      *
-     * @return self The current instance for method chaining.
+     * @return self Returns the current instance for method chaining.
      */ 
     public function setWaitingfor($waitingFor)
     {
