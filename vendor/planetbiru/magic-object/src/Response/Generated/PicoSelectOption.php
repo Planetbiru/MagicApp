@@ -147,20 +147,6 @@ class PicoSelectOption
             // do nothing
         }
     }
-    
-    /**
-     * Ensures any pre-encoded HTML entities are re-encoded.
-     *
-     * This function can be used to ensure that a string is safely encoded for output in HTML,
-     * potentially after some prior decoding or modification of HTML entities.
-     *
-     * @param string $string The string to encode.
-     * @return string The encoded string with HTML entities.
-     */
-    private function encode($string)
-    {
-        return htmlspecialchars(htmlspecialchars_decode($string));
-    }
 
     /**
      * Convert an array of attributes to an HTML attributes string.
@@ -177,7 +163,7 @@ class PicoSelectOption
         $optAttributes = array();
         foreach($array as $key=>$value)
         {
-            $optAttributes[] = $key."=\"".$this->encode($value)."\"";
+            $optAttributes[] = $key."=\"".htmlspecialchars($value)."\"";
         }
         return rtrim(" ".implode(" ", $optAttributes));
     }
@@ -193,7 +179,7 @@ class PicoSelectOption
         foreach($this->rows as $row)
         {
             $optAttributes = $this->attributeToString($row['attribute']);
-            $texts[] = "<option".$optAttributes.">".$this->encode($row['textNode'])."</option>";
+            $texts[] = "<option".$optAttributes.">".htmlspecialchars($row['textNode'])."</option>";
         }
         return implode("\r\n", $texts);
     }
