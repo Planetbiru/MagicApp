@@ -24,6 +24,34 @@ class AppFormSelect
     private $options = array();
 
     /**
+     * Indicates whether the <select> element contains an <optgroup>.
+     *
+     * @var bool
+     */
+    private $withGroup = false;
+
+    /**
+     * The name of the entity class referenced as an object.
+     *
+     * @var string
+     */
+    private $groupObjectName;
+
+    /**
+     * The property of the referenced entity used for the <option> value.
+     *
+     * @var string
+     */
+    private $groupColumnValue;
+
+    /**
+     * The property of the referenced entity used for the <option> label.
+     *
+     * @var string
+     */
+    private $groupColumnLabel;
+
+    /**
      * Add an option to the select element.
      *
      * This method adds a new option to the select element, which consists of display text, a value, a selected status,
@@ -125,14 +153,31 @@ class AppFormSelect
     }
 
     /**
-     * Get the HTML representation of the select element as a string.
+     * Sets the grouping properties for the select options.
      *
-     * This method generates the complete HTML representation of the `<select>` element, including all of its options.
-     * The options are rendered using their respective `toString()` method.
-     *
-     * @return string The HTML representation of the select element, including options
+     * @param string $groupObjectName The name of the entity class referenced as an object.
+     * @param string $groupColumnValue The property of the referenced entity used for the <option> value.
+     * @param string $groupColumnLabel The property of the referenced entity used for the <option> label.
+     * @return self The current instance, allowing method chaining.
      */
-    public function __toString()
+    public function setGroup($groupObjectName, $groupColumnValue, $groupColumnLabel)
+    {
+        $this->withGroup = true;
+        $this->groupObjectName = $groupObjectName;
+        $this->groupColumnValue = $groupColumnValue;
+        $this->groupColumnLabel = $groupColumnLabel;
+        return $this;
+    }
+
+    /**
+     * Renders the select options without grouping.
+     *
+     * This method generates a string representation of the select options
+     * when no grouping is applied.
+     *
+     * @return string The HTML representation of ungrouped options.
+     */
+    private function renderWithoutGroup()
     {
         $opt = array();
         foreach ($this->options as $option) {
@@ -140,4 +185,125 @@ class AppFormSelect
         }
         return implode("\r\n", $opt);
     }
+
+    /**
+     * Create group
+     *
+     * @return array
+     */
+    private function createGroup()
+    {
+        $group = array();
+
+        foreach ($this->options as $option) {
+            $info = $this->getGroupLabel($option);
+            if (isset($info)) {
+                $group[$info[0]] = $info;
+            }
+        }
+        return $group;
+    }
+
+    /**
+     * Renders the select options with grouping.
+     *
+     * This method generates a string representation of the select options
+     * where options are grouped using `<optgroup>`.
+     *
+     * @return string The HTML representation of grouped options.
+     */
+    private function renderWithGroup()
+    {
+        $groupedOption = array();
+        $ungroupedOption = array();
+        
+        $group = $this->createGroup();
+    
+        foreach ($this->options as $option) {
+            $info = $this->getGroupLabel($option);
+            if (isset($info)) {
+                if(!isset($groupedOption[$info[0]]))
+                {
+                    $groupedOption[$info[0]] = array();
+                }
+                $groupedOption[$info[0]][] = $option;
+            } else {
+                $ungroupedOption[] = $option->toString();
+            }
+        }
+
+        $grouped = array();
+        $ungrouped = array();
+        $inGroup = array();
+
+        foreach ($group as $info) {
+            $label = htmlspecialchars(htmlspecialchars_decode($info[1]));
+            $grouped[] = '<optgroup label="' . $label . '">';
+            $collection = $groupedOption[$info[0]];
+            foreach ($collection as $option) {
+
+                $grouped[] = $option->toString();
+                $inGroup[] = $option->getValue();
+                
+            }
+            
+            $grouped[] = '</optgroup>';
+        }
+
+        foreach ($this->options as $option) {
+            if (!in_array($option->getValue(), $inGroup)) {
+                $ungrouped[] = $option->toString();
+            }
+        }
+
+        return implode("\r\n", $grouped) . "\r\n" . rtrim(implode("\r\n", $ungrouped), "\r\n");
+    }
+
+    /**
+     * Retrieves the group label for a given option.
+     *
+     * This method fetches the group label from the referenced entity if available.
+     *
+     * @param AppFormOption $option The option whose group label is to be determined.
+     * @return array|null An array containing the group value and label, or null if no group is found.
+     */
+    private function getGroupLabel($option)
+    {
+        $data = $option->getData();
+        if (isset($data)) {
+            $result = null;
+            if($data->hasValue($this->groupObjectName))
+            {
+                if($data->get($this->groupObjectName) instanceof MagicObject)
+                {
+                    $ref = $data->get($this->groupObjectName);
+                    if ($ref->hasValue($this->groupColumnValue) && $ref->hasValue($this->groupColumnLabel)) {
+                        $result = array($ref->get($this->groupColumnValue), $ref->get($this->groupColumnLabel));
+                    }
+                }
+                else if ($data->hasValue($this->groupColumnValue) && $data->hasValue($this->groupColumnLabel)) {
+                    $result = array($data->get($this->groupColumnValue), $data->get($this->groupColumnLabel));
+                }
+            }
+            else if ($data->hasValue($this->groupColumnValue) && $data->hasValue($this->groupColumnLabel)) {
+                $result = array($data->get($this->groupColumnValue), $data->get($this->groupColumnLabel));
+            }
+            return $result;
+        }
+        return null;
+    }
+
+    /**
+     * Gets the HTML representation of the select element as a string.
+     *
+     * This method generates the complete HTML representation of the `<select>` element, including all of its options.
+     * Options are rendered either in grouped or ungrouped format based on the configuration.
+     *
+     * @return string The HTML representation of the select element.
+     */
+    public function __toString()
+    {
+        return $this->withGroup ? $this->renderWithGroup() : $this->renderWithoutGroup();
+    }
+
 }
