@@ -16,6 +16,9 @@ use MagicObject\MagicObject;
  */
 class AppFormSelect
 {
+    const SOURCE_ENTITY = "entity";
+    const SOURCE_MAP = "map";
+    
     /**
      * Array of options for the select element.
      *
@@ -50,6 +53,26 @@ class AppFormSelect
      * @var string
      */
     private $groupColumnLabel;
+    
+    /**
+     * Group label source.
+     * 
+     * This variable determines the source of the group label. It can be either `entity` or `map`, 
+     * indicating whether the label is derived from the entity or from a predefined map of labels.
+     *
+     * @var string Can be either 'entity' or 'map'.
+     */
+    private $groupLabelSource;
+
+    /**
+     * Map that contains group labels.
+     *
+     * This array maps the entity values (used as the group) to the corresponding label text 
+     * that will be displayed in the `<optgroup>` element.
+     *
+     * @var array An associative array where the key is the entity value and the value is the label text to display in the `<optgroup>`.
+     */
+    private $groupMap;
 
     /**
      * Add an option to the select element.
@@ -155,17 +178,38 @@ class AppFormSelect
     /**
      * Sets the grouping properties for the select options.
      *
-     * @param string $groupObjectName The name of the entity class referenced as an object.
      * @param string $groupColumnValue The property of the referenced entity used for the <option> value.
      * @param string $groupColumnLabel The property of the referenced entity used for the <option> label.
+     * @param string|array $groupObject Source of group label. It can be the name of the entity class referenced or map.
      * @return self The current instance, allowing method chaining.
      */
-    public function setGroup($groupObjectName, $groupColumnValue, $groupColumnLabel)
+    public function setGroup($groupColumnValue, $groupColumnLabel, $groupObject)
     {
         $this->withGroup = true;
-        $this->groupObjectName = $groupObjectName;
-        $this->groupColumnValue = $groupColumnValue;
-        $this->groupColumnLabel = $groupColumnLabel;
+        if(isset($groupObject))
+        {
+            if(is_string($groupObject) && !empty($groupObject))
+            {
+                $this->groupObjectName = $groupObject;
+                $this->groupLabelSource = self::SOURCE_ENTITY;
+            }
+            else if(is_array($groupObject) && !empty($groupObject))
+            {
+                $this->groupLabelSource = self::SOURCE_MAP;
+                $this->groupMap = $groupObject;
+            }
+        }
+        if(isset($groupColumnValue))
+        {
+            if(!isset($groupColumnValue) || empty($groupColumnValue))
+            {
+                $groupColumnLabel = $groupColumnValue;
+            }
+            $this->groupColumnValue = $groupColumnValue;
+            $this->groupColumnLabel = $groupColumnLabel;
+            $this->withGroup = true;
+        }
+        
         return $this;
     }
 
@@ -187,18 +231,32 @@ class AppFormSelect
     }
 
     /**
-     * Create group
+     * Creates a group of labels based on the selected group label source.
      *
-     * @return array
+     * This method creates a group by iterating over the options or group map, depending on 
+     * the value of the `$groupLabelSource`. If the source is `SOURCE_ENTITY`, it fetches 
+     * group labels for each option. If the source is `SOURCE_MAP`, it retrieves group labels 
+     * from a predefined map.
+     *
+     * @return array An associative array where each key is a group value and the value is 
+     *               an array containing the group value and its corresponding label.
      */
     private function createGroup()
     {
         $group = array();
-
-        foreach ($this->options as $option) {
-            $info = $this->getGroupLabel($option);
-            if (isset($info)) {
-                $group[$info[0]] = $info;
+        if($this->groupLabelSource == self::SOURCE_ENTITY)
+        {
+            foreach ($this->options as $option) {
+                $info = $this->getGroupLabel($option);
+                if (isset($info)) {
+                    $group[$info[0]] = $info;
+                }
+            }
+        }
+        else if($this->groupLabelSource == self::SOURCE_MAP)
+        {
+            foreach ($this->groupMap as $value => $label) {
+                $group[$value] = array($value, $label);
             }
         }
         return $group;
