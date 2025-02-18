@@ -182,7 +182,7 @@ class AppFormSelect
      * @param string|array $groupObject Source of group label, which can be an entity class name or a map.
      * @return self The current instance, allowing method chaining.
      */
-    public function setGroup($groupColumnValue, $groupColumnLabel, $groupObject)
+    public function setGroup($groupColumnValue, $groupColumnLabel, $groupObject = null)
     {
         $this->withGroup = true;
         if(isset($groupObject))
@@ -234,6 +234,14 @@ class AppFormSelect
         else if($this->groupLabelSource == self::SOURCE_MAP)
         {
             foreach ($this->groupMap as $value => $label) {
+                $group[$value] = array($value, $label);
+            }
+        }
+        else 
+        {
+            foreach ($this->options as $option) {
+                $value = $option->getData()->get($this->groupColumnValue);
+                $label = $option->getData()->get($this->groupColumnLabel);
                 $group[$value] = array($value, $label);
             }
         }
