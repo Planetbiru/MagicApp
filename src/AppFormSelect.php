@@ -270,11 +270,25 @@ class AppFormSelect
     private function getGroupLabel($option)
     {
         $data = $option->getData();
-        if (isset($data) && $data->hasValue($this->groupObjectName) && $data->get($this->groupObjectName) instanceof MagicObject) {
-            $ref = $data->get($this->groupObjectName);
-            if ($ref->hasValue($this->groupColumnValue) && $ref->hasValue($this->groupColumnLabel)) {
-                return array($ref->get($this->groupColumnValue), $ref->get($this->groupColumnLabel));
+        if (isset($data)) {
+            $result = null;
+            if($data->hasValue($this->groupObjectName))
+            {
+                if($data->get($this->groupObjectName) instanceof MagicObject)
+                {
+                    $ref = $data->get($this->groupObjectName);
+                    if ($ref->hasValue($this->groupColumnValue) && $ref->hasValue($this->groupColumnLabel)) {
+                        $result = array($ref->get($this->groupColumnValue), $ref->get($this->groupColumnLabel));
+                    }
+                }
+                else if ($data->hasValue($this->groupColumnValue) && $data->hasValue($this->groupColumnLabel)) {
+                    $result = array($data->get($this->groupColumnValue), $data->get($this->groupColumnLabel));
+                }
             }
+            else if ($data->hasValue($this->groupColumnValue) && $data->hasValue($this->groupColumnLabel)) {
+                $result = array($data->get($this->groupColumnValue), $data->get($this->groupColumnLabel));
+            }
+            return $result;
         }
         return null;
     }
