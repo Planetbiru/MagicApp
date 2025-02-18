@@ -206,10 +206,7 @@ class AppFormSelect
             }
             $this->groupColumnValue = $groupColumnValue;
             $this->groupColumnLabel = $groupColumnLabel;
-            $this->withGroup = true;
-            error_log("OK");
-            error_log($this->groupLabelSource);
-            
+            $this->withGroup = true;            
         }
         
         return $this;
@@ -342,9 +339,7 @@ class AppFormSelect
             }
         }
         
-        error_log(print_r($group, true));
-
-        return implode("\r\n", $grouped) . "\r\n" . rtrim(implode("\r\n", $ungrouped), "\r\n");
+        return implode("\r\n", $grouped) . rtrim("\r\n" . implode("\r\n", $ungrouped), "\r\n");
     }
 
     /**
