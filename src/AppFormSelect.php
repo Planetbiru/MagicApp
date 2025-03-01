@@ -83,7 +83,7 @@ class AppFormSelect
      * @param bool $selected Indicates if the option is selected.
      * @param string[]|null $attributes Additional HTML attributes for the option.
      * @param MagicObject|null $data Associated data for the option.
-     * @return self The current instance, allowing method chaining.
+     * @return self Returns the current instance for method chaining.
      */
     public function add($label, $value = null, $selected = false, $attributes = null, $data = null)
     {
@@ -98,7 +98,7 @@ class AppFormSelect
      * You can provide a format string or a callable function that will be applied to the associated data of each option.
      *
      * @param callable|string $format A callable function or a format string.
-     * @return self The current instance, allowing method chaining.
+     * @return self Returns the current instance for method chaining.
      */
     public function setTextNodeFormat($format)
     {
@@ -121,7 +121,7 @@ class AppFormSelect
      * The format string can contain placeholders like `%s` and `%d`, which will be replaced by values from the option's data.
      *
      * @param string $format The format string.
-     * @return self The current instance, allowing method chaining.
+     * @return self Returns the current instance for method chaining.
      */
     public function setTextNodeFormatFromString($format)
     {
@@ -161,7 +161,7 @@ class AppFormSelect
      * This method sets how many tab characters will be used for indentation when rendering each option in HTML.
      *
      * @param int $indent The level of indentation (default is 1).
-     * @return self The current instance, allowing method chaining.
+     * @return self Returns the current instance for method chaining.
      */
     public function setIndent($indent = 1)
     {
@@ -180,7 +180,7 @@ class AppFormSelect
      * @param string $groupColumnValue The property of the referenced entity used for the <option> value.
      * @param string $groupColumnLabel The property of the referenced entity used for the <option> label.
      * @param string|array $groupObject Source of group label, which can be an entity class name or a map.
-     * @return self The current instance, allowing method chaining.
+     * @return self Returns the current instance for method chaining.
      */
     public function setGroup($groupColumnValue, $groupColumnLabel, $groupObject)
     {
