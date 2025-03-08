@@ -429,7 +429,7 @@ class PicoApproval
 
             try {
                 // Retrieve the approval entity data using the approval ID
-                $entityApv->find($approvalId);
+                $entityApv->findOneWithPrimaryKeyValue($approvalId);
                 $values = $entityApv->valueArray();
                 $updated = 0;
 
@@ -441,7 +441,7 @@ class PicoApproval
 
                 // Copy specified columns from the approval entity to the main entity
                 foreach ($values as $field => $value) {
-                    if (in_array($field, $columnToBeCopied, true)) {
+                    if (in_array($field, $columnToBeCopied)) {
                         $updater->set($field, $value);
                         $updated++;
                     }
@@ -492,7 +492,7 @@ class PicoApproval
         // Ensure that at least one column was updated before modifying the entity
         if ($updated > 0) {
             foreach ($values as $field => $value) {
-                if (in_array($field, $columnToBeCopied, true)) {
+                if (in_array($field, $columnToBeCopied)) {
                     // Apply the approved values to the entity without persisting to the database
                     $this->entity->set($field, $value);
                 }
