@@ -424,10 +424,8 @@ class DataTable extends SetterGetter
         if (isset($this->_lableLanguage[$this->_currentLanguage])) {
             $language = $this->_lableLanguage[$this->_currentLanguage];
             $label = $language->get($propertyName);
-        } else {
-            if (isset($this->_labels[$propertyName])) {
-                $label = $this->_labels[$propertyName];
-            }
+        } else if (isset($this->_labels[$propertyName])) {
+            $label = $this->_labels[$propertyName];
         }
         if (empty($label)) {
             $label = PicoStringUtil::camelToTitle($propertyName);
@@ -520,7 +518,7 @@ class DataTable extends SetterGetter
     /**
      * Gets table information.
      *
-     * @return PicoTableInfo
+     * @return PicoTableInfo Table information.
      */
     public function getTableInfo()
     {
