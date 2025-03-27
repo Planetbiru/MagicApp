@@ -936,7 +936,7 @@ class PicoDatabaseCredentials extends SecretObject
 
 	/**
 	 * Database server port
-	 * @var integer
+	 * @var int
 	 */
 	protected $port = 3306;
 
@@ -1060,7 +1060,7 @@ class SecretGenerator extends SecretObject
 
 	/**
 	 * Database server port
-	 * @var integer
+	 * @var int
 	 */
 	protected $port;
 
@@ -1235,7 +1235,7 @@ class PicoDatabaseCredentials extends SecretObject
 
 	/**
 	 * Database server port
-	 * @var integer
+	 * @var int
 	 */
 	protected $port = 3306;
 
@@ -1465,7 +1465,7 @@ class PicoDatabaseCredentials extends SecretObject
 
 	/**
 	 * Database server port
-	 * @var integer
+	 * @var int
 	 */
 	protected $port = 3306;
 
@@ -2951,7 +2951,7 @@ class Album extends MagicObject
 	 * 
 	 * @Column(name="number_of_song", type="int(11)", length=11, nullable=true)
 	 * @Label(content="Number Of Song")
-	 * @var integer
+	 * @var int
 	 */
 	protected $numberOfSong;
 
@@ -2960,7 +2960,7 @@ class Album extends MagicObject
 	 * 
 	 * @Column(name="duration", type="float", nullable=true)
 	 * @Label(content="Duration")
-	 * @var double
+	 * @var float
 	 */
 	protected $duration;
 
@@ -2978,7 +2978,7 @@ class Album extends MagicObject
 	 * 
 	 * @Column(name="sort_order", type="int(11)", length=11, nullable=true)
 	 * @Label(content="Sort Order")
-	 * @var integer
+	 * @var int
 	 */
 	protected $sortOrder;
 
@@ -3041,7 +3041,7 @@ class Album extends MagicObject
 	 * 
 	 * @Column(name="active", type="tinyint(1)", length=1, defaultValue="1", nullable=true)
 	 * @DefaultColumn(value="1")
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $active;
 
@@ -3050,7 +3050,7 @@ class Album extends MagicObject
 	 * 
 	 * @Column(name="as_draft", type="tinyint(1)", length=1, defaultValue="1", nullable=true)
 	 * @DefaultColumn(value="1")
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $asDraft;
 
@@ -4568,7 +4568,7 @@ class EntitySong extends MagicObject
 	 * 
 	 * @Column(name="track_number", type="int(11)", length=11, nullable=true)
 	 * @Label(content="Track Number")
-	 * @var integer
+	 * @var int
 	 */
 	protected $trackNumber;
 
@@ -4685,7 +4685,7 @@ class EntitySong extends MagicObject
 	 * 
 	 * @Column(name="file_size", type="bigint(20)", length=20, nullable=true)
 	 * @Label(content="File Size")
-	 * @var integer
+	 * @var int
 	 */
 	protected $fileSize;
 
@@ -4784,7 +4784,7 @@ class EntitySong extends MagicObject
 	 * 
 	 * @Column(name="duration", type="float", nullable=true)
 	 * @Label(content="Duration")
-	 * @var double
+	 * @var float
 	 */
 	protected $duration;
 
@@ -4811,7 +4811,7 @@ class EntitySong extends MagicObject
 	 * 
 	 * @Column(name="bpm", type="float", nullable=true)
 	 * @Label(content="Bpm")
-	 * @var double
+	 * @var float
 	 */
 	protected $bpm;
 
@@ -4837,7 +4837,7 @@ class EntitySong extends MagicObject
 	 * Subtitle Complete
 	 * 
 	 * @Column(name="subtitle_complete", type="tinyint(1)", length=1, nullable=true)
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $subtitleComplete;
 
@@ -4872,7 +4872,7 @@ class EntitySong extends MagicObject
 	 * Vocal
 	 * 
 	 * @Column(name="vocal", type="tinyint(1)", length=1, nullable=true)
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $vocal;
 
@@ -4890,7 +4890,7 @@ class EntitySong extends MagicObject
 	 * 
 	 * @Column(name="midi_vocal_channel", type="int(11)", length=11, nullable=true)
 	 * @Label(content="Midi Vocal Channel")
-	 * @var integer
+	 * @var int
 	 */
 	protected $midiVocalChannel;
 
@@ -4899,7 +4899,7 @@ class EntitySong extends MagicObject
 	 * 
 	 * @Column(name="rating", type="float", nullable=true)
 	 * @Label(content="Rating")
-	 * @var double
+	 * @var float
 	 */
 	protected $rating;
 
@@ -4989,7 +4989,7 @@ class EntitySong extends MagicObject
 	 * 
 	 * @Column(name="active", type="tinyint(1)", length=1, defaultValue="1", nullable=true)
 	 * @DefaultColumn(value="1")
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $active;
 }
@@ -5073,7 +5073,7 @@ class Album extends MagicObject
 	 * 
 	 * @Column(name="number_of_song", type="int(11)", length=11, nullable=true)
 	 * @Label(content="Number Of Song")
-	 * @var integer
+	 * @var int
 	 */
 	protected $numberOfSong;
 
@@ -5082,7 +5082,7 @@ class Album extends MagicObject
 	 * 
 	 * @Column(name="duration", type="float", nullable=true)
 	 * @Label(content="Duration")
-	 * @var double
+	 * @var float
 	 */
 	protected $duration;
 
@@ -5100,7 +5100,7 @@ class Album extends MagicObject
 	 * 
 	 * @Column(name="sort_order", type="int(11)", length=11, nullable=true)
 	 * @Label(content="Sort Order")
-	 * @var integer
+	 * @var int
 	 */
 	protected $sortOrder;
 
@@ -5163,7 +5163,7 @@ class Album extends MagicObject
 	 * 
 	 * @Column(name="active", type="tinyint(1)", length=1, defaultValue="1", nullable=true)
 	 * @DefaultColumn(value="1")
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $active;
 
@@ -5172,7 +5172,7 @@ class Album extends MagicObject
 	 * 
 	 * @Column(name="as_draft", type="tinyint(1)", length=1, defaultValue="1", nullable=true)
 	 * @DefaultColumn(value="1")
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $asDraft;
 
@@ -5310,7 +5310,7 @@ class Producer extends MagicObject
 	 * Picture
 	 * 
 	 * @Column(name="picture", type="tinyint(1)", length=1, nullable=true)
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $picture;
 
@@ -5391,7 +5391,7 @@ class Producer extends MagicObject
 	 * 
 	 * @Column(name="active", type="tinyint(1)", length=1, defaultValue="1", nullable=true)
 	 * @DefaultColumn(value="1")
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $active;
 
@@ -5538,7 +5538,7 @@ class Artist extends MagicObject
 	 * Picture
 	 * 
 	 * @Column(name="picture", type="tinyint(1)", length=1, nullable=true)
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $picture;
 
@@ -5619,7 +5619,7 @@ class Artist extends MagicObject
 	 * 
 	 * @Column(name="active", type="tinyint(1)", length=1, defaultValue="1", nullable=true)
 	 * @DefaultColumn(value="1")
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $active;
 
@@ -5668,7 +5668,7 @@ class Genre extends MagicObject
 	 * 
 	 * @Column(name="sort_order", type="int(11)", length=11, nullable=true)
 	 * @Label(content="Sort Order")
-	 * @var integer
+	 * @var int
 	 */
 	protected $sortOrder;
 
@@ -5731,7 +5731,7 @@ class Genre extends MagicObject
 	 * 
 	 * @Column(name="active", type="tinyint(1)", length=1, defaultValue="1", nullable=true)
 	 * @DefaultColumn(value="1")
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $active;
 
@@ -5894,7 +5894,7 @@ class EntityAlbum extends MagicObject
 	 * 
 	 * @Column(name="number_of_song", type="int(11)", length=11, nullable=true)
 	 * @Label(content="Number Of Song")
-	 * @var integer
+	 * @var int
 	 */
 	protected $numberOfSong;
 
@@ -5903,7 +5903,7 @@ class EntityAlbum extends MagicObject
 	 * 
 	 * @Column(name="duration", type="float", nullable=true)
 	 * @Label(content="Duration")
-	 * @var double
+	 * @var float
 	 */
 	protected $duration;
 
@@ -5921,7 +5921,7 @@ class EntityAlbum extends MagicObject
 	 * 
 	 * @Column(name="sort_order", type="int(11)", length=11, nullable=true)
 	 * @Label(content="Sort Order")
-	 * @var integer
+	 * @var int
 	 */
 	protected $sortOrder;
 
@@ -5985,7 +5985,7 @@ class EntityAlbum extends MagicObject
 	 * @Column(name="active", type="tinyint(1)", length=1, defaultValue="1", nullable=true)
 	 * @DefaultColumn(value="1")
 	 * @Label(content="Active")
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $active;
 
@@ -5994,7 +5994,7 @@ class EntityAlbum extends MagicObject
 	 * 
 	 * @Column(name="as_draft", type="tinyint(1)", length=1, defaultValue="1", nullable=true)
 	 * @DefaultColumn(value="1")
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $asDraft;
 
@@ -6122,7 +6122,7 @@ class Producer extends MagicObject
 	 * Picture
 	 * 
 	 * @Column(name="picture", type="tinyint(1)", length=1, nullable=true)
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $picture;
 
@@ -6204,7 +6204,7 @@ class Producer extends MagicObject
 	 * @Column(name="active", type="tinyint(1)", length=1, defaultValue="1", nullable=true)
 	 * @DefaultColumn(value="1")
 	 * @Label(content="Active")
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $active;
 
@@ -6581,7 +6581,7 @@ class EntityAlbum extends MagicObject
 	 * 
 	 * @Column(name="number_of_song", type="int(11)", length=11, nullable=true)
 	 * @Label(content="Number Of Song")
-	 * @var integer
+	 * @var int
 	 */
 	protected $numberOfSong;
 
@@ -6590,7 +6590,7 @@ class EntityAlbum extends MagicObject
 	 * 
 	 * @Column(name="duration", type="float", nullable=true)
 	 * @Label(content="Duration")
-	 * @var double
+	 * @var float
 	 */
 	protected $duration;
 
@@ -6608,7 +6608,7 @@ class EntityAlbum extends MagicObject
 	 * 
 	 * @Column(name="sort_order", type="int(11)", length=11, nullable=true)
 	 * @Label(content="Sort Order")
-	 * @var integer
+	 * @var int
 	 */
 	protected $sortOrder;
 
@@ -6672,7 +6672,7 @@ class EntityAlbum extends MagicObject
 	 * @Column(name="active", type="tinyint(1)", length=1, defaultValue="1", nullable=true)
 	 * @DefaultColumn(value="1")
 	 * @Label(content="Active")
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $active;
 
@@ -6681,7 +6681,7 @@ class EntityAlbum extends MagicObject
 	 * 
 	 * @Column(name="as_draft", type="tinyint(1)", length=1, defaultValue="1", nullable=true)
 	 * @DefaultColumn(value="1")
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $asDraft;
 
@@ -6809,7 +6809,7 @@ class Producer extends MagicObject
 	 * Picture
 	 * 
 	 * @Column(name="picture", type="tinyint(1)", length=1, nullable=true)
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $picture;
 
@@ -6891,7 +6891,7 @@ class Producer extends MagicObject
 	 * @Column(name="active", type="tinyint(1)", length=1, defaultValue="1", nullable=true)
 	 * @DefaultColumn(value="1")
 	 * @Label(content="Active")
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $active;
 
@@ -8661,7 +8661,7 @@ class EntityAlbum extends MagicObject
 	 * 
 	 * @Column(name="number_of_song", type="int(11)", length=11, nullable=true)
 	 * @Label(content="Number Of Song")
-	 * @var integer
+	 * @var int
 	 */
 	protected $numberOfSong;
 
@@ -8670,7 +8670,7 @@ class EntityAlbum extends MagicObject
 	 * 
 	 * @Column(name="duration", type="float", nullable=true)
 	 * @Label(content="Duration")
-	 * @var double
+	 * @var float
 	 */
 	protected $duration;
 
@@ -8688,7 +8688,7 @@ class EntityAlbum extends MagicObject
 	 * 
 	 * @Column(name="sort_order", type="int(11)", length=11, nullable=true)
 	 * @Label(content="Sort Order")
-	 * @var integer
+	 * @var int
 	 */
 	protected $sortOrder;
 
@@ -8752,7 +8752,7 @@ class EntityAlbum extends MagicObject
 	 * @Column(name="active", type="tinyint(1)", length=1, defaultValue="1", nullable=true)
 	 * @DefaultColumn(value="1")
 	 * @Label(content="Active")
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $active;
 
@@ -8761,7 +8761,7 @@ class EntityAlbum extends MagicObject
 	 * 
 	 * @Column(name="as_draft", type="tinyint(1)", length=1, defaultValue="1", nullable=true)
 	 * @DefaultColumn(value="1")
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $asDraft;
 
@@ -8889,7 +8889,7 @@ class Producer extends MagicObject
 	 * Picture
 	 * 
 	 * @Column(name="picture", type="tinyint(1)", length=1, nullable=true)
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $picture;
 
@@ -8971,7 +8971,7 @@ class Producer extends MagicObject
 	 * @Column(name="active", type="tinyint(1)", length=1, defaultValue="1", nullable=true)
 	 * @DefaultColumn(value="1")
 	 * @Label(content="Active")
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $active;
 
@@ -9082,7 +9082,7 @@ class EntitySong extends MagicObject
 	 * 
 	 * @Column(name="track_number", type="int(11)", length=11, nullable=true)
 	 * @Label(content="Track Number")
-	 * @var integer
+	 * @var int
 	 */
 	protected $trackNumber;
 
@@ -9199,7 +9199,7 @@ class EntitySong extends MagicObject
 	 * 
 	 * @Column(name="file_size", type="bigint(20)", length=20, nullable=true)
 	 * @Label(content="File Size")
-	 * @var integer
+	 * @var int
 	 */
 	protected $fileSize;
 
@@ -9298,7 +9298,7 @@ class EntitySong extends MagicObject
 	 * 
 	 * @Column(name="duration", type="float", nullable=true)
 	 * @Label(content="Duration")
-	 * @var double
+	 * @var float
 	 */
 	protected $duration;
 
@@ -9325,7 +9325,7 @@ class EntitySong extends MagicObject
 	 * 
 	 * @Column(name="bpm", type="float", nullable=true)
 	 * @Label(content="Bpm")
-	 * @var double
+	 * @var float
 	 */
 	protected $bpm;
 
@@ -9351,7 +9351,7 @@ class EntitySong extends MagicObject
 	 * Subtitle Complete
 	 * 
 	 * @Column(name="subtitle_complete", type="tinyint(1)", length=1, nullable=true)
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $subtitleComplete;
 
@@ -9386,7 +9386,7 @@ class EntitySong extends MagicObject
 	 * Vocal
 	 * 
 	 * @Column(name="vocal", type="tinyint(1)", length=1, nullable=true)
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $vocal;
 
@@ -9404,7 +9404,7 @@ class EntitySong extends MagicObject
 	 * 
 	 * @Column(name="midi_vocal_channel", type="int(11)", length=11, nullable=true)
 	 * @Label(content="Midi Vocal Channel")
-	 * @var integer
+	 * @var int
 	 */
 	protected $midiVocalChannel;
 
@@ -9413,7 +9413,7 @@ class EntitySong extends MagicObject
 	 * 
 	 * @Column(name="rating", type="float", nullable=true)
 	 * @Label(content="Rating")
-	 * @var double
+	 * @var float
 	 */
 	protected $rating;
 
@@ -9503,7 +9503,7 @@ class EntitySong extends MagicObject
 	 * 
 	 * @Column(name="active", type="tinyint(1)", length=1, defaultValue="1", nullable=true)
 	 * @DefaultColumn(value="1")
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $active;
 }
@@ -10308,10 +10308,10 @@ print_r($native11);
 // For the MagicObject return type, users can utilize the features of the MagicObject except for 
 // interacting with the database again because native queries are designed for a different purpose.
 
-echo "Alamat: " . $native8->getTelepon() . "\r\n";
-echo "Alamat: " . $native9[0]->getTelepon() . "\r\n";
-echo "Alamat: " . $native10->getTelepon() . "\r\n";
-echo "Alamat: " . $native11[0]->getTelepon() . "\r\n";
+echo "Phone: " . $native8->getTelepon() . "\r\n";
+echo "Phone: " . $native9[0]->getTelepon() . "\r\n";
+echo "Phone: " . $native10->getTelepon() . "\r\n";
+echo "Phone: " . $native11[0]->getTelepon() . "\r\n";
 
 
 $sortable = new PicoSortable();
@@ -10599,7 +10599,7 @@ fclose($fp);
 
 ### Dynamic Query Template for Native Query
 
-MagicObject version 2.11 introduces a new feature for native queries called the dynamic query template, which allows users to dynamically pass a query template to the native query method.
+MagicObject version **2.11** introduces a new feature for native queries called the **dynamic query template**, allowing users to dynamically pass a query template to the native query method.
 
 **Example 4**
 
@@ -10707,6 +10707,98 @@ $result = $explort->exportActive($aktif, $pageable, $sortable, $template);
 ```
 
 In the example above, the `PicoDatabaseQueryTemplate` object is initialized using a string.
+
+### Query Trimming for Native Query
+
+MagicObject **3.7** introduces a new feature that allows users to **trim left spaces and asterisks** (`*`) from multiline SQL queries written in **docblock annotations**. This feature enhances **readability** and **ensures better formatting** of queries extracted from docblocks.
+
+#### Feature Overview
+
+-   **Automatic Query Trimming:** Removes leading `*` and spaces from SQL queries in docblocks.
+    
+-   **Improved Readability:** Prevents unwanted indentation when parsing queries.
+    
+-   **Easy Activation:** Just add `trim=true` in the `@query` annotation.
+    
+
+#### Before MagicObject 3.7 (Without Trim)
+
+When defining queries in docblocks, the indentation and leading `*` may cause unnecessary formatting issues:
+
+```
+<?php
+
+use MagicObject\Database\PicoPageable;
+use MagicObject\Database\PicoSortable;
+use MagicObject\MagicObject;
+
+class SupervisorExport extends MagicObject
+{
+    /**
+     * Exports active supervisors based on the given active status.
+     *
+     * @param bool $aktif The active status filter (true for active, false for inactive).
+     * @param PicoPageable $pageable Pagination details.
+     * @param PicoSortable $sortable Sorting details.
+     * @return PDOStatement The result of the executed query.
+     * @query("
+           SELECT supervisor.*
+           FROM supervisor
+           WHERE supervisor.aktif = :aktif
+      ")
+    */
+    public function exportActive($aktif, $pageable, $sortable)
+    {
+        return $this->executeNativeQuery();
+    }
+}
+```
+
+#### After MagicObject 3.7 (With Trim Enabled)
+
+With the `trim=true` option, MagicObject **automatically removes leading** `*` **and spaces**, keeping the query **clean and properly formatted**:
+
+```
+<?php
+
+use MagicObject\Database\PicoPageable;
+use MagicObject\Database\PicoSortable;
+use MagicObject\MagicObject;
+
+class SupervisorExport extends MagicObject
+{
+    /**
+     * Exports active supervisors based on the given active status.
+     *
+     * @param bool $aktif The active status filter (true for active, false for inactive).
+     * @param PicoPageable $pageable Pagination details.
+     * @param PicoSortable $sortable Sorting details.
+     * @return PDOStatement The result of the executed query.
+     * @query("
+     *      SELECT supervisor.*
+     *      FROM supervisor
+     *      WHERE supervisor.aktif = :aktif
+     * ", trim=true)
+    */
+    public function exportActive($aktif, $pageable, $sortable)
+    {
+        return $this->executeNativeQuery();
+    }
+}
+```
+
+#### Configuration & Parameters
+
+The `trim` attribute is added inside the `@query` annotation:
+
+| Attribute   | Allowed Values     | Description |
+| ----------- | ------------------ | ----------- |
+| `trim`      | `true` or `false`  | Removes leading `*` and spaces from multiline queries in docblocks. Default value is `true`. |
+
+#### Notes & Limitations
+
+-   `trim=true` **does not modify the SQL syntax** itself, meaning `SELECT * FROM table` remains unchanged.
+-   This feature only affects how queries are **extracted** from docblocks, improving clarity without changing functionality.
 
 
 ### Best Practices
@@ -11025,7 +11117,7 @@ class Song extends MagicObject
 	 * 
 	 * @Column(name="track_number", type="int(11)", length=11, nullable=true)
 	 * @Label(content="Track Number")
-	 * @var integer
+	 * @var int
 	 */
 	protected $trackNumber;
 
@@ -11106,7 +11198,7 @@ class Song extends MagicObject
 	 * 
 	 * @Column(name="file_size", type="bigint(20)", length=20, nullable=true)
 	 * @Label(content="File Size")
-	 * @var integer
+	 * @var int
 	 */
 	protected $fileSize;
 
@@ -11205,7 +11297,7 @@ class Song extends MagicObject
 	 * 
 	 * @Column(name="duration", type="float", nullable=true)
 	 * @Label(content="Duration")
-	 * @var double
+	 * @var float
 	 */
 	protected $duration;
 
@@ -11223,7 +11315,7 @@ class Song extends MagicObject
 	 * 
 	 * @Column(name="bpm", type="float", nullable=true)
 	 * @Label(content="Bpm")
-	 * @var double
+	 * @var float
 	 */
 	protected $bpm;
 
@@ -11250,7 +11342,7 @@ class Song extends MagicObject
 	 * 
 	 * @Column(name="subtitle_complete", type="tinyint(1)", length=1, nullable=true)
 	 * @Label(content="Subtitle Complete")
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $subtitleComplete;
 
@@ -11286,7 +11378,7 @@ class Song extends MagicObject
 	 * 
 	 * @Column(name="vocal", type="tinyint(1)", length=1, nullable=true)
 	 * @Label(content="Vocal")
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $vocal;
 
@@ -11304,7 +11396,7 @@ class Song extends MagicObject
 	 * 
 	 * @Column(name="midi_vocal_channel", type="int(11)", length=11, nullable=true)
 	 * @Label(content="Midi Vocal Channel")
-	 * @var integer
+	 * @var int
 	 */
 	protected $midiVocalChannel;
 
@@ -11313,7 +11405,7 @@ class Song extends MagicObject
 	 * 
 	 * @Column(name="rating", type="float", nullable=true)
 	 * @Label(content="Rating")
-	 * @var double
+	 * @var float
 	 */
 	protected $rating;
 
@@ -11404,7 +11496,7 @@ class Song extends MagicObject
 	 * @Column(name="active", type="tinyint(1)", length=1, defaultValue="1", nullable=true)
 	 * @DefaultColumn(value="1")
 	 * @Label(content="Active")
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $active;
 
@@ -11518,7 +11610,7 @@ class UserType extends MagicObject
 	 * Admin
 	 * 
 	 * @Column(name="admin", type="tinyint(1)", length=1, nullable=true)
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $admin;
 
@@ -11527,7 +11619,7 @@ class UserType extends MagicObject
 	 * 
 	 * @Column(name="sort_order", type="int(11)", length=11, nullable=true)
 	 * @Label(content="Sort Order")
-	 * @var integer
+	 * @var int
 	 */
 	protected $sortOrder;
 
@@ -11590,7 +11682,7 @@ class UserType extends MagicObject
 	 * 
 	 * @Column(name="active", type="tinyint(1)", length=1, defaultValue="1", nullable=true)
 	 * @DefaultColumn(value="1")
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $active;
 
@@ -12243,7 +12335,7 @@ class Album extends MagicObject
      * 
      * @Column(name="number_of_song", type="int(11)", length=11, nullable=true)
      * @Label(content="Number Of Song")
-     * @var integer
+     * @var int
      */
     protected $numberOfSong;
 
@@ -12252,7 +12344,7 @@ class Album extends MagicObject
      * 
      * @Column(name="duration", type="float", nullable=true)
      * @Label(content="Duration")
-     * @var double
+     * @var float
      */
     protected $duration;
 
@@ -12270,7 +12362,7 @@ class Album extends MagicObject
      * 
      * @Column(name="sort_order", type="int(11)", length=11, nullable=true)
      * @Label(content="Sort Order")
-     * @var integer
+     * @var int
      */
     protected $sortOrder;
 
@@ -12333,7 +12425,7 @@ class Album extends MagicObject
      * 
      * @Column(name="active", type="tinyint(1)", length=1, defaultValue="1", nullable=true)
      * @DefaultColumn(value="1")
-     * @var boolean
+     * @var bool
      */
     protected $active;
 
@@ -12342,7 +12434,7 @@ class Album extends MagicObject
      * 
      * @Column(name="as_draft", type="tinyint(1)", length=1, defaultValue="1", nullable=true)
      * @DefaultColumn(value="1")
-     * @var boolean
+     * @var bool
      */
     protected $asDraft;
 
