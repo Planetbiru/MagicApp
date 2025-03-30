@@ -376,7 +376,8 @@ class NativeQueryUtil
         if (!isset($params['trim']) || strtolower($params['trim']) !== 'false') {
             $lines = explode("\n", $queryString);
             foreach ($lines as $idx => $ln) {
-                $lines[$idx] = ltrim($ln, " *");
+                // Fix regex to remove spaces before * and one space after *
+                $lines[$idx] = preg_replace('/^\s*\*\s?/', '', $ln);
             }
             $queryString = implode("\n", $lines);
         }
