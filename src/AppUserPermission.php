@@ -112,7 +112,7 @@ class AppUserPermission
      *
      * @var string
      */
-    private $userLevelId;
+    private $adminLevelId;
 
     /**
      * Current user
@@ -152,7 +152,7 @@ class AppUserPermission
         $this->currentUser = $currentUser;
         if(isset($currentUser))
         {
-            $this->userLevelId = $currentUser->getUserLevelId();
+            $this->adminLevelId = $currentUser->getAdminLevelId();
         }
     }
     
@@ -166,7 +166,7 @@ class AppUserPermission
      */
     public function loadPermission()
     {
-        if($this->appConfig->issetRole() && $this->appConfig->getRole()->getBypassRole())
+        if($this->appConfig->getBypassRole())
         {
             $this->allowedList =  true;
             $this->allowedDetail =  true;
@@ -183,7 +183,7 @@ class AppUserPermission
             {
                 if($this->entity != null)
                 {
-                    $this->entity->findOneByModuleNameAndUserLevelIdAndActive($this->currentModule->getModuleName(), $this->userLevelId, true);       
+                    $this->entity->findOneByModuleNameAndUserLevelIdAndActive($this->currentModule->getModuleName(), $this->adminLevelId, true);       
                     $this->allowedList = $this->entity->getAllowedList();
                     $this->allowedDetail = $this->entity->getAllowedDetail();
                     $this->allowedCreate = $this->entity->getAllowedCreate();
@@ -220,6 +220,7 @@ class AppUserPermission
     public function allowedAccess($inputGet, $inputPost)
     {
         $userAction = null;
+        
         if(isset($inputPost) && $inputPost->getUserAction() != null)
         {
             $userAction = $inputPost->getUserAction();
@@ -228,7 +229,7 @@ class AppUserPermission
         {
             $userAction = $inputGet->getUserAction();
         }
-        if(!$this->currentModule->getAppModule()->issetModuleId())
+        if(!$this->appConfig->getBypassRole() && !$this->currentModule->getAppModule()->issetModuleId())
         {
             try
             {
@@ -455,9 +456,9 @@ class AppUserPermission
      *
      * @return string The user level ID.
      */
-    public function getUserLevelId()
+    public function getAdminLevelId()
     {
-        return $this->userLevelId;
+        return $this->adminLevelId;
     }
 
     /**
