@@ -456,16 +456,17 @@ class PicoModule // NOSONAR
      * Outputs JavaScript to restore form data on the client side.
      *
      * This method prints a script tag that calls the JavaScript function `restoreFormData`
-     * with the provided form data as a JSON object. It is typically used to repopulate
-     * form fields after a validation error or failed submission.
+     * with the provided form data as a JSON object and highlights the specified error field.
+     * It is typically used to repopulate form fields and indicate which field had a validation error.
      *
      * @param array $formData The form data to restore on the client side.
+     * @param string $errorField The field that had an error, used to highlight it.
      * @return self Returns the current instance for method chaining.
      */
-    public function restoreFormData($formData)
+    public function restoreFormData($formData, $errorField)
     {
         echo "<script type='text/javascript'>\n";
-        echo "restoreFormData(" . json_encode($formData) . ");\n";
+        echo "restoreFormData(" . json_encode($formData) . ", '".$errorField."');\n";
         echo "</script>\n";
         return $this;
     }

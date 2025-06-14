@@ -3851,17 +3851,20 @@ current module.</p>
 <div class="method-identity">25. <span class="method-label">restoreFormData</span></div>
 <h3>Declaration</h3>
 <div class="method-declaratiopn"><span class="access-level">public</span> <span class="access-level"></span> <span class="php-keyword">function</span> <span class="method-name">restoreFormData</span>(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="parameter-type">array</span> <span class="parameter-name">$formData</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="parameter-type">array</span> <span class="parameter-name">$formData</span>, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="parameter-type">string</span> <span class="parameter-name">$errorField</span><br>
 ) : <span class="return-type">self</span><br>{<br>}</div>
 <div class='docblock'>
 <h3>Description</h3>
 <p>Outputs JavaScript to restore form data on the client side.</p>
 <p>This method prints a script tag that calls the JavaScript function <code>restoreFormData</code>
-with the provided form data as a JSON object. It is typically used to repopulate
-form fields after a validation error or failed submission.</p>
+with the provided form data as a JSON object and highlights the specified error field.
+It is typically used to repopulate form fields and indicate which field had a validation error.</p>
 <h3>Parameters</h3>
 <div class="parameter-name">$formData</div>
 <div class="parameter-description"><p>The form data to restore on the client side.</p></div>
+<div class="parameter-name">$errorField</div>
+<div class="parameter-description"><p>The field that had an error, used to highlight it.</p></div>
 <h3>Return</h3>
 <div class="return-type">self</div>
 <div class="return-description"><p>Returns the current instance for method chaining.</p></div>
