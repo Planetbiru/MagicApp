@@ -21161,6 +21161,46 @@ Optionally, it can prettify property names for human readability.</p>
 <div class="return-description"><p>The number of bytes written to the file, or false on failure.</p></div>
 </div>
 </div>
+<div class='method'>
+<div class="method-identity">11. <span class="method-label">generateValidatorClass</span></div>
+<h3>Declaration</h3>
+<div class="method-declaratiopn"><span class="access-level">public</span> <span class="access-level"></span> <span class="php-keyword">function</span> <span class="method-name">generateValidatorClass</span>(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="parameter-type">string</span> <span class="parameter-name">$namespace</span>, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="parameter-type">string</span> <span class="parameter-name">$className</span>, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="parameter-type">string</span> <span class="parameter-name">$moduleCode</span>, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="parameter-type">array</span> <span class="parameter-name">$validationDefinition</span>, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="parameter-type">string</span> <span class="parameter-name">$applyKey</span><br>
+) : <span class="return-type">string</span><br>{<br>}</div>
+<div class='docblock'>
+<h3>Description</h3>
+<p>Generates a PHP validator class string with annotated properties.</p>
+<p>This method constructs a PHP class definition as a string. The generated class extends
+<code>MagicObject</code> and contains properties corresponding to fields defined in the validation
+definition. Each property is annotated with relevant validation rules and data type
+information.</p>
+<p>The generated class includes:</p>
+<ul>
+<li>Namespace declaration</li>
+<li>PHPDoc block summarizing validated properties</li>
+<li>Validation annotations (Required, Min, etc.)</li>
+<li>Proper data type hinting for each property</li>
+</ul>
+<h3>Parameters</h3>
+<div class="parameter-name">$namespace</div>
+<div class="parameter-description"><p>The PHP namespace where the validator class belongs.</p></div>
+<div class="parameter-name">$className</div>
+<div class="parameter-description"><p>The base name of the class to be generated.</p></div>
+<div class="parameter-name">$moduleCode</div>
+<div class="parameter-description"><p>The code name of the module this validator is for.</p></div>
+<div class="parameter-name">$validationDefinition</div>
+<div class="parameter-description"><p>An array of field definitions, each containing field name, type, and validation rules.</p></div>
+<div class="parameter-name">$applyKey</div>
+<div class="parameter-description"><p>Determines which rules to apply, usually 'applyInsert' or 'applyUpdate'.</p></div>
+<h3>Return</h3>
+<div class="return-type">string</div>
+<div class="return-description"><p>Returns the full PHP source code of the generated class as a string.</p></div>
+</div>
+</div>
 </div>
 <div class="class-item" id="MagicObject-Geometry-Area">
 <h1>MagicObject\Geometry\Area</h1>
