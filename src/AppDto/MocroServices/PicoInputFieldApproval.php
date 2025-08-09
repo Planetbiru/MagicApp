@@ -58,7 +58,7 @@ class PicoInputFieldApproval extends PicoInputFieldInsert
     /**
      * Get the current value of the input field, typically used when editing or updating a record.
      */
-    public function getCurrentValue(): PicoInputField
+    public function getCurrentValue()
     {
         return $this->currentValue;
     }
@@ -66,7 +66,7 @@ class PicoInputFieldApproval extends PicoInputFieldInsert
     /**
      * Set the current value of the input field, typically used when editing or updating a record.
      */
-    public function setCurrentValue($currentValue): self
+    public function setCurrentValue($currentValue)
     {
         $this->currentValue = $currentValue;
 
